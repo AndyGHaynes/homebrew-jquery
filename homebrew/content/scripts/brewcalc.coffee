@@ -424,11 +424,6 @@ $(document).ready( ->
 
   $grainSelect = $('#grain-select')
 
-  grainIsSelected = (id) ->
-    return $.inArray(id, $('.grain-row').map ->
-      return parseInt($(this).data('grain-id'), 10)
-    ) > -1
-
   createGrainEntry = (grain) ->
     $grain = $("
       <div class='row grain-row ingredient-row' data-grain-id='#{grain.id}'>
@@ -486,72 +481,78 @@ $(document).ready( ->
     hopList.push(hop)
 
 
-  $('#hop-select').selectize({
-    persist: true,
-    maxItems: null,
-    valueField: 'id',
-    placeholder: 'Start typing a hop name or keyword...',
-    searchField: ['name', 'description'],
-    hideSelected: false,
-    options: hopList.sort((a, b) ->
-      if a.name < b.name
-        return -1
-      else if a.name > b.name
-        return 1
-      return 0
-    ),
-    render: {
-      item: (item, escape) ->
-        $hop = createHopEntry(item)
-        $('#hop-list').append($hop)
-        return ''
-      ,
-      option: (item, escape) ->
-        return "
-          <div class='hop-option ingredient-option' data-id='#{item.id}'>
-            #{item.name}
-            <br/>
-            <span class='hop-option-description ingredient-option-description'>#{item.description}</span>
-          </div>
-        "
-    },
-    create: (input) ->
-      return false
-  })
+  initializeSelect = ($input, items, searchFields, $selected) ->
+    $input.selectize({
+      persist: true,
+      maxItems: null,
+      valueField: 'id',
+      placeholder: 'Start typing a name or keyword...',
+      searchField: searchFields,
+      hideSelected: false,
+      options: items.sort((a, b) ->
+        if a.name < b.name
+          return -1
+        else if a.name > b.name
+          return 1
+        return 0
+      ),
+      render: {
+        item: (item, escape) ->
+          createGrainEntry = (grain) ->
+            $grain = $("
+              <div class='row grain-row ingredient-row' data-grain-id='#{grain.id}'>
+                <div class='eight columns'>
+                  #{BrewCalc.IngredientIcon(grain.category)} #{grain.name}
+                  <a gumby-tooltip-bottom=\"#{grain.description}\">
+                    <i class='icon-help-circled'></i>
+                  </a>
+                </div>
+                <div class='four columns'>
+                  <input class='grain-weight' type='text' />
+                  <select class='grain-weight-unit'>
+                    <option value='lbs'>lbs</option>
+                    <option value='oz'>oz</option>
+                    <option value='g'>g</option>
+                    <option value='kg'>kg</option>
+                  </select>
+                  <i class='icon-cancel'></i>
+                </div>
+              </div>
+            ")
 
-  $grainSelect.selectize({
-    persist: true,
-    maxItems: null,
-    valueField: 'id',
-    placeholder: 'Start typing a grain name or keyword...',
-    searchField: ['name', 'category', 'description'],
-    hideSelected: false,
-    options: grains.sort((a, b) ->
-      if a.name < b.name
-        return -1
-      else if a.name > b.name
-        return 1
-      return 0
-    ),
-    render: {
-      item: (item, escape) ->
-        $grain = createGrainEntry(item)
-        $('#grain-list').append($grain)
-        $grain.find('.grain-weight').focus()
-        return ''
-      ,
-      option: (item, escape) ->
-        return "
-          <div class='grain-option ingredient-option' data-id='#{item.id}'>
-            #{item.name} #{BrewCalc.IngredientIcon(item.category)}
-            <br/>
-            <span class='grain-option-description ingredient-option-description'>#{item.description}</span>
-          </div>
-        "
-    },
-    create: (input) ->
-      return false
-  })
+            # wire up inputs on ingredient row
+            $grain.find('.icon-cancel').click ->
+              $grain.remove()
+              b.removeGrain(grain)
+
+            $grain.find('.grain-weight').blur ->
+              val = parseFloat($(this).val())
+              unit = $grain.find('.grain-weight-unit').val()
+              if !isNaN(val)
+                b.addGrain(grain.id, val, unit)
+
+            return $grain
+
+          $grain = createGrainEntry(item)
+          $selected.append($grain)
+          $grain.find('.grain-weight').focus()
+          return ''
+        ,
+        option: (item, escape) ->
+          return "
+            <div class='grain-option ingredient-option' data-id='#{item.id}'>
+              #{item.name} #{BrewCalc.IngredientIcon(item.category)}
+              <br/>
+              <span class='grain-option-description ingredient-option-description'>#{item.description}</span>
+            </div>
+          "
+      },
+      create: (input) ->
+        return false
+    })
+
+  initializeSelect($grainSelect, grains, ['name', 'description', 'category'], $('#grain-list'))
+  initializeSelect($('#hop-select'), hopList, ['name', 'description'], $('#hop-list'))
 
   _focusAndHighlight = ($input, value) ->
     $input.show().html($.trim(value)).focus().select()

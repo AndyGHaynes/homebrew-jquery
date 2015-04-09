@@ -1504,14 +1504,9 @@
   })();
 
   $(document).ready(function() {
-    var $grainSelect, b, createGrainEntry, createHopEntry, grainIsSelected, hop, hopList, i, x, _focusAndHighlight;
+    var $grainSelect, b, createGrainEntry, createHopEntry, hop, hopList, i, initializeSelect, x, _focusAndHighlight;
     b = new BrewCalc();
     $grainSelect = $('#grain-select');
-    grainIsSelected = function(id) {
-      return $.inArray(id, $('.grain-row').map(function() {
-        return parseInt($(this).data('grain-id'), 10);
-      })) > -1;
-    };
     createGrainEntry = function(grain) {
       var $grain;
       $grain = $("<div class='row grain-row ingredient-row' data-grain-id='" + grain.id + "'> <div class='eight columns'> " + (BrewCalc.IngredientIcon(grain.category)) + " " + grain.name + " <a gumby-tooltip-bottom=\"" + grain.description + "\"> <i class='icon-help-circled'></i> </a> </div> <div class='four columns'> <input class='grain-weight' type='text' /> <select class='grain-weight-unit'> <option value='lbs'>lbs</option> <option value='oz'>oz</option> <option value='g'>g</option> <option value='kg'>kg</option> </select> <i class='icon-cancel'></i> </div> </div>");
@@ -1540,67 +1535,58 @@
       hop.id = i;
       hopList.push(hop);
     }
-    $('#hop-select').selectize({
-      persist: true,
-      maxItems: null,
-      valueField: 'id',
-      placeholder: 'Start typing a hop name or keyword...',
-      searchField: ['name', 'description'],
-      hideSelected: false,
-      options: hopList.sort(function(a, b) {
-        if (a.name < b.name) {
-          return -1;
-        } else if (a.name > b.name) {
-          return 1;
-        }
-        return 0;
-      }),
-      render: {
-        item: function(item, escape) {
-          var $hop;
-          $hop = createHopEntry(item);
-          $('#hop-list').append($hop);
-          return '';
+    initializeSelect = function($input, items, searchFields, $selected) {
+      return $input.selectize({
+        persist: true,
+        maxItems: null,
+        valueField: 'id',
+        placeholder: 'Start typing a name or keyword...',
+        searchField: searchFields,
+        hideSelected: false,
+        options: items.sort(function(a, b) {
+          if (a.name < b.name) {
+            return -1;
+          } else if (a.name > b.name) {
+            return 1;
+          }
+          return 0;
+        }),
+        render: {
+          item: function(item, escape) {
+            var $grain;
+            createGrainEntry = function(grain) {
+              var $grain;
+              $grain = $("<div class='row grain-row ingredient-row' data-grain-id='" + grain.id + "'> <div class='eight columns'> " + (BrewCalc.IngredientIcon(grain.category)) + " " + grain.name + " <a gumby-tooltip-bottom=\"" + grain.description + "\"> <i class='icon-help-circled'></i> </a> </div> <div class='four columns'> <input class='grain-weight' type='text' /> <select class='grain-weight-unit'> <option value='lbs'>lbs</option> <option value='oz'>oz</option> <option value='g'>g</option> <option value='kg'>kg</option> </select> <i class='icon-cancel'></i> </div> </div>");
+              $grain.find('.icon-cancel').click(function() {
+                $grain.remove();
+                return b.removeGrain(grain);
+              });
+              $grain.find('.grain-weight').blur(function() {
+                var unit, val;
+                val = parseFloat($(this).val());
+                unit = $grain.find('.grain-weight-unit').val();
+                if (!isNaN(val)) {
+                  return b.addGrain(grain.id, val, unit);
+                }
+              });
+              return $grain;
+            };
+            $grain = createGrainEntry(item);
+            $selected.append($grain);
+            $grain.find('.grain-weight').focus();
+            return '';
+          },
+          option: function(item, escape) {
+            return "<div class='grain-option ingredient-option' data-id='" + item.id + "'> " + item.name + " " + (BrewCalc.IngredientIcon(item.category)) + " <br/> <span class='grain-option-description ingredient-option-description'>" + item.description + "</span> </div>";
+          }
         },
-        option: function(item, escape) {
-          return "<div class='hop-option ingredient-option' data-id='" + item.id + "'> " + item.name + " <br/> <span class='hop-option-description ingredient-option-description'>" + item.description + "</span> </div>";
+        create: function(input) {
+          return false;
         }
-      },
-      create: function(input) {
-        return false;
-      }
-    });
-    $grainSelect.selectize({
-      persist: true,
-      maxItems: null,
-      valueField: 'id',
-      placeholder: 'Start typing a grain name or keyword...',
-      searchField: ['name', 'category', 'description'],
-      hideSelected: false,
-      options: grains.sort(function(a, b) {
-        if (a.name < b.name) {
-          return -1;
-        } else if (a.name > b.name) {
-          return 1;
-        }
-        return 0;
-      }),
-      render: {
-        item: function(item, escape) {
-          var $grain;
-          $grain = createGrainEntry(item);
-          $('#grain-list').append($grain);
-          $grain.find('.grain-weight').focus();
-          return '';
-        },
-        option: function(item, escape) {
-          return "<div class='grain-option ingredient-option' data-id='" + item.id + "'> " + item.name + " " + (BrewCalc.IngredientIcon(item.category)) + " <br/> <span class='grain-option-description ingredient-option-description'>" + item.description + "</span> </div>";
-        }
-      },
-      create: function(input) {
-        return false;
-      }
-    });
+      });
+    };
+    initializeSelect($grainSelect, grains, ['name', 'description', 'category'], $('#grain-list'));
+    initializeSelect($('#hop-select'), hopList, ['name', 'description'], $('#hop-list'));
     _focusAndHighlight = function($input, value) {
       return $input.show().html($.trim(value)).focus().select();
     };
