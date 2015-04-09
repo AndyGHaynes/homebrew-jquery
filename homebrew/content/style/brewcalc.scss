@@ -1,0 +1,126 @@
+
+#main {
+  padding-top: 32px;
+
+  #sidebar {
+    padding: 8px 12px;
+    width: 15%;
+    position: absolute;
+  }
+
+
+  #main-row {
+    margin-left: 18%;
+  }
+
+  .ingredient-list {
+    min-height: 200px;
+    max-height: 200px;
+    overflow-y: hidden;
+    border: 1px solid #ccc;
+    margin-bottom: 12px;
+    padding: 12px 8px;
+  }
+
+  .ingredient-input {
+    margin-left: 0;
+
+    .selectize-input {
+      height: 44px;
+
+      input {
+        width: 100% !important; // placeholder gets cut off because of default input length
+        font-size: 16px;
+        line-height: 22px !important;
+      }
+
+    }
+  }
+
+  .ingredient-option {
+
+    .ingredient-option-description {
+      padding: 4px 0;
+      font-size: 9px;
+      color: #999;
+    }
+
+    .ingredient-option-icon {
+      float: right;
+      margin-right: 8px;
+    }
+  }
+
+  .ingredient-row {
+    .ttip {
+      display: inline;
+      font-size: 12px;
+    }
+
+    i {
+      margin: 0;
+      display: inline;
+      cursor: pointer;
+    }
+
+    .grain-weight {
+      width: 42px;
+      height: 24px;
+    }
+
+    .grain-weight-unit {
+      height: 28px;
+    }
+  }
+
+  #combined-color {
+    color: white;
+    text-align: center;
+    margin: 0 27%;
+    padding: 4px 12px 18px 12px;
+
+  }
+
+  #volume-input {
+    width: 42px;
+    height: 32px;
+    font-size: 24px;
+    color: #999;
+    text-align: right;
+  }
+
+  #efficiency-input {
+    height: 32px;
+    width: 48px;
+    font-size: 28px;
+    color: #999;
+    text-align: right;
+  }
+
+  #efficiency-slider {
+    height: 8px;
+  }
+
+  #recipe-details {
+    h4 {
+      display: inline;
+    }
+
+    .editable {
+      color: #999;
+      cursor: pointer;
+    }
+
+    .drawer.active {
+      border: 1px solid #999;
+      background-color: #ccc;
+    }
+
+    #volume {
+    }
+
+    #volume-unit {
+    }
+  }
+
+}

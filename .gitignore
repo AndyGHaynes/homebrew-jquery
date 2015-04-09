@@ -1,0 +1,12 @@
+# global extension blacklist
+**/*.pyc
+
+# top-level directories
+.DS_Store
+.idea
+__pycache__
+homebrew.egg-info
+
+# top-level files
+CHANGES.txt
+*.sqlite
