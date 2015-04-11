@@ -1612,7 +1612,7 @@
 
     Ingredient.prototype.select = function($selected) {
       var $element;
-      $element = this.selectTemplate.getElement(this._item);
+      $element = this.selectTemplate.getElement(this);
       $selected.append($element);
       return $element.find('.ingredient-weight').focus();
     };
@@ -1729,7 +1729,6 @@
           val = parseFloat($(this).val());
           unit = $grain.find('.grain-weight-unit').val();
           if (!isNaN(val)) {
-            console.log(unit);
             return _add(grain.id, new Weight(val, unit));
           }
         });
@@ -1778,7 +1777,7 @@
   })(Ingredient);
 
   $(document).ready(function() {
-    var b, emptyWeight, grain, grainList, hop, hopList, i, initializeSelect, x, _focusAndHighlight, _i, _len;
+    var b, emptyWeight, grain, grainList, hop, hopList, i, initializeSelect, x, _focusAndHighlight, _i, _j, _len, _len1;
     b = new BrewCalc();
     emptyWeight = new Weight(0, 'lbs');
     grainList = [];
@@ -1787,7 +1786,7 @@
       grainList.push(new Grain(grain.id, emptyWeight, b.addGrain, b.removeGrain));
     }
     hopList = [];
-    for (i in hops) {
+    for (i = _j = 0, _len1 = hops.length; _j < _len1; i = ++_j) {
       hop = hops[i];
       hopList.push(new Hop(hop.id, emptyWeight, b.addHop, b.removeHop));
     }

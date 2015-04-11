@@ -407,7 +407,6 @@ class BrewCalc
     self.ibu = _sum((hop.getIBUs(self.volume, self.og) for hop in self.hops))
     $('#calculated-ibu').html(Math.round(self.ibu))
 
-
   hopIndex: (hop) ->
     for h, i in self.hops
       if h.id == hop.id
@@ -485,7 +484,7 @@ class Ingredient
     @description = @_item.description
 
   select: ($selected) ->
-    $element = @selectTemplate.getElement(@_item)
+    $element = @selectTemplate.getElement(this)
     $selected.append($element)
     $element.find('.ingredient-weight').focus()
 
@@ -623,7 +622,6 @@ class Grain extends Ingredient
         val = parseFloat($(this).val())
         unit = $grain.find('.grain-weight-unit').val()
         if !isNaN(val)
-          console.log(unit)
           _add(grain.id, new Weight(val, unit))
 
     selectTemplate = new SelectTemplate(_selectHtml, _selectCallback)
@@ -660,7 +658,7 @@ $(document).ready( ->
     grainList.push(new Grain(grain.id, emptyWeight, b.addGrain, b.removeGrain))
 
   hopList = []
-  for i, hop of hops
+  for hop, i in hops
     hopList.push(new Hop(hop.id, emptyWeight, b.addHop, b.removeHop))
 
   initializeSelect = ($input, items, searchFields, $selected) ->

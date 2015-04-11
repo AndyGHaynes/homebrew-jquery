@@ -10,3 +10,8 @@ homebrew.egg-info
 # top-level files
 CHANGES.txt
 *.sqlite
+
+# generated JavaScript and CSS files from CoffeeScript and SASS
+homebrew/static/scripts/brewcalc.js
+homebrew/static/style/brewcalc.css
+homebrew/static/style/tooltips.css
