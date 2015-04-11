@@ -1404,10 +1404,10 @@
           grain.updateSRM(self.volume);
         }
         if (!self._chartDefaults) {
-          this.updateGrainChart();
+          self.updateGrainChart();
         }
-        this.updateColor();
-        return this.updateGravity();
+        self.updateColor();
+        return self.updateGravity();
       }
     };
 
@@ -1833,7 +1833,7 @@
       var $this, unit, volume;
       $this = $(this);
       volume = parseFloat($this.val());
-      unit = $this.find('#brew-volume-unit').data('unit');
+      unit = $('#volume-unit').data('unit');
       if (!isNaN(volume)) {
         b.updateVolume(volume, unit);
         $('#volume').html(volume);

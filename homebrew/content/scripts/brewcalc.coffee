@@ -361,10 +361,10 @@ class BrewCalc
       self.volume = newVolume
       grain.updateSRM(self.volume) for grain in self.grains
       if !self._chartDefaults
-        this.updateGrainChart()
+        self.updateGrainChart()
 
-      this.updateColor()
-      this.updateGravity()
+      self.updateColor()
+      self.updateGravity()
 
   grainIndex: (grain) ->
     for g, i in self.grains
@@ -702,7 +702,7 @@ $(document).ready( ->
   $('#volume-input').blur ->
     $this = $(this)
     volume = parseFloat($this.val())
-    unit = $this.find('#brew-volume-unit').data('unit')
+    unit = $('#volume-unit').data('unit')
     if !isNaN(volume)
       b.updateVolume(volume, unit)
       $('#volume').html(volume)

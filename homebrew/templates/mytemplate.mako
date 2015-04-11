@@ -42,7 +42,7 @@
                             <h4 id="volume" class="editable volume-toggle">5</h4>
                             <input id="volume-input" type="text" class="hide volume-toggle" />
                             &nbsp;&nbsp;
-                            <h4 id="volume-unit" class="editable">Gallons</h4>
+                            <h4 id="volume-unit" class="editable" data-unit="gallon">Gallons</h4>
                         </div>
                     </div>
                     <div id="efficiency" class="twelve columns">
