@@ -1461,7 +1461,7 @@
 
     BrewCalc.prototype.updateIBU = function() {
       var hop;
-      this.ibu = _sum((function() {
+      self.ibu = _sum((function() {
         var _i, _len, _ref, _results;
         _ref = self.hops;
         _results = [];
@@ -1471,7 +1471,7 @@
         }
         return _results;
       })());
-      return $('#calculated-ibu').html(Math.round(this.ibu));
+      return $('#calculated-ibu').html(Math.round(self.ibu));
     };
 
     BrewCalc.prototype.hopIndex = function(hop) {
@@ -1578,31 +1578,43 @@
   })();
 
   SelectTemplate = (function() {
-    function SelectTemplate(html, _callback) {
-      this.html = html;
-      this.$element = $(this.html);
-      _callback(this.$element);
+    function SelectTemplate(_html, _callback) {
+      this._html = _html;
+      this._callback = _callback;
     }
+
+    SelectTemplate.prototype.getElement = function(item) {
+      var $element;
+      $element = $(this._html(item));
+      this._callback($element, item);
+      return $element;
+    };
+
+    SelectTemplate.prototype.getHtml = function(item) {
+      return this._html(item);
+    };
 
     return SelectTemplate;
 
   })();
 
   Ingredient = (function() {
-    function Ingredient(id, weight, _item, optionTemplate, selectTemplate) {
+    function Ingredient(id, weight, _itemCallback, optionTemplate, selectTemplate) {
       this.id = id;
       this.weight = weight;
-      this._item = _item;
       this.optionTemplate = optionTemplate;
       this.selectTemplate = selectTemplate;
+      this._item = _itemCallback(this.id);
       this.name = this._item.name;
       this.category = this._item.category;
       this.description = this._item.description;
     }
 
     Ingredient.prototype.select = function($selected) {
-      $selected.append(this.selectTemplate.$element);
-      return this.selectTemplate.$element.find('.ingredient-weight').focus();
+      var $element;
+      $element = this.selectTemplate.getElement(this._item);
+      $selected.append($element);
+      return $element.find('.ingredient-weight').focus();
     };
 
     Ingredient.prototype._splitRange = function(value, _cleanUpperBound) {
@@ -1649,12 +1661,15 @@
     })();
 
     function Hop(id, weight, _add, _remove) {
-      var hop, optionHtml, optionTemplate, selectHtml, selectTemplate, _selectCallback;
-      hop = _hopLookup(id);
-      optionHtml = "<div class='grain-option ingredient-option' data-id='" + hop.id + "'> " + hop.name + " " + (BrewCalc.IngredientIcon(hop.category)) + " <br/> <span class='grain-option-description ingredient-option-description'>" + hop.description + "</span> </div>";
-      optionTemplate = new SelectTemplate(optionHtml, function($hop) {});
-      selectHtml = "<div class='row hop-row ingredient-row' data-hop-id='" + hop.id + "'> <div class='eight columns'> " + hop.name + " <a gumby-tooltip-bottom=\"" + hop.description + "\"> <i class='icon-help-circled'></i> </a> </div> <div class='two columns'> <input class='hop-aau' type='text' value='" + hop.alpha + "' /> <span>% AAU</span> </div> <div class='three columns'> <input class='hop-weight ingredient-weight' type='text' /> <select class='hop-weight-unit ingredient-weight-unit'> <option value='oz'>oz</option> <option value='lbs'>lbs</option> <option value='g'>g</option> <option value='kg'>kg</option> </select> <i class='icon-cancel'></i> </div> </div>";
-      _selectCallback = function($hop) {
+      var optionTemplate, selectTemplate, _optionHtml, _selectCallback, _selectHtml;
+      _optionHtml = function(hop) {
+        return "<div class='grain-option ingredient-option' data-id='" + hop.id + "'> " + hop.name + " " + (BrewCalc.IngredientIcon(hop.category)) + " <br/> <span class='grain-option-description ingredient-option-description'>" + hop.description + "</span> </div>";
+      };
+      optionTemplate = new SelectTemplate(_optionHtml, function($hop) {});
+      _selectHtml = function(hop) {
+        return "<div class='row hop-row ingredient-row' data-hop-id='" + hop.id + "'> <div class='eight columns'> " + hop.name + " <a gumby-tooltip-bottom=\"" + hop.description + "\"> <i class='icon-help-circled'></i> </a> </div> <div class='two columns'> <input class='hop-aau' type='text' value='" + hop.alpha + "' /> <span>% AAU</span> </div> <div class='three columns'> <input class='hop-weight ingredient-weight' type='text' /> <select class='hop-weight-unit ingredient-weight-unit'> <option value='oz'>oz</option> <option value='lbs'>lbs</option> <option value='g'>g</option> <option value='kg'>kg</option> </select> <i class='icon-cancel'></i> </div> </div>";
+      };
+      _selectCallback = function($hop, hop) {
         $hop.find('.icon-cancel').click(function() {
           $hop.remove();
           return _remove(hop);
@@ -1668,8 +1683,8 @@
           }
         });
       };
-      selectTemplate = new SelectTemplate(selectHtml, _selectCallback);
-      Hop.__super__.constructor.call(this, id, weight, hop, optionTemplate, selectTemplate);
+      selectTemplate = new SelectTemplate(_selectHtml, _selectCallback);
+      Hop.__super__.constructor.call(this, id, weight, _hopLookup, optionTemplate, selectTemplate);
       this.alpha = this._splitRange(this._item.alpha.substring(0, this._item.alpha.length - 1), null);
       this.additions = [new HopAddition(60, new Weight(1, 'oz'), this.alpha)];
     }
@@ -1696,12 +1711,15 @@
     __extends(Grain, _super);
 
     function Grain(id, weight, _add, _remove) {
-      var grain, l, optionHtml, optionTemplate, selectHtml, selectTemplate, _selectCallback;
-      grain = _grainLookup(id);
-      optionHtml = "<div class='grain-option ingredient-option' data-id='" + grain.id + "'> " + grain.name + " " + (BrewCalc.IngredientIcon(grain.category)) + " <br/> <span class='grain-option-description ingredient-option-description'>" + grain.description + "</span> </div>";
-      optionTemplate = new SelectTemplate(optionHtml, function($grain) {});
-      selectHtml = "<div class='row grain-row ingredient-row' data-grain-id='" + grain.id + "'> <div class='eight columns'> " + (BrewCalc.IngredientIcon(grain.category)) + " " + grain.name + " <a gumby-tooltip-bottom=\"" + grain.description + "\"> <i class='icon-help-circled'></i> </a> </div> <div class='four columns'> <input class='grain-weight ingredient-weight' type='text' /> <select class='grain-weight-unit ingredient-weight-unit'> <option value='lbs'>lbs</option> <option value='oz'>oz</option> <option value='g'>g</option> <option value='kg'>kg</option> </select> <i class='icon-cancel'></i> </div> </div>";
-      _selectCallback = function($grain) {
+      var l, optionTemplate, selectTemplate, _optionHtml, _selectCallback, _selectHtml;
+      _optionHtml = function(grain) {
+        return "<div class='grain-option ingredient-option' data-id='" + grain.id + "'> " + grain.name + " " + (BrewCalc.IngredientIcon(grain.category)) + " <br/> <span class='grain-option-description ingredient-option-description'>" + grain.description + "</span> </div>";
+      };
+      optionTemplate = new SelectTemplate(_optionHtml, function($grain) {});
+      _selectHtml = function(grain) {
+        return "<div class='row grain-row ingredient-row' data-grain-id='" + grain.id + "'> <div class='eight columns'> " + (BrewCalc.IngredientIcon(grain.category)) + " " + grain.name + " <a gumby-tooltip-bottom=\"" + grain.description + "\"> <i class='icon-help-circled'></i> </a> </div> <div class='four columns'> <input class='grain-weight ingredient-weight' type='text' /> <select class='grain-weight-unit ingredient-weight-unit'> <option value='lbs'>lbs</option> <option value='oz'>oz</option> <option value='g'>g</option> <option value='kg'>kg</option> </select> <i class='icon-cancel'></i> </div> </div>";
+      };
+      _selectCallback = function($grain, grain) {
         $grain.find('.icon-cancel').click(function() {
           $grain.remove();
           return _remove(grain);
@@ -1711,15 +1729,16 @@
           val = parseFloat($(this).val());
           unit = $grain.find('.grain-weight-unit').val();
           if (!isNaN(val)) {
+            console.log(unit);
             return _add(grain.id, new Weight(val, unit));
           }
         });
       };
-      selectTemplate = new SelectTemplate(selectHtml, _selectCallback);
-      Grain.__super__.constructor.call(this, id, weight, grain, optionTemplate, selectTemplate);
+      selectTemplate = new SelectTemplate(_selectHtml, _selectCallback);
+      Grain.__super__.constructor.call(this, id, weight, _grainLookup, optionTemplate, selectTemplate);
       this.srm = 0;
       this.lov = this._item.lovibond;
-      this.gravity = this._splitRange(grain.gravity, function(upper) {
+      this.gravity = this._splitRange(this._item.gravity, function(upper) {
         if (upper > 2) {
           return upper = 1 + (upper / 1000);
         } else {
@@ -1794,7 +1813,7 @@
             return '';
           },
           option: function(item, escape) {
-            return item.optionTemplate.html;
+            return item.optionTemplate.getHtml(item);
           }
         },
         create: function(input) {

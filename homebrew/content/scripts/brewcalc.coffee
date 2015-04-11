@@ -404,8 +404,8 @@ class BrewCalc
         self._applyDefaultChart()
 
   updateIBU: ->
-    @ibu = _sum((hop.getIBUs(self.volume, self.og) for hop in self.hops))
-    $('#calculated-ibu').html(Math.round(@ibu))
+    self.ibu = _sum((hop.getIBUs(self.volume, self.og) for hop in self.hops))
+    $('#calculated-ibu').html(Math.round(self.ibu))
 
 
   hopIndex: (hop) ->
@@ -467,19 +467,27 @@ class BrewCalc
 
 
 class SelectTemplate
-  constructor: (@html, _callback) ->
-    @$element = $(@html)
-    _callback(@$element)
+  constructor: (@_html, @_callback) ->
+
+  getElement: (item) ->
+    $element = $(@_html(item))
+    @_callback($element, item)
+    return $element
+
+  getHtml: (item) ->
+    return @_html(item)
 
 class Ingredient
-  constructor: (@id, @weight, @_item, @optionTemplate, @selectTemplate) ->
+  constructor: (@id, @weight, _itemCallback, @optionTemplate, @selectTemplate) ->
+    @_item = _itemCallback(@id)
     @name = @_item.name
     @category = @_item.category
     @description = @_item.description
 
   select: ($selected) ->
-    $selected.append(@selectTemplate.$element)
-    @selectTemplate.$element.find('.ingredient-weight').focus()
+    $element = @selectTemplate.getElement(@_item)
+    $selected.append($element)
+    $element.find('.ingredient-weight').focus()
 
   _splitRange: (value, _cleanUpperBound) ->
     value = value.split('-')
@@ -508,44 +516,45 @@ class Hop extends Ingredient
       return (@aau * utilization * 74.89) /  volume.gallons
 
   constructor: (id, weight, _add, _remove) ->
-    hop = _hopLookup(id)
     #region selectize templates
-    optionHtml = "
-      <div class='grain-option ingredient-option' data-id='#{hop.id}'>
-        #{hop.name} #{BrewCalc.IngredientIcon(hop.category)}
-        <br/>
-        <span class='grain-option-description ingredient-option-description'>#{hop.description}</span>
-      </div>
-    "
-
-    optionTemplate = new SelectTemplate(optionHtml, ($hop) ->)
-
-    selectHtml = "
-      <div class='row hop-row ingredient-row' data-hop-id='#{hop.id}'>
-        <div class='eight columns'>
-          #{hop.name}
-          <a gumby-tooltip-bottom=\"#{hop.description}\">
-            <i class='icon-help-circled'></i>
-          </a>
+    _optionHtml = (hop) ->
+      return "
+        <div class='grain-option ingredient-option' data-id='#{hop.id}'>
+          #{hop.name} #{BrewCalc.IngredientIcon(hop.category)}
+          <br/>
+          <span class='grain-option-description ingredient-option-description'>#{hop.description}</span>
         </div>
-        <div class='two columns'>
-          <input class='hop-aau' type='text' value='#{hop.alpha}' />
-          <span>% AAU</span>
-        </div>
-        <div class='three columns'>
-          <input class='hop-weight ingredient-weight' type='text' />
-          <select class='hop-weight-unit ingredient-weight-unit'>
-            <option value='oz'>oz</option>
-            <option value='lbs'>lbs</option>
-            <option value='g'>g</option>
-            <option value='kg'>kg</option>
-          </select>
-          <i class='icon-cancel'></i>
-        </div>
-      </div>
-    "
+      "
 
-    _selectCallback = ($hop) ->
+    optionTemplate = new SelectTemplate(_optionHtml, ($hop) ->)
+
+    _selectHtml = (hop) ->
+      return "
+        <div class='row hop-row ingredient-row' data-hop-id='#{hop.id}'>
+          <div class='eight columns'>
+            #{hop.name}
+            <a gumby-tooltip-bottom=\"#{hop.description}\">
+              <i class='icon-help-circled'></i>
+            </a>
+          </div>
+          <div class='two columns'>
+            <input class='hop-aau' type='text' value='#{hop.alpha}' />
+            <span>% AAU</span>
+          </div>
+          <div class='three columns'>
+            <input class='hop-weight ingredient-weight' type='text' />
+            <select class='hop-weight-unit ingredient-weight-unit'>
+              <option value='oz'>oz</option>
+              <option value='lbs'>lbs</option>
+              <option value='g'>g</option>
+              <option value='kg'>kg</option>
+            </select>
+            <i class='icon-cancel'></i>
+          </div>
+        </div>
+      "
+
+    _selectCallback = ($hop, hop) ->
       $hop.find('.icon-cancel').click ->
         $hop.remove()
         _remove(hop)
@@ -556,9 +565,9 @@ class Hop extends Ingredient
         if !isNaN(val)
           _add(hop.id, new Weight(val, unit))
 
-    selectTemplate = new SelectTemplate(selectHtml, _selectCallback)
+    selectTemplate = new SelectTemplate(_selectHtml, _selectCallback)
     #endregion
-    super(id, weight, hop, optionTemplate, selectTemplate)
+    super(id, weight, _hopLookup, optionTemplate, selectTemplate)
 
     @alpha = @_splitRange(@_item.alpha.substring(0, @_item.alpha.length - 1), null)
     @additions = [new HopAddition(60, new Weight(1, 'oz'), @alpha)]
@@ -571,40 +580,41 @@ class Hop extends Ingredient
 
 class Grain extends Ingredient
   constructor: (id, weight, _add, _remove) ->
-    grain = _grainLookup(id)
     #region selectize templates
-    optionHtml = "
-      <div class='grain-option ingredient-option' data-id='#{grain.id}'>
-        #{grain.name} #{BrewCalc.IngredientIcon(grain.category)}
-        <br/>
-        <span class='grain-option-description ingredient-option-description'>#{grain.description}</span>
-      </div>
-    "
-
-    optionTemplate = new SelectTemplate(optionHtml, ($grain) ->)
-
-    selectHtml = "
-      <div class='row grain-row ingredient-row' data-grain-id='#{grain.id}'>
-        <div class='eight columns'>
-          #{BrewCalc.IngredientIcon(grain.category)} #{grain.name}
-          <a gumby-tooltip-bottom=\"#{grain.description}\">
-            <i class='icon-help-circled'></i>
-          </a>
+    _optionHtml = (grain) ->
+      return "
+        <div class='grain-option ingredient-option' data-id='#{grain.id}'>
+          #{grain.name} #{BrewCalc.IngredientIcon(grain.category)}
+          <br/>
+          <span class='grain-option-description ingredient-option-description'>#{grain.description}</span>
         </div>
-        <div class='four columns'>
-          <input class='grain-weight ingredient-weight' type='text' />
-          <select class='grain-weight-unit ingredient-weight-unit'>
-            <option value='lbs'>lbs</option>
-            <option value='oz'>oz</option>
-            <option value='g'>g</option>
-            <option value='kg'>kg</option>
-          </select>
-          <i class='icon-cancel'></i>
-        </div>
-      </div>
-    "
+      "
 
-    _selectCallback = ($grain) ->
+    optionTemplate = new SelectTemplate(_optionHtml, ($grain) ->)
+
+    _selectHtml = (grain) ->
+      return "
+        <div class='row grain-row ingredient-row' data-grain-id='#{grain.id}'>
+          <div class='eight columns'>
+            #{BrewCalc.IngredientIcon(grain.category)} #{grain.name}
+            <a gumby-tooltip-bottom=\"#{grain.description}\">
+              <i class='icon-help-circled'></i>
+            </a>
+          </div>
+          <div class='four columns'>
+            <input class='grain-weight ingredient-weight' type='text' />
+            <select class='grain-weight-unit ingredient-weight-unit'>
+              <option value='lbs'>lbs</option>
+              <option value='oz'>oz</option>
+              <option value='g'>g</option>
+              <option value='kg'>kg</option>
+            </select>
+            <i class='icon-cancel'></i>
+          </div>
+        </div>
+      "
+
+    _selectCallback = ($grain, grain) ->
       $grain.find('.icon-cancel').click ->
         $grain.remove()
         _remove(grain)
@@ -613,16 +623,17 @@ class Grain extends Ingredient
         val = parseFloat($(this).val())
         unit = $grain.find('.grain-weight-unit').val()
         if !isNaN(val)
+          console.log(unit)
           _add(grain.id, new Weight(val, unit))
 
-    selectTemplate = new SelectTemplate(selectHtml, _selectCallback)
+    selectTemplate = new SelectTemplate(_selectHtml, _selectCallback)
     #endregion
 
-    super(id, weight, grain, optionTemplate, selectTemplate)
+    super(id, weight, _grainLookup, optionTemplate, selectTemplate)
 
     @srm = 0
     @lov = @_item.lovibond
-    @gravity = @_splitRange(grain.gravity, (upper) -> if upper > 2 then upper = 1 + (upper / 1000) else upper)
+    @gravity = @_splitRange(@_item.gravity, (upper) -> if upper > 2 then upper = 1 + (upper / 1000) else upper)
 
     if !isNaN(@gravity)
       @ppg = (@gravity - 1) * 1000
@@ -673,7 +684,7 @@ $(document).ready( ->
           return ''
         ,
         option: (item, escape) ->
-          return item.optionTemplate.html
+          return item.optionTemplate.getHtml(item)
       },
       create: (input) ->
         return false
