@@ -227,170 +227,6 @@ hops = [
 ]
 
 #endregion
-
-_getLookup = (items) ->
-  return (id) ->
-    for item in items
-      if item.id == id
-        return item
-    return null
-
-_grainLookup = _getLookup(grains)
-_hopLookup = _getLookup(hops)
-
-_sum = (numbers) ->
-  sum = 0.0
-  sum += n for n in numbers
-  return sum
-
-_avg = (numbers) ->
-  return _sum(numbers) / numbers.length
-
-class BrewCalc
-  self = undefined
-  
-  constructor: ->
-    self = this
-
-    @grains = []
-    @volume = new Volume(5, 'gallon')
-    @efficiency = 0.7
-    @attenuation = 0.75
-    @grainChart = new Chart(document.getElementById('pie').getContext('2d')).Pie()
-    this._applyDefaultChart()
-
-  _applyDefaultChart: ->
-    self._chartDefaults = true
-    _defaultChartOptions = [
-      { value: 7, color: '#ccc' }
-      { value: 2, color: '#ccc' }
-      { value: 1, color: '#ccc' }
-    ]
-    self.grainChart.addData(s, i) for s, i in _defaultChartOptions
-    this.updateColor()
-
-  updateColor: ->
-    $('#combined-color').css('background-color', BrewCalc.SRMtoRGB(BrewCalc.WeightedSRM(self.volume, self.grains)))
-
-  updateGravity: ->
-    # display truncated zeros
-    _gravitize = (g) ->
-      return "#{g}000".substring(0, 5)
-
-    if self.grains.length > 0
-      totalPPG = Math.round(_sum(((grain.ppg * grain.weight.lbs * self.efficiency) / self.volume.gallons for grain in this.grains when grain.ppg)))
-      self.og = 1 + (totalPPG / 1000)
-      self.fg = 1 + Math.round(totalPPG * (1 - self.attenuation)) / 1000
-    else
-      self.og = '1.0'
-      self.fg = '1.0'
-
-    $('#original-gravity').html(_gravitize(@og))
-    $('#final-gravity').html(_gravitize(@fg))
-
-  updateEfficiency: (efficiency) ->
-    self.efficiency = efficiency / 100
-    this.updateGravity()
-
-  grainIndex: (grain) ->
-    for g, i in self.grains
-      if g.id == grain.id
-        return i
-    return -1
-
-  updateGrainChart: ->
-    for g, i in self.grains
-      option = self.pieOptions()[i]
-      self.grainChart.segments[i].value = option.value
-      self.grainChart.segments[i].fillColor = option.color
-      self.grainChart.segments[i].highlightColor = option.color
-
-    @grainChart.update()
-
-  updateVolume: (val, unit) ->
-    newVolume = new Volume(val, unit)
-
-    # only redraw if volume changed
-    if newVolume.gallons != self.volume.gallons
-      self.volume = newVolume
-      grain.updateSRM(self.volume) for grain in self.grains
-      if !self._chartDefaults
-        this.updateGrainChart()
-
-      this.updateColor()
-      this.updateGravity()
-
-  addGrain: (id, weight) ->
-    grain = new Grain(id, weight)
-    grain.updateSRM(self.volume)
-
-    if self._chartDefaults
-      self._chartDefaults = false
-      self.grainChart.removeData(0) for i in [0..self.grainChart.segments.length - 1]
-
-    # check if grain is already in chart
-    grainIdx = self.grainIndex(grain)
-    if grainIdx >= 0
-      self.grains[grainIdx] = grain
-    else
-      grainIdx = self.grains.push(grain) - 1
-      self.grainChart.addData(self.pieOptions()[grainIdx], grainIdx)
-
-    self.updateGrainChart()
-    self.updateColor()
-    self.updateGravity()
-
-  removeGrain: (grain) ->
-    grainIdx = self.grainIndex(grain)
-    if grainIdx >= 0
-      self.grains.splice(grainIdx, 1)
-      self.grainChart.removeData(grainIdx)
-      self.updateColor()
-      self.updateGravity()
-
-      if self.grainChart.segments.length == 0
-        self._applyDefaultChart()
-
-  addHop: (id, weight) ->
-    console.log("adding #{id}")
-
-  removeHop: (hop) ->
-    console.log("removing #{hop.name}")
-
-  pieOptions: ->
-    totalLbs = _sum((g.weight.lbs for g in self.grains))
-    return ({
-      id: g.id,
-      label: g.name,
-      value: Math.round((g.weight.lbs / totalLbs) * 100),
-      color: g.getColor()
-    } for g in @grains)
-
-  # http://beersmith.com/blog/2008/04/29/beer-color-understanding-srm-lovibond-and-ebc/
-  @WeightedSRM: (volume, grains) ->
-    return Math.min(Math.round(1.4922 * _sum((g.weight.lbs * (g.lov / volume.gallons) for g in grains)) ** 0.6859), 40)
-
-  @SRMtoRGB: (srm) ->
-    return srmRgbLookup[Math.round(srm)]
-
-  @IngredientIcon: (category) ->
-    iconSrc = {
-      'American': 'us.png',
-      'Belgian':  'be.png',
-      'British':  'gb.png',
-      'German':   'de.png',
-      'Canadian': 'ca.png',
-      'Scottish': 'scotland.png',
-      'Adjunct':  'corn.gif',
-      'Sugars':   'sugar.png',
-      'Flavoring':'flask.png',
-      'Fining':   'flask.png',
-    }[category]
-
-    if iconSrc
-      return "<img class='grain-option-icon' src='/static/images/#{iconSrc}' />"
-    return ''
-
 #region Measurements
 
 class Measurement
@@ -439,6 +275,198 @@ class Volume extends Measurement
       @liters = @gallons * 3.78541
 
 #endregion
+#region Helpers
+_getLookup = (items) ->
+  return (id) ->
+    for item in items
+      if item.id == id
+        return item
+    return null
+
+_grainLookup = _getLookup(grains)
+_hopLookup = _getLookup(hops)
+
+_sum = (numbers) ->
+  sum = 0.0
+  sum += n for n in numbers
+  return sum
+
+_avg = (numbers) ->
+  return _sum(numbers) / numbers.length
+#endregion
+
+class BrewCalc
+  self = undefined
+  
+  constructor: ->
+    self = this
+
+    @grains = []
+    @hops = []
+    @ibu = 0
+    @volume = new Volume(5, 'gallon')
+    @efficiency = 0.7
+    @attenuation = 0.75
+    @grainChart = new Chart(document.getElementById('pie').getContext('2d')).Pie()
+
+    this._applyDefaultChart()
+
+  _applyDefaultChart: ->
+    self._chartDefaults = true
+    _defaultChartOptions = [
+      { value: 7, color: '#ccc' }
+      { value: 2, color: '#ccc' }
+      { value: 1, color: '#ccc' }
+    ]
+    self.grainChart.addData(s, i) for s, i in _defaultChartOptions
+    this.updateColor()
+
+  updateColor: ->
+    $('#combined-color').css('background-color', BrewCalc.SRMtoRGB(BrewCalc.WeightedSRM(self.volume, self.grains)))
+
+  updateGravity: ->
+    # display truncated zeros
+    _gravitize = (g) ->
+      return "#{g}000".substring(0, 5)
+
+    if self.grains.length > 0
+      totalPPG = Math.round(_sum(((grain.ppg * grain.weight.lbs * self.efficiency) / self.volume.gallons for grain in this.grains when grain.ppg)))
+      self.og = 1 + (totalPPG / 1000)
+      self.fg = 1 + Math.round(totalPPG * (1 - self.attenuation)) / 1000
+    else
+      self.og = '1.0'
+      self.fg = '1.0'
+
+    $('#original-gravity').html(_gravitize(@og))
+    $('#final-gravity').html(_gravitize(@fg))
+
+  updateEfficiency: (efficiency) ->
+    self.efficiency = efficiency / 100
+    this.updateGravity()
+
+  updateGrainChart: ->
+    for g, i in self.grains
+      option = self.pieOptions()[i]
+      self.grainChart.segments[i].value = option.value
+      self.grainChart.segments[i].fillColor = option.color
+      self.grainChart.segments[i].highlightColor = option.color
+
+    @grainChart.update()
+
+  updateVolume: (val, unit) ->
+    newVolume = new Volume(val, unit)
+
+    # only redraw if volume changed
+    if newVolume.gallons != self.volume.gallons
+      self.volume = newVolume
+      grain.updateSRM(self.volume) for grain in self.grains
+      if !self._chartDefaults
+        this.updateGrainChart()
+
+      this.updateColor()
+      this.updateGravity()
+
+  grainIndex: (grain) ->
+    for g, i in self.grains
+      if g.id == grain.id
+        return i
+    return -1
+
+  addGrain: (id, weight) ->
+    grain = new Grain(id, weight)
+    grain.updateSRM(self.volume)
+
+    if self._chartDefaults
+      self._chartDefaults = false
+      self.grainChart.removeData(0) for i in [0..self.grainChart.segments.length - 1]
+
+    # check if grain is already in chart
+    grainIdx = self.grainIndex(grain)
+    if grainIdx >= 0
+      self.grains[grainIdx] = grain
+    else
+      grainIdx = self.grains.push(grain) - 1
+      self.grainChart.addData(self.pieOptions()[grainIdx], grainIdx)
+
+    self.updateGrainChart()
+    self.updateColor()
+    self.updateGravity()
+
+  removeGrain: (grain) ->
+    grainIdx = self.grainIndex(grain)
+    if grainIdx >= 0
+      self.grains.splice(grainIdx, 1)
+      self.grainChart.removeData(grainIdx)
+      self.updateColor()
+      self.updateGravity()
+
+      if self.grainChart.segments.length == 0
+        self._applyDefaultChart()
+
+  updateIBU: ->
+    @ibu = 0
+    for hop in self.hops
+      @ibu += 10
+    $('#calculated-ibu').html(Math.round(@ibu))
+
+
+  hopIndex: (hop) ->
+    for h, i in self.hops
+      if h.id == hop.id
+        return i
+    return -1
+
+  addHop: (id, weight) ->
+    hop = new Hop(id, weight)
+
+    # check if grain is already in chart
+    hopIdx = self.hopIndex(hop)
+    if hopIdx >= 0
+      self.hops[hopIdx] = hop
+    else
+      self.hops.push(hop)
+    self.updateIBU()
+
+  removeHop: (hop) ->
+    hopIdx = self.hopIndex(hop)
+    if hopIdx >= 0
+      self.hops.splice(hopIdx, 1)
+      self.updateIBU()
+
+  pieOptions: ->
+    totalLbs = _sum((g.weight.lbs for g in self.grains))
+    return ({
+      id: g.id,
+      label: g.name,
+      value: Math.round((g.weight.lbs / totalLbs) * 100),
+      color: g.getColor()
+    } for g in @grains)
+
+  # http://beersmith.com/blog/2008/04/29/beer-color-understanding-srm-lovibond-and-ebc/
+  @WeightedSRM: (volume, grains) ->
+    return Math.min(Math.round(1.4922 * _sum((g.weight.lbs * (g.lov / volume.gallons) for g in grains)) ** 0.6859), 40)
+
+  @SRMtoRGB: (srm) ->
+    return srmRgbLookup[Math.round(srm)]
+
+  @IngredientIcon: (category) ->
+    iconSrc = {
+      'American': 'us.png',
+      'Belgian':  'be.png',
+      'British':  'gb.png',
+      'German':   'de.png',
+      'Canadian': 'ca.png',
+      'Scottish': 'scotland.png',
+      'Adjunct':  'corn.gif',
+      'Sugars':   'sugar.png',
+      'Flavoring':'flask.png',
+      'Fining':   'flask.png',
+    }[category]
+
+    if iconSrc
+      return "<img class='grain-option-icon' src='/static/images/#{iconSrc}' />"
+    return ''
+
 
 class SelectTemplate
   constructor: (@html, _callback) ->
@@ -453,7 +481,21 @@ class Ingredient
 
   select: ($selected) ->
     $selected.append(@selectTemplate.$element)
-    @selectTemplate.$element.find('.grain-weight').focus()
+    @selectTemplate.$element.find('.ingredient-weight').focus()
+
+  _splitRange: (value, _cleanUpperBound) ->
+    value = value.split('-')
+    if value.length > 1
+      lower = parseFloat(value[0])
+      upper = parseFloat(value[1])
+
+      if _cleanUpperBound != null
+        upper = _cleanUpperBound(upper)
+
+      value = _avg([lower, upper])
+    else
+      value = parseFloat(value[0])
+    return value
     
 
 class Hop extends Ingredient
@@ -479,6 +521,13 @@ class Hop extends Ingredient
           </a>
         </div>
         <div class='four columns'>
+          <input class='hop-weight ingredient-weight' type='text' />
+          <select class='hop-weight-unit ingredient-weight-unit'>
+            <option value='oz'>oz</option>
+            <option value='lbs'>lbs</option>
+            <option value='g'>g</option>
+            <option value='kg'>kg</option>
+          </select>
           <i class='icon-cancel'></i>
         </div>
       </div>
@@ -498,6 +547,10 @@ class Hop extends Ingredient
     selectTemplate = new SelectTemplate(selectHtml, _selectCallback)
     #endregion
     super(id, weight, hop, optionTemplate, selectTemplate)
+
+    @alpha = @_splitRange(@_item.alpha.substring(0, @_item.alpha.length - 1), null)
+
+
 
 
 class Grain extends Ingredient
@@ -523,8 +576,8 @@ class Grain extends Ingredient
           </a>
         </div>
         <div class='four columns'>
-          <input class='grain-weight' type='text' />
-          <select class='grain-weight-unit'>
+          <input class='grain-weight ingredient-weight' type='text' />
+          <select class='grain-weight-unit ingredient-weight-unit'>
             <option value='lbs'>lbs</option>
             <option value='oz'>oz</option>
             <option value='g'>g</option>
@@ -548,22 +601,12 @@ class Grain extends Ingredient
 
     selectTemplate = new SelectTemplate(selectHtml, _selectCallback)
     #endregion
+
     super(id, weight, grain, optionTemplate, selectTemplate)
 
     @srm = 0
     @lov = @_item.lovibond
-    @gravity = @_item.gravity.split('-')
-    
-    if @gravity.length > 1
-      lower = parseFloat(@gravity[0])
-      upper = parseFloat(@gravity[1])
-
-      if upper > 2
-        upper = 1 + (upper / 1000)
-
-      @gravity = _avg([lower, upper])
-    else
-      @gravity = parseFloat(@gravity[0])
+    @gravity = @_splitRange(grain.gravity, (upper) -> if upper > 2 then upper = 1 + (upper / 1000) else upper)
 
     if !isNaN(@gravity)
       @ppg = (@gravity - 1) * 1000

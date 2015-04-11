@@ -35,10 +35,10 @@
     margin: 0;
     display: inline;
     cursor: pointer; }
-  #main .ingredient-row .grain-weight {
+  #main .ingredient-row .ingredient-weight {
     width: 42px;
     height: 24px; }
-  #main .ingredient-row .grain-weight-unit {
+  #main .ingredient-row .ingredient-weight-unit {
     height: 28px; }
   #main #combined-color {
     color: white;
