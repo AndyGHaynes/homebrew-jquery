@@ -1232,7 +1232,12 @@
   };
 
   BrewCalc = (function() {
+    var self;
+
+    self = void 0;
+
     function BrewCalc() {
+      self = this;
       this.grains = [];
       this.volume = new Volume(5, 'gallon');
       this.efficiency = 0.7;
@@ -1243,7 +1248,7 @@
 
     BrewCalc.prototype._applyDefaultChart = function() {
       var i, s, _defaultChartOptions, _i, _len;
-      this._chartDefaults = true;
+      self._chartDefaults = true;
       _defaultChartOptions = [
         {
           value: 7,
@@ -1258,13 +1263,13 @@
       ];
       for (i = _i = 0, _len = _defaultChartOptions.length; _i < _len; i = ++_i) {
         s = _defaultChartOptions[i];
-        this.grainChart.addData(s, i);
+        self.grainChart.addData(s, i);
       }
       return this.updateColor();
     };
 
     BrewCalc.prototype.updateColor = function() {
-      return $('#combined-color').css('background-color', BrewCalc.SRMtoRGB(BrewCalc.WeightedSRM(this.volume, this.grains)));
+      return $('#combined-color').css('background-color', BrewCalc.SRMtoRGB(BrewCalc.WeightedSRM(self.volume, self.grains)));
     };
 
     BrewCalc.prototype.updateGravity = function() {
@@ -1272,7 +1277,7 @@
       _gravitize = function(g) {
         return ("" + g + "000").substring(0, 5);
       };
-      if (this.grains.length > 0) {
+      if (self.grains.length > 0) {
         totalPPG = Math.round(_sum((function() {
           var _i, _len, _ref, _results;
           _ref = this.grains;
@@ -1280,29 +1285,29 @@
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             grain = _ref[_i];
             if (grain.ppg) {
-              _results.push((grain.ppg * grain.weight.lbs * this.efficiency) / this.volume.gallons);
+              _results.push((grain.ppg * grain.weight.lbs * self.efficiency) / self.volume.gallons);
             }
           }
           return _results;
         }).call(this)));
-        this.og = 1 + (totalPPG / 1000);
-        this.fg = 1 + Math.round(totalPPG * (1 - this.attenuation)) / 1000;
+        self.og = 1 + (totalPPG / 1000);
+        self.fg = 1 + Math.round(totalPPG * (1 - self.attenuation)) / 1000;
       } else {
-        this.og = '1.0';
-        this.fg = '1.0';
+        self.og = '1.0';
+        self.fg = '1.0';
       }
       $('#original-gravity').html(_gravitize(this.og));
       return $('#final-gravity').html(_gravitize(this.fg));
     };
 
     BrewCalc.prototype.updateEfficiency = function(efficiency) {
-      this.efficiency = efficiency / 100;
+      self.efficiency = efficiency / 100;
       return this.updateGravity();
     };
 
     BrewCalc.prototype.grainIndex = function(grain) {
       var g, i, _i, _len, _ref;
-      _ref = this.grains;
+      _ref = self.grains;
       for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
         g = _ref[i];
         if (g.id === grain.id) {
@@ -1314,13 +1319,13 @@
 
     BrewCalc.prototype.updateGrainChart = function() {
       var g, i, option, _i, _len, _ref;
-      _ref = this.grains;
+      _ref = self.grains;
       for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
         g = _ref[i];
-        option = this.pieOptions()[i];
-        this.grainChart.segments[i].value = option.value;
-        this.grainChart.segments[i].fillColor = option.color;
-        this.grainChart.segments[i].highlightColor = option.color;
+        option = self.pieOptions()[i];
+        self.grainChart.segments[i].value = option.value;
+        self.grainChart.segments[i].fillColor = option.color;
+        self.grainChart.segments[i].highlightColor = option.color;
       }
       return this.grainChart.update();
     };
@@ -1328,14 +1333,14 @@
     BrewCalc.prototype.updateVolume = function(val, unit) {
       var grain, newVolume, _i, _len, _ref;
       newVolume = new Volume(val, unit);
-      if (newVolume.gallons !== this.volume.gallons) {
-        this.volume = newVolume;
-        _ref = this.grains;
+      if (newVolume.gallons !== self.volume.gallons) {
+        self.volume = newVolume;
+        _ref = self.grains;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           grain = _ref[_i];
-          grain.updateSRM(this.volume);
+          grain.updateSRM(self.volume);
         }
-        if (!this._chartDefaults) {
+        if (!self._chartDefaults) {
           this.updateGrainChart();
         }
         this.updateColor();
@@ -1343,54 +1348,62 @@
       }
     };
 
-    BrewCalc.prototype.addGrain = function(id, val, unit) {
+    BrewCalc.prototype.addGrain = function(id, weight) {
       var grain, grainIdx, i, _i, _ref;
-      grain = new Grain(id, new Weight(val, unit));
-      grain.updateSRM(this.volume);
-      if (this._chartDefaults) {
-        this._chartDefaults = false;
-        for (i = _i = 0, _ref = this.grainChart.segments.length - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
-          this.grainChart.removeData(0);
+      grain = new Grain(id, weight);
+      grain.updateSRM(self.volume);
+      if (self._chartDefaults) {
+        self._chartDefaults = false;
+        for (i = _i = 0, _ref = self.grainChart.segments.length - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
+          self.grainChart.removeData(0);
         }
       }
-      grainIdx = this.grainIndex(grain);
+      grainIdx = self.grainIndex(grain);
       if (grainIdx >= 0) {
-        this.grains[grainIdx] = grain;
+        self.grains[grainIdx] = grain;
       } else {
-        grainIdx = this.grains.push(grain) - 1;
-        this.grainChart.addData(this.pieOptions()[grainIdx], grainIdx);
+        grainIdx = self.grains.push(grain) - 1;
+        self.grainChart.addData(self.pieOptions()[grainIdx], grainIdx);
       }
-      this.updateGrainChart();
-      this.updateColor();
-      return this.updateGravity();
+      self.updateGrainChart();
+      self.updateColor();
+      return self.updateGravity();
     };
 
     BrewCalc.prototype.removeGrain = function(grain) {
       var grainIdx;
-      grainIdx = this.grainIndex(grain);
+      grainIdx = self.grainIndex(grain);
       if (grainIdx >= 0) {
-        this.grains.splice(grainIdx, 1);
-        this.grainChart.removeData(grainIdx);
-        this.updateColor();
-        this.updateGravity();
-        if (this.grainChart.segments.length === 0) {
-          return this._applyDefaultChart();
+        self.grains.splice(grainIdx, 1);
+        self.grainChart.removeData(grainIdx);
+        self.updateColor();
+        self.updateGravity();
+        if (self.grainChart.segments.length === 0) {
+          return self._applyDefaultChart();
         }
       }
+    };
+
+    BrewCalc.prototype.addHop = function(id, weight) {
+      return console.log("adding " + id);
+    };
+
+    BrewCalc.prototype.removeHop = function(hop) {
+      return console.log("removing " + hop.name);
     };
 
     BrewCalc.prototype.pieOptions = function() {
       var g, totalLbs;
       totalLbs = _sum((function() {
         var _i, _len, _ref, _results;
-        _ref = this.grains;
+        _ref = self.grains;
         _results = [];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           g = _ref[_i];
           _results.push(g.weight.lbs);
         }
         return _results;
-      }).call(this));
+      })());
       return (function() {
         var _i, _len, _ref, _results;
         _ref = this.grains;
@@ -1426,8 +1439,8 @@
     };
 
     BrewCalc.IngredientIcon = function(category) {
-      var flagSrc;
-      flagSrc = {
+      var iconSrc;
+      iconSrc = {
         'American': 'us.png',
         'Belgian': 'be.png',
         'British': 'gb.png',
@@ -1439,8 +1452,8 @@
         'Flavoring': 'flask.png',
         'Fining': 'flask.png'
       }[category];
-      if (flagSrc) {
-        return "<img class='grain-option-icon' src='/static/images/" + flagSrc + "' />";
+      if (iconSrc) {
+        return "<img class='grain-option-icon' src='/static/images/" + iconSrc + "' />";
       }
       return '';
     };
@@ -1557,13 +1570,27 @@
   Hop = (function(_super) {
     __extends(Hop, _super);
 
-    function Hop(id, weight) {
-      var hop, optionHtml, optionTemplate, selectHtml, selectTemplate;
+    function Hop(id, weight, _add, _remove) {
+      var hop, optionHtml, optionTemplate, selectHtml, selectTemplate, _selectCallback;
       hop = _hopLookup(id);
       optionHtml = "<div class='grain-option ingredient-option' data-id='" + hop.id + "'> " + hop.name + " " + (BrewCalc.IngredientIcon(hop.category)) + " <br/> <span class='grain-option-description ingredient-option-description'>" + hop.description + "</span> </div>";
       optionTemplate = new SelectTemplate(optionHtml, function($hop) {});
       selectHtml = "<div class='row hop-row ingredient-row' data-hop-id='" + hop.id + "'> <div class='eight columns'> " + hop.name + " <a gumby-tooltip-bottom=\"" + hop.description + "\"> <i class='icon-help-circled'></i> </a> </div> <div class='four columns'> <i class='icon-cancel'></i> </div> </div>";
-      selectTemplate = new SelectTemplate(selectHtml, function($hop) {});
+      _selectCallback = function($hop) {
+        $hop.find('.icon-cancel').click(function() {
+          $hop.remove();
+          return _remove(hop);
+        });
+        return $hop.find('.ingredient-weight').blur(function() {
+          var unit, val;
+          val = parseFloat($(this).val());
+          unit = $hop.find('.ingredient-weight-unit').val();
+          if (!isNaN(val)) {
+            return _add(hop.id, new Weight(val, unit));
+          }
+        });
+      };
+      selectTemplate = new SelectTemplate(selectHtml, _selectCallback);
       Hop.__super__.constructor.call(this, id, weight, hop, optionTemplate, selectTemplate);
     }
 
@@ -1574,7 +1601,7 @@
   Grain = (function(_super) {
     __extends(Grain, _super);
 
-    function Grain(id, weight) {
+    function Grain(id, weight, _add, _remove) {
       var grain, l, lower, optionHtml, optionTemplate, selectHtml, selectTemplate, upper, _selectCallback;
       grain = _grainLookup(id);
       optionHtml = "<div class='grain-option ingredient-option' data-id='" + grain.id + "'> " + grain.name + " " + (BrewCalc.IngredientIcon(grain.category)) + " <br/> <span class='grain-option-description ingredient-option-description'>" + grain.description + "</span> </div>";
@@ -1583,14 +1610,14 @@
       _selectCallback = function($grain) {
         $grain.find('.icon-cancel').click(function() {
           $grain.remove();
-          return b.removeGrain(grain);
+          return _remove(grain);
         });
         return $grain.find('.grain-weight').blur(function() {
           var unit, val;
           val = parseFloat($(this).val());
           unit = $grain.find('.grain-weight-unit').val();
           if (!isNaN(val)) {
-            return b.addGrain(grain.id, val, unit);
+            return _add(grain.id, new Weight(val, unit));
           }
         });
       };
@@ -1648,12 +1675,12 @@
     grainList = [];
     for (i = _i = 0, _len = grains.length; _i < _len; i = ++_i) {
       grain = grains[i];
-      grainList.push(new Grain(grain.id, emptyWeight));
+      grainList.push(new Grain(grain.id, emptyWeight, b.addGrain, b.removeGrain));
     }
     hopList = [];
     for (i in hops) {
       hop = hops[i];
-      hopList.push(new Hop(hop.id, emptyWeight));
+      hopList.push(new Hop(hop.id, emptyWeight, b.addHop, b.removeHop));
     }
     initializeSelect = function($input, items, searchFields, $selected) {
       return $input.selectize({

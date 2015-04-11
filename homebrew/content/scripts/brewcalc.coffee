@@ -247,7 +247,11 @@ _avg = (numbers) ->
   return _sum(numbers) / numbers.length
 
 class BrewCalc
+  self = undefined
+  
   constructor: ->
+    self = this
+
     @grains = []
     @volume = new Volume(5, 'gallon')
     @efficiency = 0.7
@@ -256,50 +260,50 @@ class BrewCalc
     this._applyDefaultChart()
 
   _applyDefaultChart: ->
-    @_chartDefaults = true
+    self._chartDefaults = true
     _defaultChartOptions = [
       { value: 7, color: '#ccc' }
       { value: 2, color: '#ccc' }
       { value: 1, color: '#ccc' }
     ]
-    @grainChart.addData(s, i) for s, i in _defaultChartOptions
+    self.grainChart.addData(s, i) for s, i in _defaultChartOptions
     this.updateColor()
 
   updateColor: ->
-    $('#combined-color').css('background-color', BrewCalc.SRMtoRGB(BrewCalc.WeightedSRM(@volume, @grains)))
+    $('#combined-color').css('background-color', BrewCalc.SRMtoRGB(BrewCalc.WeightedSRM(self.volume, self.grains)))
 
   updateGravity: ->
     # display truncated zeros
     _gravitize = (g) ->
       return "#{g}000".substring(0, 5)
 
-    if @grains.length > 0
-      totalPPG = Math.round(_sum(((grain.ppg * grain.weight.lbs * @efficiency) / @volume.gallons for grain in this.grains when grain.ppg)))
-      @og = 1 + (totalPPG / 1000)
-      @fg = 1 + Math.round(totalPPG * (1 - @attenuation)) / 1000
+    if self.grains.length > 0
+      totalPPG = Math.round(_sum(((grain.ppg * grain.weight.lbs * self.efficiency) / self.volume.gallons for grain in this.grains when grain.ppg)))
+      self.og = 1 + (totalPPG / 1000)
+      self.fg = 1 + Math.round(totalPPG * (1 - self.attenuation)) / 1000
     else
-      @og = '1.0'
-      @fg = '1.0'
+      self.og = '1.0'
+      self.fg = '1.0'
 
     $('#original-gravity').html(_gravitize(@og))
     $('#final-gravity').html(_gravitize(@fg))
 
   updateEfficiency: (efficiency) ->
-    @efficiency = efficiency / 100
+    self.efficiency = efficiency / 100
     this.updateGravity()
 
   grainIndex: (grain) ->
-    for g, i in @grains
+    for g, i in self.grains
       if g.id == grain.id
         return i
     return -1
 
   updateGrainChart: ->
-    for g, i in @grains
-      option = this.pieOptions()[i]
-      @grainChart.segments[i].value = option.value
-      @grainChart.segments[i].fillColor = option.color
-      @grainChart.segments[i].highlightColor = option.color
+    for g, i in self.grains
+      option = self.pieOptions()[i]
+      self.grainChart.segments[i].value = option.value
+      self.grainChart.segments[i].fillColor = option.color
+      self.grainChart.segments[i].highlightColor = option.color
 
     @grainChart.update()
 
@@ -307,48 +311,54 @@ class BrewCalc
     newVolume = new Volume(val, unit)
 
     # only redraw if volume changed
-    if newVolume.gallons != @volume.gallons
-      @volume = newVolume
-      grain.updateSRM(@volume) for grain in @grains
-      if !@_chartDefaults
+    if newVolume.gallons != self.volume.gallons
+      self.volume = newVolume
+      grain.updateSRM(self.volume) for grain in self.grains
+      if !self._chartDefaults
         this.updateGrainChart()
 
       this.updateColor()
       this.updateGravity()
 
-  addGrain: (id, val, unit) ->
-    grain = new Grain(id, new Weight(val, unit))
-    grain.updateSRM(@volume)
+  addGrain: (id, weight) ->
+    grain = new Grain(id, weight)
+    grain.updateSRM(self.volume)
 
-    if @_chartDefaults
-      @_chartDefaults = false
-      @grainChart.removeData(0) for i in [0..@grainChart.segments.length - 1]
+    if self._chartDefaults
+      self._chartDefaults = false
+      self.grainChart.removeData(0) for i in [0..self.grainChart.segments.length - 1]
 
     # check if grain is already in chart
-    grainIdx = this.grainIndex(grain)
+    grainIdx = self.grainIndex(grain)
     if grainIdx >= 0
-      @grains[grainIdx] = grain
+      self.grains[grainIdx] = grain
     else
-      grainIdx = @grains.push(grain) - 1
-      @grainChart.addData(this.pieOptions()[grainIdx], grainIdx)
+      grainIdx = self.grains.push(grain) - 1
+      self.grainChart.addData(self.pieOptions()[grainIdx], grainIdx)
 
-    this.updateGrainChart()
-    this.updateColor()
-    this.updateGravity()
+    self.updateGrainChart()
+    self.updateColor()
+    self.updateGravity()
 
   removeGrain: (grain) ->
-    grainIdx = this.grainIndex(grain)
+    grainIdx = self.grainIndex(grain)
     if grainIdx >= 0
-      @grains.splice(grainIdx, 1)
-      @grainChart.removeData(grainIdx)
-      this.updateColor()
-      this.updateGravity()
+      self.grains.splice(grainIdx, 1)
+      self.grainChart.removeData(grainIdx)
+      self.updateColor()
+      self.updateGravity()
 
-      if @grainChart.segments.length == 0
-        this._applyDefaultChart()
+      if self.grainChart.segments.length == 0
+        self._applyDefaultChart()
+
+  addHop: (id, weight) ->
+    console.log("adding #{id}")
+
+  removeHop: (hop) ->
+    console.log("removing #{hop.name}")
 
   pieOptions: ->
-    totalLbs = _sum((g.weight.lbs for g in @grains))
+    totalLbs = _sum((g.weight.lbs for g in self.grains))
     return ({
       id: g.id,
       label: g.name,
@@ -364,7 +374,7 @@ class BrewCalc
     return srmRgbLookup[Math.round(srm)]
 
   @IngredientIcon: (category) ->
-    flagSrc = {
+    iconSrc = {
       'American': 'us.png',
       'Belgian':  'be.png',
       'British':  'gb.png',
@@ -377,8 +387,8 @@ class BrewCalc
       'Fining':   'flask.png',
     }[category]
 
-    if flagSrc
-      return "<img class='grain-option-icon' src='/static/images/#{flagSrc}' />"
+    if iconSrc
+      return "<img class='grain-option-icon' src='/static/images/#{iconSrc}' />"
     return ''
 
 #region Measurements
@@ -447,7 +457,7 @@ class Ingredient
     
 
 class Hop extends Ingredient
-  constructor: (id, weight) ->
+  constructor: (id, weight, _add, _remove) ->
     hop = _hopLookup(id)
     #region selectize templates
     optionHtml = "
@@ -474,13 +484,24 @@ class Hop extends Ingredient
       </div>
     "
 
-    selectTemplate = new SelectTemplate(selectHtml, ($hop) ->)
+    _selectCallback = ($hop) ->
+      $hop.find('.icon-cancel').click ->
+        $hop.remove()
+        _remove(hop)
+
+      $hop.find('.ingredient-weight').blur ->
+        val = parseFloat($(this).val())
+        unit = $hop.find('.ingredient-weight-unit').val()
+        if !isNaN(val)
+          _add(hop.id, new Weight(val, unit))
+
+    selectTemplate = new SelectTemplate(selectHtml, _selectCallback)
     #endregion
     super(id, weight, hop, optionTemplate, selectTemplate)
 
 
 class Grain extends Ingredient
-  constructor: (id, weight) ->
+  constructor: (id, weight, _add, _remove) ->
     grain = _grainLookup(id)
     #region selectize templates
     optionHtml = "
@@ -517,13 +538,13 @@ class Grain extends Ingredient
     _selectCallback = ($grain) ->
       $grain.find('.icon-cancel').click ->
         $grain.remove()
-        b.removeGrain(grain)
+        _remove(grain)
 
       $grain.find('.grain-weight').blur ->
         val = parseFloat($(this).val())
         unit = $grain.find('.grain-weight-unit').val()
         if !isNaN(val)
-          b.addGrain(grain.id, val, unit)
+          _add(grain.id, new Weight(val, unit))
 
     selectTemplate = new SelectTemplate(selectHtml, _selectCallback)
     #endregion
@@ -566,11 +587,11 @@ $(document).ready( ->
   emptyWeight = new Weight(0, 'lbs')
   grainList = []
   for grain, i in grains
-    grainList.push(new Grain(grain.id, emptyWeight))
+    grainList.push(new Grain(grain.id, emptyWeight, b.addGrain, b.removeGrain))
 
   hopList = []
   for i, hop of hops
-    hopList.push(new Hop(hop.id, emptyWeight))
+    hopList.push(new Hop(hop.id, emptyWeight, b.addHop, b.removeHop))
 
   initializeSelect = ($input, items, searchFields, $selected) ->
     $input.selectize({
