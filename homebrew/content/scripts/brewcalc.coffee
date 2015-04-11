@@ -404,9 +404,7 @@ class BrewCalc
         self._applyDefaultChart()
 
   updateIBU: ->
-    @ibu = 0
-    for hop in self.hops
-      @ibu += 10
+    @ibu = _sum((hop.getIBUs(self.volume, self.og) for hop in self.hops))
     $('#calculated-ibu').html(Math.round(@ibu))
 
 
@@ -499,6 +497,16 @@ class Ingredient
     
 
 class Hop extends Ingredient
+  class HopAddition
+    constructor: (@minutes, @weight, @alpha) ->
+      @aau = @weight.oz * @alpha
+#      console.log("oz x alpha = aau -> #{@weight.oz} x #{@aau} = #{@alpha}")
+
+    getIBU: (volume, gravity) ->
+      # Palmer|How To Brew|p.58
+      utilization = (1.65 * 0.000125 ** (gravity - 1)) * ((1 - Math.E ** (-0.04 * @minutes)) / 4.15)
+      return (@aau * utilization * 74.89) /  volume.gallons
+
   constructor: (id, weight, _add, _remove) ->
     hop = _hopLookup(id)
     #region selectize templates
@@ -520,7 +528,11 @@ class Hop extends Ingredient
             <i class='icon-help-circled'></i>
           </a>
         </div>
-        <div class='four columns'>
+        <div class='two columns'>
+          <input class='hop-aau' type='text' value='#{hop.alpha}' />
+          <span>% AAU</span>
+        </div>
+        <div class='three columns'>
           <input class='hop-weight ingredient-weight' type='text' />
           <select class='hop-weight-unit ingredient-weight-unit'>
             <option value='oz'>oz</option>
@@ -549,6 +561,10 @@ class Hop extends Ingredient
     super(id, weight, hop, optionTemplate, selectTemplate)
 
     @alpha = @_splitRange(@_item.alpha.substring(0, @_item.alpha.length - 1), null)
+    @additions = [new HopAddition(60, new Weight(1, 'oz'), @alpha)]
+
+  getIBUs: (volume, gravity) ->
+    return _sum((a.getIBU(volume, gravity) for a in @additions))
 
 
 

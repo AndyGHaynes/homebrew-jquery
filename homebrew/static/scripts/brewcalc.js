@@ -1460,13 +1460,17 @@
     };
 
     BrewCalc.prototype.updateIBU = function() {
-      var hop, _i, _len, _ref;
-      this.ibu = 0;
-      _ref = self.hops;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        hop = _ref[_i];
-        this.ibu += 10;
-      }
+      var hop;
+      this.ibu = _sum((function() {
+        var _i, _len, _ref, _results;
+        _ref = self.hops;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          hop = _ref[_i];
+          _results.push(hop.getIBUs(self.volume, self.og));
+        }
+        return _results;
+      })());
       return $('#calculated-ibu').html(Math.round(this.ibu));
     };
 
@@ -1622,14 +1626,34 @@
   })();
 
   Hop = (function(_super) {
+    var HopAddition;
+
     __extends(Hop, _super);
+
+    HopAddition = (function() {
+      function HopAddition(minutes, weight, alpha) {
+        this.minutes = minutes;
+        this.weight = weight;
+        this.alpha = alpha;
+        this.aau = this.weight.oz * this.alpha;
+      }
+
+      HopAddition.prototype.getIBU = function(volume, gravity) {
+        var utilization;
+        utilization = (1.65 * Math.pow(0.000125, gravity - 1)) * ((1 - Math.pow(Math.E, -0.04 * this.minutes)) / 4.15);
+        return (this.aau * utilization * 74.89) / volume.gallons;
+      };
+
+      return HopAddition;
+
+    })();
 
     function Hop(id, weight, _add, _remove) {
       var hop, optionHtml, optionTemplate, selectHtml, selectTemplate, _selectCallback;
       hop = _hopLookup(id);
       optionHtml = "<div class='grain-option ingredient-option' data-id='" + hop.id + "'> " + hop.name + " " + (BrewCalc.IngredientIcon(hop.category)) + " <br/> <span class='grain-option-description ingredient-option-description'>" + hop.description + "</span> </div>";
       optionTemplate = new SelectTemplate(optionHtml, function($hop) {});
-      selectHtml = "<div class='row hop-row ingredient-row' data-hop-id='" + hop.id + "'> <div class='eight columns'> " + hop.name + " <a gumby-tooltip-bottom=\"" + hop.description + "\"> <i class='icon-help-circled'></i> </a> </div> <div class='four columns'> <input class='hop-weight ingredient-weight' type='text' /> <select class='hop-weight-unit ingredient-weight-unit'> <option value='oz'>oz</option> <option value='lbs'>lbs</option> <option value='g'>g</option> <option value='kg'>kg</option> </select> <i class='icon-cancel'></i> </div> </div>";
+      selectHtml = "<div class='row hop-row ingredient-row' data-hop-id='" + hop.id + "'> <div class='eight columns'> " + hop.name + " <a gumby-tooltip-bottom=\"" + hop.description + "\"> <i class='icon-help-circled'></i> </a> </div> <div class='two columns'> <input class='hop-aau' type='text' value='" + hop.alpha + "' /> <span>% AAU</span> </div> <div class='three columns'> <input class='hop-weight ingredient-weight' type='text' /> <select class='hop-weight-unit ingredient-weight-unit'> <option value='oz'>oz</option> <option value='lbs'>lbs</option> <option value='g'>g</option> <option value='kg'>kg</option> </select> <i class='icon-cancel'></i> </div> </div>";
       _selectCallback = function($hop) {
         $hop.find('.icon-cancel').click(function() {
           $hop.remove();
@@ -1647,7 +1671,22 @@
       selectTemplate = new SelectTemplate(selectHtml, _selectCallback);
       Hop.__super__.constructor.call(this, id, weight, hop, optionTemplate, selectTemplate);
       this.alpha = this._splitRange(this._item.alpha.substring(0, this._item.alpha.length - 1), null);
+      this.additions = [new HopAddition(60, new Weight(1, 'oz'), this.alpha)];
     }
+
+    Hop.prototype.getIBUs = function(volume, gravity) {
+      var a;
+      return _sum((function() {
+        var _i, _len, _ref, _results;
+        _ref = this.additions;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          a = _ref[_i];
+          _results.push(a.getIBU(volume, gravity));
+        }
+        return _results;
+      }).call(this));
+    };
 
     return Hop;
 
