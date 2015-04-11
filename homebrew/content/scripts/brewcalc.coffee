@@ -142,97 +142,101 @@ grains = [
   { id: 94, name: "Treacle", category: "Sugars", lovibond: "100", gravity: "1.036", description: "Imparts intense, sweet flavor. A British mixture of molasses, invert sugar and golden syrup (corn syrup). Use in dark English ales." },
 ]
 
-hops = {
-0: { url:"http://brooklyn-homebrew.com/equinox-hop-pellet-1-oz/dp/4352", name:"Equinox Hop Pellet", description:"Typical alpha: 14.4-15.6% A pronounced aroma profile with citrus, tropical fruit, floral and herbal characteristics. Specific descriptors include lemon, lime, papaya, apple, and green pepper. The diversified and pronounced aroma characteristics combined with extremely high oil content and a tight cone structure make this hop variety unique. Typical Beer Styles - IPA, Imperial IPA, Pale Ale, ESB  Possible Substitutions: Cascade, Centennial, Simcoe", alpha:"14.4-15.6%"},
-1: { url:"http://brooklyn-homebrew.com/mosaic-hop-pellet-1-oz/dp/3562", name:"Mosaic Hop Pellet", description:"Typical alpha acid: 11.5-13.5% Brewers have noted that Mosaic is a 'complexity of flavors' providing a 'powerful combination punch of pine and fruit.' Specific descriptors include earthy, grassy, herbal, citrus, cedar, floral, pine, tropical, onion/garlic, spice and stone fruit.    Typical Beer Styles - Pale Ale, IPA, Imperial IPA, pretty much any hop forward style of beer.", alpha:"11.5-13.5%"},
-2: { url:"http://brooklyn-homebrew.com/falconers-flight-hop-pellet-1-oz/dp/3286", name:"Falconer's Flight Hop Pellet", description:"Typical Alpha: 10.5% Falconer’s Flight™ is an exclusive proprietary hop blend created by Hop Union to honor and support the legacy of Northwest brewing legend, Glen Hay Falconer, who passed in 2002. The blend is comprised of many of the Northwest’s most unique hop varieties, including Citra™, Simcoe®, and Sorachi Ace along with experimental hops and numerous other NW varieties. Perfect for any Northwest-style IPA. Each hop has been hand selected for its superior aromatic qualities, imparting distinct tropical, citrus, floral, lemon and grapefruit tones.", alpha:"10.5%"},
-3: { url:"http://brooklyn-homebrew.com/ahtanum-hop-pellet-1-oz/dp/3218", name:"Ahtanum Hop Pellet", description:"Typical alpha: 7.0-9.0% Relatively new variety with citrus zest, grapefruit, and some earthy floral notes. Try it in recipes calling for cascade hops.  Possible Substitutions: Amarillo, Cascade", alpha:"7.0-9.0%"},
-4: { url:"http://brooklyn-homebrew.com/summit-hop-pellet-1-oz/dp/3220", name:"Summit Hop Pellet", description:"Typical alpha: 17.0-19.0% Citrus and tangerine aroma with a distinct earthy, onion/garlic flavor. Can be used as bittering or finishing additions. Typical Beer Styles - IPA, Imperial IPA, Pale Ale.  Possible Substitutions: Columbus, Simcoe, Warrior", alpha:"17.0-19.0%"},
-5: { url:"http://brooklyn-homebrew.com/us-brewers-gold-pellets-1-oz/dp/3383", name:"US Brewer's Gold Pellets", description:"Typical alpha: 8.5-9.5% Blackcurrant and spicy flavor with a touch of mint.  Mainly a bittering hop but could be interesting as a flavoring addition in Belgian ales. Typical Beer Styles - Ale, Pilsner, Lambic, Saison, Biere de Garde.", alpha:"8.5-9.5%"},
-6: { url:"http://brooklyn-homebrew.com/australian-helga-hop-pellet-1-oz/dp/3522", name:"Australian Helga Hop Pellet", description:"Typical Alpha: 4.9-6.3% Produced exclusively in Tasmania, Helga (also known as Southern Hallertau) is a great aroma hop.  Very similar to Hallertau Mittelfrueh.  Possible Substitutions: Hallertau", alpha:"4.9-6.3%"},
-7: { url:"http://brooklyn-homebrew.com/australian-pride-of-ringwood-hop-pellet-1-oz/dp/3519", name:"Australian Pride of Ringwood Hop Pellet", description:"Typical Alpha: 9-10.5% Imparts a unique flavor to beer. Very well regarded in Australia and has been commercially grown since the 60's. Extensively used for early and late additions.", alpha:"9-10.5%"},
-8: { url:"http://brooklyn-homebrew.com/citra-hop-pellet-1-oz/dp/2934", name:"Citra Hop Pellet", description:"Typical alpha: 10-14% A fruity aroma hop with hints of citrus,  peach, apricot, passion fruit, grapefruit, lime, melon, gooseberry, lychee fruit, pineapple, mango, &amp; papaya, and  other tropical fruits. Typically used in American Ales and IPAs.  Possible Substitutions: Simcoe", alpha:"10-14%"},
-9: { url:"http://brooklyn-homebrew.com/australian-stella-hop-pellet-1-oz/dp/3520", name:"Australian Stella Hop Pellet", description:"Typical Alpha: 14-16% A new hop variety with hoppy and floral notes. Hints of anise. Reminiscent of noble European hop varieties.", alpha:"14-16%"},
-10: { url:"http://brooklyn-homebrew.com/australian-super-pride-hop-pellet-1-oz/dp/3521", name:"Australian Super Pride Hop Pellet", description:"Typical Alpha: 13.5-15% Bred from Pride of Ringwood, Super Pride features similar mild aromas. Excellent bittering qualities.", alpha:"13.5-15%"},
-11: { url:"http://brooklyn-homebrew.com/australian-topaz-hop-pellet-1-oz/dp/3518", name:"Australian Topaz Hop Pellet", description:"Typical Alpha: 15.5-18% High alpha hop with a similar character to English varities when used as a flavoring addition. When used for later additions, fruit flavors such as lychee can be detected.", alpha:"15.5-18%"},
-12: { url:"http://brooklyn-homebrew.com/glacier-hop-pellet-1-oz/dp/3326", name:"Glacier Hop Pellet", description:"Typical Alpha: 5-9% Dual purpose hop with a pleasant aroma of citrus mixed with sweet fruity pear or apricot. Typical brewing styles: Pale Ales, ESB, English-Style Pale Ale, Porter, &amp; Stout  Possible Substitutions: Fuggle, Willamette, Styrian Golding", alpha:"5-9%"},
-13: { url:"http://brooklyn-homebrew.com/new-zealand-green-bullet-hop-pellet-1-oz/dp/3541", name:"New Zealand Green Bullet Hop Pellet", description:"Typical Alpha: 12-15% This bittering hop is known to have a unique characteristic. With some similarities to Styrian Golding, you should pick up a slight raisin and fruit quality. Use for many styles of beer including American IPA's and Lager's.  Possible Substitutions: Fuggle, Willamette", alpha:"12-15%"},
-14: { url:"http://brooklyn-homebrew.com/new-zealand-hallertau-hop-pellet-1-oz/dp/3407", name:"New Zealand Hallertau Hop Pellet", description:"Typical alpha: 6.5 - 8.5 % A dual purpose hop descended from Hallertau Mittlefrüh.  Aroma is floral with notes of lime zest. Typical Beer Styles - Lager, Pilsner, Bitter, Ales, Bock.", alpha:"6.5 - 8.5 %"},
-15: { url:"http://brooklyn-homebrew.com/new-zealand-motueka-hop-pellet-1-oz/dp/3324", name:"New Zealand Motueka Hop Pellet", description:"Typical alpha: 6.5-7.5% Descended from Saaz with some noble characteristics and a bright citrus overtone.  Possible Substitutions: Saaz, Sterling", alpha:"6.5-7.5%"},
-16: { url:"http://brooklyn-homebrew.com/new-zealand-nelson-sauvin-hop-pellet-1-oz/dp/3289", name:"New Zealand Nelson Sauvin Hop Pellet", description:"Typical Alpha: 12-13% This dual purpose hop is often described as 'breathtaking'. Nelson Sauvin has the ability to impart a distinct fruitness very similar to white wine. It is gaining quite the reputation in America. Can be used for many styles, from pale ales to lagers.", alpha:"12-13%"},
-17: { url:"http://brooklyn-homebrew.com/uk-kent-golding-hop-pellets-1-oz/dp/3234", name:"UK Kent Golding Hop Pellets", description:"Typical alpha: 4.0-5.5% The quintessential English aroma variety.  Sweet and spicy with a delicate floral bouquet. Typical Beer Styles - English and Belgian Style Ales, ESB, Bitter, Porter.  Possible Substitutions: US Golding", alpha:"4.0-5.5%"},
-18: { url:"http://brooklyn-homebrew.com/german-opal-hop-pellet-1-oz/dp/3323", name:"German Opal Hop Pellet", description:"Typical alpha: 5-8% Floral and fruity hop character with medium bittering potential. Typical Beer Styles - Summer Ales, Light Ale, Belgian Style Ales, Wheat.  Possible Substitutions: Tettnanger, Kent Golding, Styrian Golding", alpha:"5-8%"},
-19: { url:"http://brooklyn-homebrew.com/german-smaragd-hop-pellet-1-oz/dp/3325", name:"German Smaragd Hop Pellet", description:"Typical alpha: 4-6% Relatively new hop variety with floral and fruity notes.  Subdued citrus with hints of lemon and orange marmalade.  German response to popular American hops like Simcoe and Amarillo.", alpha:"4-6%"},
-20: { url:"http://brooklyn-homebrew.com/mt-rainier-hop-pellet-1-oz/dp/3321", name:"Mt. Rainier Hop Pellet", description:"Typical alpha: 6-8% Similar in character to hallertau with hints of flowers, spice, citrus, and licorice.  Possible Substitutions: Brewer's Gold, Hallertau, Fuggle", alpha:"6-8%"},
-21: { url:"http://brooklyn-homebrew.com/us-northern-brewer-hop-pellet-1-oz/dp/3404", name:"US Northern Brewer Hop Pellet", description:"Typical alpha 8-10% Woody and minty bittering hop, used exclusively in classic California Commons. Typical Beer Styles - English Ales, American Ales, Kölsch, Porter, Munich Helles, California Common.  Possible Substitutions:  Chinook, Galena", alpha:"0"},
-22: { url:"http://brooklyn-homebrew.com/new-zealand-pacific-jade-hop-pellet-1-oz/dp/3315", name:"New Zealand Pacific Jade Hop Pellet", description:"Typical alpha: 12-14% Bright citrus with hints of black pepper.", alpha:"12-14%"},
-23: { url:"http://brooklyn-homebrew.com/german-perle-hop-pellet-1-oz/dp/3403", name:"German Perle Hop Pellet", description:"Typical alpha: 6.5-9.0% Predominately floral with smooth bitterness.  Possible Substitutions: Northern Brewer", alpha:"6.5-9.0%"},
-24: { url:"http://brooklyn-homebrew.com/us-saaz-hop-pellet-1-oz/dp/3402", name:"US Saaz Hop Pellet", description:"Typical alpha: 3.0-4.5% US version of the classic Czech noble hop.  Similar in character with spicy and herbal flavors. Typical Beer Styles - Pilsner, Lager, Wheat, Belgian Style Ales.  Possible Substitutions: Sterling", alpha:"3.0-4.5%"},
-25: { url:"http://brooklyn-homebrew.com/simcoe-hop-pellet-1-oz/dp/2890", name:"Simcoe Hop Pellet", description:"Typical alpha acid: 12-14% Pine and tropical fruit flavor/aroma. Great as a flavor and dry hop but because of a low cohumulone content, Simcoe makes for a clean, smooth bittering hop.  Typical Beer Styles - Pale Ale, IPA, Imperial IPA, pretty much any hop forward style of beer.  Possible Substitutions: Magnum, Summit", alpha:"12-14%"},
-26: { url:"http://brooklyn-homebrew.com/santiam-hop-pellet-1-oz/dp/3219", name:"Santiam Hop Pellet", description:"Typical alpha: 5.5-7.0% Noble hop profile with spicy and herbal notes. Typical Beer Styles - Lager, Pilsner, Belgian Tripel, Munich Helles, Kölsch, Bock.  Possible Substitutions: Tettnanger", alpha:"5.5-7.0%"},
-27: { url:"http://brooklyn-homebrew.com/us-tettnanger-hop-pellet-1-oz/dp/3411", name:"US Tettnanger Hop Pellet", description:"Typical alpha: 3.5% - 5.3% Aroma hop with a mild and pleasant, slightly spicy aroma. Typical Brewing Styles:  Lager, Ales, Pilsner, Weizen, Lambic, Alt, Kölsch, &amp; Munich Helles.  Possible Substitutions: Fuggle, Santiam", alpha:"3.5% - 5.3%"},
-28: { url:"http://brooklyn-homebrew.com/warrior-hop-pellet-1-oz/dp/2891", name:"Warrior Hop Pellet", description:"Typical alpha: 14.0-16.0%.  Super-high alpha hop with low cohumulone.  Intense bittering hop with a subdued spicy citrus flavor. Use in most American hoppy ales.  Possible Substitutions: Columbus, Magnum, Nugget", alpha:"14.0-16.0%"},
-29: { url:"http://brooklyn-homebrew.com/zythos-hop-pellet-1-oz/dp/3357", name:"Zythos Hop Pellet", description:"Typical alpha: 10.0-11.9% Much like Falconer's Flight™, Zythos is a proprietary hop blend of several unique Northwest hop varieties. Zythos is blended for optimum aroma characteristics great bittering properties  to compliment your IPAs and Pale Ale brews. Expect tangerine, citrus and pine  from this hop blend.", alpha:"10.0-11.9%"},
-30: { url:"http://brooklyn-homebrew.com/german-magnum-hop-pellet-1-oz/dp/3053", name:"German Magnum Hop Pellet", description:"Typical alpha: 13-15% Very clean bittering hop with almost no aroma.    Possible Substitutions: Columbus, Nugget", alpha:"13-15%"},
-31: { url:"http://brooklyn-homebrew.com/millennium-hop-pellet-1-oz/dp/4357", name:"Millennium Hop Pellet", description:"Typical alpha: 14.5-16.5% Mild and resinous with floral and herbal tones. This descendent of Nugget closely resembles Nugget and Columbus, and is typically used as a bittering hop. Typical Beer Styles - Stout, IPA  Possible Substitutions: Columbus, Nugget, Summit", alpha:"14.5-16.5%"},
-32: { url:"http://brooklyn-homebrew.com/bramling-cross-pellet-1-oz/dp/3086", name:"Bramling Cross Pellet", description:"Typical alpha: 5.0-7.0% Interesting fruity blackcurrant flavor with a touch of lemon.", alpha:"5.0-7.0%"},
-33: { url:"http://brooklyn-homebrew.com/uk-challenger-hop-pellet-1-oz/dp/2908", name:"UK Challenger Hop Pellet", description:"Typical alpha acid: 5-9% Dual purpose hop with a delicate aroma and a spicy fresh pine scent. Typical brewing use - English style Ale, Porter, Stout, ESB, Bitter, Barley Wine, Brown Ales  Possible Substitutions: Northern Brewer, German Perle", alpha:"5-9%"},
-34: { url:"http://brooklyn-homebrew.com/german-northern-brewer-hop-pellet-1-oz/dp/2813", name:"German Northern Brewer Hop Pellet", description:"Typical alpha 8-10% Renowned for its versatile minty and herbal bittering qualities.  Possible Substitutions: Chinook, Columbus, Galena, Magnum, Northern Brewer, Brewer's Gold", alpha:"0"},
-35: { url:"http://brooklyn-homebrew.com/styrian-golding-%28celeia%29-hop-pellet-1-oz/dp/2814", name:"Styrian Golding (Celeia) Hop Pellet", description:"Typical alpha: 3.0-6.0% Resembles Fuggle in character, with a pleasant spicy aroma. Typical Beer Styles - English and Belgian Style Ales, Lagers, Pilsners.   Possible Substitutions: Fuggle", alpha:"3.0-6.0%"},
-36: { url:"http://brooklyn-homebrew.com/mt-hood-hop-pellet-1-oz/dp/2812", name:"Mt. Hood Hop Pellet", description:"Typical alpha: 4.0-7.0% Considered one of the 'noble' US varieties.  Descended from hallertau with floral and sweet spicy aromas. Typical Beer Styles - Lager, Pilsner, Bock, Wheat, Alt, Munich Helles.  Possible Substitutions: French Strisselspalt, Hallertau", alpha:"4.0-7.0%"},
-37: { url:"http://brooklyn-homebrew.com/australian-galaxy-hop-pellet-1-oz/dp/3198", name:"Australian Galaxy Hop Pellet", description:"Typical Alpha: 12-14% Similar to Citra with notes of passionfruit and citrus. Great hop for finishing and bittering. Highly recommended for a single hop beer.  Possible Substitutions: Citra", alpha:"12-14%"},
-38: { url:"http://brooklyn-homebrew.com/amarillo-hop-pellet-1-oz/dp/2777", name:"Amarillo Hop Pellet", description:"Typical alpha: 6.0-9.0% A unique hop with tropical fruit and citrus aromas and flavors.  Typical Beer Styles - IPA, Imperial IPA, Pale Ale.  Possible Substitutions: Cascade, Centennial, Simcoe", alpha:"6.0-9.0%"},
-39: { url:"http://brooklyn-homebrew.com/azacca-hop-pellet-1-oz/dp/4381", name:"Azacca Hop Pellet", description:"Typical alpha: 14% - 15% Fresh citrus with piney notes and a full tropical fruit flavor. Typical Brewing Styles:  Pale Ales, IPA's.", alpha:"14% - 15%"},
-40: { url:"http://brooklyn-homebrew.com/buzz-bullets-hop-pellet-1-oz/dp/4382", name:"Buzz Bullets Hop Pellet", description:"Typical alpha: 12% - 18% Citrus and floral notes Typical Brewing Styles:  Pale Ales, IPA's.", alpha:"12% - 18%"},
-41: { url:"http://brooklyn-homebrew.com/belma%E2%84%A2-hop-pellet-1-oz/dp/3549", name:"Belma™ Hop Pellet", description:"Typical alpha: 12-13% Brand NEW hop variety!! Very clean hop with notes of tropical fruit, orange, strawberry and melon. Dual purpose. Typical Beer Styles - IPA, Imperial IPA, Pale Ale.", alpha:"12-13%"},
-42: { url:"http://brooklyn-homebrew.com/caliente-hop-pellet-1-oz/dp/4380", name:"Caliente Hop Pellet", description:"Typical alpha: 15% - 18% Fresh peach and plum notes with hints of cherries and lemon. Typical Brewing Styles:  Pale Ales, IPA's.", alpha:"15% - 18%"},
-43: { url:"http://brooklyn-homebrew.com/chinook-hop-pellet-1-oz/dp/2636", name:"Chinook Hop Pellet", description:"Typical alpha: 11.0-13.0% Mainly a bittering hop but can be very interesting in small quantities as an aroma or dry-hop addition. Medium intensity spicy, piney, and distinctive grapefruit aroma. Typical brewing use - US Style Pale Ale, IPA, Stout, Barley Wine, Lager  Possible Substitutions: Columbus, Northern Brewer, Nugget", alpha:"11.0-13.0%"},
-44: { url:"http://brooklyn-homebrew.com/columbus-hop-pellet-1-oz/dp/2778", name:"Columbus Hop Pellet", description:"Typical alpha: 14.0-16.0% Mainly a bittering hop. Intense &amp; pungent, citrusy punchy and bold. Dank. Typical brewing Styles - US IPA, US Pale Ale, Stout, Barley Wine, Lager (bittering)  Possible Substitutions: Chinook, Galena, Nugget", alpha:"14.0-16.0%"},
-45: { url:"http://brooklyn-homebrew.com/calypso-hop-pellet-1-oz/dp/3115", name:"Calypso Hop Pellet", description:"Alpha Acid 12.0 - 14.3% Dual purpose hop with a complex, fruity &amp; citrusy aroma.  Hints of pear and apple, lemon lime, and earthy tea notes. Typical Brewing Styles: Ales, Stouts and Barley Wines.", alpha:"0"},
-46: { url:"http://brooklyn-homebrew.com/cluster-hop-pellet-1-oz/dp/2590", name:"Cluster Hop Pellet", description:"Typical alpha: 5 - 8% Dual purpose hop used mostly for bittering with a floral and spicy aroma. Typical brewing use - Ale (aroma), Lager (bittering), Stout  Possible Substitutions: Galena", alpha:"5 - 8%"},
-47: { url:"http://brooklyn-homebrew.com/centennial-hop-pellet-1-oz/dp/2589", name:"Centennial Hop Pellet", description:"Typical alpha: 9.0-12.0% Classic American bittering and aroma hop with strong citrus and grapefruit flavors as well as piney resinous notes.  Possible Substitutions: Cascade, Chinook, Columbus, Centennial Type", alpha:"9.0-12.0%"},
-48: { url:"http://brooklyn-homebrew.com/cascade-hop-pellet-1-oz/dp/2550", name:"Cascade Hop Pellet", description:"Alpha Acid  5.5 - 7.2% The quintessential American hop variety with a smooth flowery and citrusy grapefruit aroma. Typical brewing styles - American-Style Ales, Pale Ale, IPA, Porter, &amp; Barley wines.  Possible Substitutions: Ahtanum, Amarillo, Centennial", alpha:"0"},
-49: { url:"http://brooklyn-homebrew.com/crystal-hop-pellet-1-oz/dp/2665", name:"Crystal Hop Pellet", description:"Typical alpha: 2.0-4.5% Aroma hop that is mild and pleasant, a delicate blend of spices and flowers. Typical brewing styles: Pilsner, Lager, Kölsch, ESB, Alt, Belgian-Style Ales   Possible Substitutions: Hallertau, Liberty, Mt. Hood, French Strisselspalt", alpha:"2.0-4.5%"},
-50: { url:"http://brooklyn-homebrew.com/french-strisselspalt-hop-pellet-1-oz/dp/2595", name:"French Strisselspalt Hop Pellet", description:"Typical alpha: 2.0-3.5% Classic mild noble aroma with a slight blackcurrant flavor.   Possible Substitutions: Crystal, Liberty, Mt. Hood", alpha:"2.0-3.5%"},
-51: { url:"http://brooklyn-homebrew.com/german-hallertau-blanc-hop-pellet-1-oz/dp/3979", name:"German Hallertau Blanc Hop Pellet", description:"Typical alpha: 9-12% Newly released by Hüll. Great for aroma and flavoring. A very exquisite and complex profile. Said to be very white wine like. Expect notes of cassis, elderflower, grapes, grapefruit, lemongrass, passionfruit, pineapple &amp; gooseberry.", alpha:"9-12%"},
-52: { url:"http://brooklyn-homebrew.com/german-mandarina-bavaria-hop-pellet-1-oz/dp/3977", name:"German Mandarina Bavaria Hop Pellet", description:"Typical alpha: 8.5-10.5% Newly released by Hüll. Great for aroma and flavoring. Expect citrusy flavors like tangerine.  Possible Substitutions: Columbus, Nugget, Cascade", alpha:"8.5-10.5%"},
-53: { url:"http://brooklyn-homebrew.com/galena-hop-pellet-1-oz/dp/2591", name:"Galena Hop Pellet", description:"Typical Alpha: 10-14% Dual purpose hop with a citrusy aroma. Typical brewing styles - English-style and American Ales  Possible Substitutions: Brewer's Gold, Columbus, Nugget", alpha:"10-14%"},
-55: { url:"http://brooklyn-homebrew.com/horizon-hop-pellet-1-oz/dp/3117", name:"Horizon Hop Pellet", description:"Typical alpha: 11-13% Clean bittering with a subtle flowery citrus aroma.  Typical Beer Styles - Ales and Lagers  Possible Substitutions: Magnum", alpha:"11-13%"},
-56: { url:"http://brooklyn-homebrew.com/bravo-hop-pellet-1-oz/dp/3167", name:"Bravo Hop Pellet", description:"Typical Alpha: 14-17% High alpha bittering hop with pleasant fruity and floral aroma characteristics.  Possible Substitutions: Columbus, Magnum, Nugget", alpha:"14-17%"},
-57: { url:"http://brooklyn-homebrew.com/german-hallertau-hop-pellet-1-oz/dp/2592", name:"German Hallertau Hop Pellet", description:"Typical alpha: 3.0-5.0% Classic noble hop with a floral, spicy and herbal aroma.  Perfect for many German ales and lagers.  Possible Substitutions: Liberty, Mt. Hood", alpha:"3.0-5.0%"},
-58: { url:"http://brooklyn-homebrew.com/1-oz-aged-debittered-kent-golding-hop-pellets/dp/4399", name:"Aged/Debittered Kent Golding Hop Pellets", description:"Typical alpha: NA Aged hops ideal for lambics. Does not add bitterness to a beer.", alpha:"0"},
-60: { url:"http://brooklyn-homebrew.com/lemon-drop-hop-pellet-1-oz/dp/4378", name:"Lemon Drop Hop Pellet", description:"Typical alpha: 5% - 7% Aroma hop with notes of lemon, grapefruit, citrus, blackberry, menthol, pine, licorice &amp; peppermint. Typical Brewing Styles:  Pale Ales, IPA's.  Possible Substitutions: Fuggle, Santiam", alpha:"5% - 7%"},
-61: { url:"http://brooklyn-homebrew.com/liberty-hop-pellet-1-oz/dp/2549", name:"Liberty Hop Pellet", description:"Typical alpha: 3.0-5.0% Considered one of the 'noble' US varieties.  Similar to Hallertau with mild sweet and spicy flavors. Typical Beer Styles - Lager, Pilsner, Bock, Wheat, Kölsch.  Possible Substitutions: Hallertau, Mt. Hood", alpha:"3.0-5.0%"},
-62: { url:"http://brooklyn-homebrew.com/nugget-hop-pellet-1-oz/dp/2593", name:"Nugget Hop Pellet", description:"Typical alpha: 9.0-11.0% Popular American bittering hop that is very versatile. Somewhat clean with a pleasant herbal flavor. Typical Beer Styles - IPA, Ale, Stout, Barley Wine.  Columbus, Galena, Magnum", alpha:"9.0-11.0%"},
-63: { url:"http://brooklyn-homebrew.com/new-zealand-pacific-gem-hop-pellet-1-oz/dp/3081", name:"New Zealand Pacific Gem Hop Pellet", description:"Typical Alpha: 13-15% High alpha hop with a fruity aroma of melon with bright floral notes.  Possible Substitutions: Galena", alpha:"13-15%"},
-64: { url:"http://brooklyn-homebrew.com/nz-waimea-hop-pellet-1-oz/dp/4386", name:"NZ Waimea Hop Pellet", description:"Typical alpha: 16% - 19% Intense tangelo and citrus fruits with subtle pine notes. Typical Brewing Styles:  Pale Ales, IPA's.", alpha:"16% - 19%"},
-65: { url:"http://brooklyn-homebrew.com/uk-fuggle-hop-pellet-1-oz/dp/2553", name:"UK Fuggle Hop Pellet", description:"Typical alpha acid: 3-5% Aroma hop with a mild, soft, pleasant, spicy, woody, mushroomy and earthy  aroma. Typical Beer Styles - All English-style Ales, ESB, Bitter, Lager, &amp; Lambic.  Possible Substitutions: Fuggle, Willamette, Styrian Golding", alpha:"3-5%"},
-66: { url:"http://brooklyn-homebrew.com/us-fuggle-hop-pellet-1-oz/dp/3410", name:"US Fuggle Hop Pellet", description:"Typical alpha: 3-5% Mild, woody, slight fruity pleasant aroma. Typical brewing use - Any English-style beer or American Ales, Lambic  Possible Substitutions: Willamette, Styrian Golding", alpha:"3-5%"},
-67: { url:"http://brooklyn-homebrew.com/new-zealand-pacifica-hop-pellet-1-oz/dp/4156", name:"New Zealand Pacifica Hop Pellet", description:"Typical Alpha: 4.8-5.2% Pacifica offers the classic citrus and floral aroma of its Hallertau parent, with hints of orange marmalade. The desirable oil profile promises good flavor integration with a variety of beer styles. Used as a bittering hop, Pacifica produces a soft yet solid finish, even in highly bittered beers. Great in German Lagers and American Pale Ales.", alpha:"4.8-5.2%"},
-68: { url:"http://brooklyn-homebrew.com/pine-fruit-%28experimental%29-hop-pellet-1-oz/dp/4379", name:"Pine Fruit (Experimental) Hop Pellet", description:"Typical alpha: 18% - 19% Strong herbal notes with currant and dark fruits. Typical Brewing Styles:  Pale Ales, IPA's.  Possible Substitutions: Fuggle, Santiam", alpha:"18% - 19%"},
-69: { url:"http://brooklyn-homebrew.com/palisade-hop-pellet-1-oz/dp/3116", name:"Palisade Hop Pellet", description:"Typical alpha: 5.5-9.5% Earthy, floral, fruity, and berry flavors and aromas. Typical Beer Styles - American and English ales.  Possible Substitutions: Willamette", alpha:"5.5-9.5%"},
-70: { url:"http://brooklyn-homebrew.com/us-perle-hop-pellet-1-oz/dp/2710", name:"US Perle Hop Pellet", description:"Typical alpha: 7-9.5% Spicy, herbal and floral with smooth bittering qualities.  Possible Substitutions: Northern Brewer", alpha:"7-9.5%"},
-71: { url:"http://brooklyn-homebrew.com/new-zealand-rakau-hop-pellet-1-oz/dp/4159", name:"New Zealand Rakau Hop Pellet", description:"Typical Alpha: 10-13% Rakau is truly a dual-purpose hop. Its high alpha acid content delivers a soft bitterness, while it also offers tropical aromas of passionfruit and peach. Rakau is versatile and performs well in a wide range of styles, but it's especially recommended for use in hop-forward beers like American Pale Ales and IPAs.", alpha:"10-13%"},
-72: { url:"http://brooklyn-homebrew.com/sorachi-ace-hop-pellet-1-oz/dp/2552", name:"Sorachi Ace Hop Pellet", description:"Typical alpha acid: 10-16% High alpha hop with interesting lemon, lemongrass, and dill flavors. Typical Beer Styles - IPA, Pale Ale, Belgian Wit, Belgian Saison.", alpha:"10-16%"},
-73: { url:"http://brooklyn-homebrew.com/saphir-hop-pellet-1-oz/dp/2597", name:"Saphir Hop Pellet", description:"Alpha Acid  2-4.5% Distinct aroma with a flower and fruit tones. Typical Beer Styles - German Lagers, Pilsners, Belgian Style Ales, Wheat Beers.  Possible Substitutions: Possible Substitutions:", alpha:"0"},
-74: { url:"http://brooklyn-homebrew.com/czech-saaz-hop-pellet-1-oz/dp/2605", name:"Czech Saaz Hop Pellet", description:"Typical alpha: 3.0-4.5% Classic spicy, herbal, and floral noble hop profile. Essential for Bohemian Pilsners.  Possible Substitutions: Sterling", alpha:"3.0-4.5%"},
-75: { url:"http://brooklyn-homebrew.com/uk-target-hop-pellet-1-oz/dp/3009", name:"UK Target Hop Pellet", description:"Typical alpha: 9.5-12.5% Grassy and herbal, pleasant English hop aroma, quite intense. Typical Beer Styles - All Ales and Lagers.  Possible Substitutions: Fuggle, Willamette", alpha:"9.5-12.5%"},
-76: { url:"http://brooklyn-homebrew.com/german-tettnanger-hop-pellet-1-oz/dp/2594", name:"German Tettnanger Hop Pellet", description:"Typical alpha: 3.5%-6% Classic noble hop variety with spicy mild floral aroma.  Typical Beer Styles - Lager, Ale, Pilsner, Weizen, Lambic, Alt, Kölsch, Munich Helles, Belgian Style Ales.  Possible Substitutions: Czech Saaz", alpha:"3.5%-6%"},
-77: { url:"http://brooklyn-homebrew.com/uk-boadicea-hop-pellet-1-oz/dp/4152", name:"UK Boadicea Hop Pellet", description:"Typical Alpha: 6 - 7% Spicy &amp; Floral dual purpose hop hailing from the UK.  Possible Substitutions: Green Bullet, Cascade, Columbus or Chinook", alpha:"6 - 7%"},
-78: { url:"http://brooklyn-homebrew.com/us-golding-hop-pellet-1-oz/dp/2547", name:"US Golding Hop Pellet", description:"Typical Alpha: 4-6% American grown version of the classic East kent Golding hop.  Mild and floral. Typical Beer Styles - English styles, Barley Wine, Pale Ale, Belgian style Ales.  Possible Substitutions: Fuggle, Willamette, UK Kent Golding, Styrian Golding", alpha:"4-6%"},
-79: { url:"http://brooklyn-homebrew.com/us-hallertau-hop-pellet-1-oz/dp/3406", name:"US Hallertau Hop Pellet", description:"Typical alpha: 3.0-5.0% Aroma hop with a mild, clean  spicy floral scent. Typical brewing styles - Lager, Pilsner, Bock, Kölsch, Munich Helles, Belgian-Style Ales  Possible Substitutions: Liberty, Mt. Hood, German Magnum", alpha:"3.0-5.0%"},
-80: { url:"http://brooklyn-homebrew.com/us-magnum-hop-pellet-1-oz/dp/3405", name:"US Magnum Hop Pellet", description:"Typical alpha: 13-15% US grown. Very clean bittering hop with almost no aroma.   Typical Beer Styles - Ales and Lagers.  Possible Substitutions: Columbus, Horizon, Nugget, German Magnum", alpha:"13-15%"},
-82: { url:"http://brooklyn-homebrew.com/new-zealand-wakatu-hop-pellet-1-oz/dp/4158", name:"New Zealand Wakatu Hop Pellet", description:"Typical Alpha: 5-8% Wakatu is a descendant of Hallertau Mittelfrüh with a unique, southern hemisphere flair of floral and lime notes. This dual-purpose hops lends itself to so use in many styles of beer whether lager or ale. Wakatu was formerly called 'Hallertau Aroma'.", alpha:"5-8%"},
-83: { url:"http://brooklyn-homebrew.com/willamette-hop-pellet-1-oz/dp/2548", name:"Willamette Hop Pellet", description:"Typical alpha: 4-6% Character is similar to Fuggle, but is more fruity and has some floral notes. Typical Beer Styles - English and American ales.   Possible Substitutions: Fuggle, Glacier, Tettnanger, Styrian Golding", alpha:"4-6%"}
-}
+hops = [
+  { id: 0, url:"http://brooklyn-homebrew.com/equinox-hop-pellet-1-oz/dp/4352", name:"Equinox Hop Pellet", description:"Typical alpha: 14.4-15.6% A pronounced aroma profile with citrus, tropical fruit, floral and herbal characteristics. Specific descriptors include lemon, lime, papaya, apple, and green pepper. The diversified and pronounced aroma characteristics combined with extremely high oil content and a tight cone structure make this hop variety unique. Typical Beer Styles - IPA, Imperial IPA, Pale Ale, ESB  Possible Substitutions: Cascade, Centennial, Simcoe", alpha:"14.4-15.6%"},
+  { id: 1, url:"http://brooklyn-homebrew.com/mosaic-hop-pellet-1-oz/dp/3562", name:"Mosaic Hop Pellet", description:"Typical alpha acid: 11.5-13.5% Brewers have noted that Mosaic is a 'complexity of flavors' providing a 'powerful combination punch of pine and fruit.' Specific descriptors include earthy, grassy, herbal, citrus, cedar, floral, pine, tropical, onion/garlic, spice and stone fruit.    Typical Beer Styles - Pale Ale, IPA, Imperial IPA, pretty much any hop forward style of beer.", alpha:"11.5-13.5%"},
+  { id: 2, url:"http://brooklyn-homebrew.com/falconers-flight-hop-pellet-1-oz/dp/3286", name:"Falconer's Flight Hop Pellet", description:"Typical Alpha: 10.5% Falconer’s Flight™ is an exclusive proprietary hop blend created by Hop Union to honor and support the legacy of Northwest brewing legend, Glen Hay Falconer, who passed in 2002. The blend is comprised of many of the Northwest’s most unique hop varieties, including Citra™, Simcoe®, and Sorachi Ace along with experimental hops and numerous other NW varieties. Perfect for any Northwest-style IPA. Each hop has been hand selected for its superior aromatic qualities, imparting distinct tropical, citrus, floral, lemon and grapefruit tones.", alpha:"10.5%"},
+  { id: 3, url:"http://brooklyn-homebrew.com/ahtanum-hop-pellet-1-oz/dp/3218", name:"Ahtanum Hop Pellet", description:"Typical alpha: 7.0-9.0% Relatively new variety with citrus zest, grapefruit, and some earthy floral notes. Try it in recipes calling for cascade hops.  Possible Substitutions: Amarillo, Cascade", alpha:"7.0-9.0%"},
+  { id: 4, url:"http://brooklyn-homebrew.com/summit-hop-pellet-1-oz/dp/3220", name:"Summit Hop Pellet", description:"Typical alpha: 17.0-19.0% Citrus and tangerine aroma with a distinct earthy, onion/garlic flavor. Can be used as bittering or finishing additions. Typical Beer Styles - IPA, Imperial IPA, Pale Ale.  Possible Substitutions: Columbus, Simcoe, Warrior", alpha:"17.0-19.0%"},
+  { id: 5, url:"http://brooklyn-homebrew.com/us-brewers-gold-pellets-1-oz/dp/3383", name:"US Brewer's Gold Pellets", description:"Typical alpha: 8.5-9.5% Blackcurrant and spicy flavor with a touch of mint.  Mainly a bittering hop but could be interesting as a flavoring addition in Belgian ales. Typical Beer Styles - Ale, Pilsner, Lambic, Saison, Biere de Garde.", alpha:"8.5-9.5%"},
+  { id: 6, url:"http://brooklyn-homebrew.com/australian-helga-hop-pellet-1-oz/dp/3522", name:"Australian Helga Hop Pellet", description:"Typical Alpha: 4.9-6.3% Produced exclusively in Tasmania, Helga (also known as Southern Hallertau) is a great aroma hop.  Very similar to Hallertau Mittelfrueh.  Possible Substitutions: Hallertau", alpha:"4.9-6.3%"},
+  { id: 7, url:"http://brooklyn-homebrew.com/australian-pride-of-ringwood-hop-pellet-1-oz/dp/3519", name:"Australian Pride of Ringwood Hop Pellet", description:"Typical Alpha: 9-10.5% Imparts a unique flavor to beer. Very well regarded in Australia and has been commercially grown since the 60's. Extensively used for early and late additions.", alpha:"9-10.5%"},
+  { id: 8, url:"http://brooklyn-homebrew.com/citra-hop-pellet-1-oz/dp/2934", name:"Citra Hop Pellet", description:"Typical alpha: 10-14% A fruity aroma hop with hints of citrus,  peach, apricot, passion fruit, grapefruit, lime, melon, gooseberry, lychee fruit, pineapple, mango, &amp; papaya, and  other tropical fruits. Typically used in American Ales and IPAs.  Possible Substitutions: Simcoe", alpha:"10-14%"},
+  { id: 9, url:"http://brooklyn-homebrew.com/australian-stella-hop-pellet-1-oz/dp/3520", name:"Australian Stella Hop Pellet", description:"Typical Alpha: 14-16% A new hop variety with hoppy and floral notes. Hints of anise. Reminiscent of noble European hop varieties.", alpha:"14-16%"},
+  { id: 10, url:"http://brooklyn-homebrew.com/australian-super-pride-hop-pellet-1-oz/dp/3521", name:"Australian Super Pride Hop Pellet", description:"Typical Alpha: 13.5-15% Bred from Pride of Ringwood, Super Pride features similar mild aromas. Excellent bittering qualities.", alpha:"13.5-15%"},
+  { id: 11, url:"http://brooklyn-homebrew.com/australian-topaz-hop-pellet-1-oz/dp/3518", name:"Australian Topaz Hop Pellet", description:"Typical Alpha: 15.5-18% High alpha hop with a similar character to English varities when used as a flavoring addition. When used for later additions, fruit flavors such as lychee can be detected.", alpha:"15.5-18%"},
+  { id: 12, url:"http://brooklyn-homebrew.com/glacier-hop-pellet-1-oz/dp/3326", name:"Glacier Hop Pellet", description:"Typical Alpha: 5-9% Dual purpose hop with a pleasant aroma of citrus mixed with sweet fruity pear or apricot. Typical brewing styles: Pale Ales, ESB, English-Style Pale Ale, Porter, &amp; Stout  Possible Substitutions: Fuggle, Willamette, Styrian Golding", alpha:"5-9%"},
+  { id: 13, url:"http://brooklyn-homebrew.com/new-zealand-green-bullet-hop-pellet-1-oz/dp/3541", name:"New Zealand Green Bullet Hop Pellet", description:"Typical Alpha: 12-15% This bittering hop is known to have a unique characteristic. With some similarities to Styrian Golding, you should pick up a slight raisin and fruit quality. Use for many styles of beer including American IPA's and Lager's.  Possible Substitutions: Fuggle, Willamette", alpha:"12-15%"},
+  { id: 14, url:"http://brooklyn-homebrew.com/new-zealand-hallertau-hop-pellet-1-oz/dp/3407", name:"New Zealand Hallertau Hop Pellet", description:"Typical alpha: 6.5 - 8.5 % A dual purpose hop descended from Hallertau Mittlefrüh.  Aroma is floral with notes of lime zest. Typical Beer Styles - Lager, Pilsner, Bitter, Ales, Bock.", alpha:"6.5 - 8.5 %"},
+  { id: 15, url:"http://brooklyn-homebrew.com/new-zealand-motueka-hop-pellet-1-oz/dp/3324", name:"New Zealand Motueka Hop Pellet", description:"Typical alpha: 6.5-7.5% Descended from Saaz with some noble characteristics and a bright citrus overtone.  Possible Substitutions: Saaz, Sterling", alpha:"6.5-7.5%"},
+  { id: 16, url:"http://brooklyn-homebrew.com/new-zealand-nelson-sauvin-hop-pellet-1-oz/dp/3289", name:"New Zealand Nelson Sauvin Hop Pellet", description:"Typical Alpha: 12-13% This dual purpose hop is often described as 'breathtaking'. Nelson Sauvin has the ability to impart a distinct fruitness very similar to white wine. It is gaining quite the reputation in America. Can be used for many styles, from pale ales to lagers.", alpha:"12-13%"},
+  { id: 17, url:"http://brooklyn-homebrew.com/uk-kent-golding-hop-pellets-1-oz/dp/3234", name:"UK Kent Golding Hop Pellets", description:"Typical alpha: 4.0-5.5% The quintessential English aroma variety.  Sweet and spicy with a delicate floral bouquet. Typical Beer Styles - English and Belgian Style Ales, ESB, Bitter, Porter.  Possible Substitutions: US Golding", alpha:"4.0-5.5%"},
+  { id: 18, url:"http://brooklyn-homebrew.com/german-opal-hop-pellet-1-oz/dp/3323", name:"German Opal Hop Pellet", description:"Typical alpha: 5-8% Floral and fruity hop character with medium bittering potential. Typical Beer Styles - Summer Ales, Light Ale, Belgian Style Ales, Wheat.  Possible Substitutions: Tettnanger, Kent Golding, Styrian Golding", alpha:"5-8%"},
+  { id: 19, url:"http://brooklyn-homebrew.com/german-smaragd-hop-pellet-1-oz/dp/3325", name:"German Smaragd Hop Pellet", description:"Typical alpha: 4-6% Relatively new hop variety with floral and fruity notes.  Subdued citrus with hints of lemon and orange marmalade.  German response to popular American hops like Simcoe and Amarillo.", alpha:"4-6%"},
+  { id: 20, url:"http://brooklyn-homebrew.com/mt-rainier-hop-pellet-1-oz/dp/3321", name:"Mt. Rainier Hop Pellet", description:"Typical alpha: 6-8% Similar in character to hallertau with hints of flowers, spice, citrus, and licorice.  Possible Substitutions: Brewer's Gold, Hallertau, Fuggle", alpha:"6-8%"},
+  { id: 21, url:"http://brooklyn-homebrew.com/us-northern-brewer-hop-pellet-1-oz/dp/3404", name:"US Northern Brewer Hop Pellet", description:"Typical alpha 8-10% Woody and minty bittering hop, used exclusively in classic California Commons. Typical Beer Styles - English Ales, American Ales, Kölsch, Porter, Munich Helles, California Common.  Possible Substitutions:  Chinook, Galena", alpha:"0"},
+  { id: 22, url:"http://brooklyn-homebrew.com/new-zealand-pacific-jade-hop-pellet-1-oz/dp/3315", name:"New Zealand Pacific Jade Hop Pellet", description:"Typical alpha: 12-14% Bright citrus with hints of black pepper.", alpha:"12-14%"},
+  { id: 23, url:"http://brooklyn-homebrew.com/german-perle-hop-pellet-1-oz/dp/3403", name:"German Perle Hop Pellet", description:"Typical alpha: 6.5-9.0% Predominately floral with smooth bitterness.  Possible Substitutions: Northern Brewer", alpha:"6.5-9.0%"},
+  { id: 24, url:"http://brooklyn-homebrew.com/us-saaz-hop-pellet-1-oz/dp/3402", name:"US Saaz Hop Pellet", description:"Typical alpha: 3.0-4.5% US version of the classic Czech noble hop.  Similar in character with spicy and herbal flavors. Typical Beer Styles - Pilsner, Lager, Wheat, Belgian Style Ales.  Possible Substitutions: Sterling", alpha:"3.0-4.5%"},
+  { id: 25, url:"http://brooklyn-homebrew.com/simcoe-hop-pellet-1-oz/dp/2890", name:"Simcoe Hop Pellet", description:"Typical alpha acid: 12-14% Pine and tropical fruit flavor/aroma. Great as a flavor and dry hop but because of a low cohumulone content, Simcoe makes for a clean, smooth bittering hop.  Typical Beer Styles - Pale Ale, IPA, Imperial IPA, pretty much any hop forward style of beer.  Possible Substitutions: Magnum, Summit", alpha:"12-14%"},
+  { id: 26, url:"http://brooklyn-homebrew.com/santiam-hop-pellet-1-oz/dp/3219", name:"Santiam Hop Pellet", description:"Typical alpha: 5.5-7.0% Noble hop profile with spicy and herbal notes. Typical Beer Styles - Lager, Pilsner, Belgian Tripel, Munich Helles, Kölsch, Bock.  Possible Substitutions: Tettnanger", alpha:"5.5-7.0%"},
+  { id: 27, url:"http://brooklyn-homebrew.com/us-tettnanger-hop-pellet-1-oz/dp/3411", name:"US Tettnanger Hop Pellet", description:"Typical alpha: 3.5% - 5.3% Aroma hop with a mild and pleasant, slightly spicy aroma. Typical Brewing Styles:  Lager, Ales, Pilsner, Weizen, Lambic, Alt, Kölsch, &amp; Munich Helles.  Possible Substitutions: Fuggle, Santiam", alpha:"3.5% - 5.3%"},
+  { id: 28, url:"http://brooklyn-homebrew.com/warrior-hop-pellet-1-oz/dp/2891", name:"Warrior Hop Pellet", description:"Typical alpha: 14.0-16.0%.  Super-high alpha hop with low cohumulone.  Intense bittering hop with a subdued spicy citrus flavor. Use in most American hoppy ales.  Possible Substitutions: Columbus, Magnum, Nugget", alpha:"14.0-16.0%"},
+  { id: 29, url:"http://brooklyn-homebrew.com/zythos-hop-pellet-1-oz/dp/3357", name:"Zythos Hop Pellet", description:"Typical alpha: 10.0-11.9% Much like Falconer's Flight™, Zythos is a proprietary hop blend of several unique Northwest hop varieties. Zythos is blended for optimum aroma characteristics great bittering properties  to compliment your IPAs and Pale Ale brews. Expect tangerine, citrus and pine  from this hop blend.", alpha:"10.0-11.9%"},
+  { id: 30, url:"http://brooklyn-homebrew.com/german-magnum-hop-pellet-1-oz/dp/3053", name:"German Magnum Hop Pellet", description:"Typical alpha: 13-15% Very clean bittering hop with almost no aroma.    Possible Substitutions: Columbus, Nugget", alpha:"13-15%"},
+  { id: 31, url:"http://brooklyn-homebrew.com/millennium-hop-pellet-1-oz/dp/4357", name:"Millennium Hop Pellet", description:"Typical alpha: 14.5-16.5% Mild and resinous with floral and herbal tones. This descendent of Nugget closely resembles Nugget and Columbus, and is typically used as a bittering hop. Typical Beer Styles - Stout, IPA  Possible Substitutions: Columbus, Nugget, Summit", alpha:"14.5-16.5%"},
+  { id: 32, url:"http://brooklyn-homebrew.com/bramling-cross-pellet-1-oz/dp/3086", name:"Bramling Cross Pellet", description:"Typical alpha: 5.0-7.0% Interesting fruity blackcurrant flavor with a touch of lemon.", alpha:"5.0-7.0%"},
+  { id: 33, url:"http://brooklyn-homebrew.com/uk-challenger-hop-pellet-1-oz/dp/2908", name:"UK Challenger Hop Pellet", description:"Typical alpha acid: 5-9% Dual purpose hop with a delicate aroma and a spicy fresh pine scent. Typical brewing use - English style Ale, Porter, Stout, ESB, Bitter, Barley Wine, Brown Ales  Possible Substitutions: Northern Brewer, German Perle", alpha:"5-9%"},
+  { id: 34, url:"http://brooklyn-homebrew.com/german-northern-brewer-hop-pellet-1-oz/dp/2813", name:"German Northern Brewer Hop Pellet", description:"Typical alpha 8-10% Renowned for its versatile minty and herbal bittering qualities.  Possible Substitutions: Chinook, Columbus, Galena, Magnum, Northern Brewer, Brewer's Gold", alpha:"0"},
+  { id: 35, url:"http://brooklyn-homebrew.com/styrian-golding-%28celeia%29-hop-pellet-1-oz/dp/2814", name:"Styrian Golding (Celeia) Hop Pellet", description:"Typical alpha: 3.0-6.0% Resembles Fuggle in character, with a pleasant spicy aroma. Typical Beer Styles - English and Belgian Style Ales, Lagers, Pilsners.   Possible Substitutions: Fuggle", alpha:"3.0-6.0%"},
+  { id: 36, url:"http://brooklyn-homebrew.com/mt-hood-hop-pellet-1-oz/dp/2812", name:"Mt. Hood Hop Pellet", description:"Typical alpha: 4.0-7.0% Considered one of the 'noble' US varieties.  Descended from hallertau with floral and sweet spicy aromas. Typical Beer Styles - Lager, Pilsner, Bock, Wheat, Alt, Munich Helles.  Possible Substitutions: French Strisselspalt, Hallertau", alpha:"4.0-7.0%"},
+  { id: 37, url:"http://brooklyn-homebrew.com/australian-galaxy-hop-pellet-1-oz/dp/3198", name:"Australian Galaxy Hop Pellet", description:"Typical Alpha: 12-14% Similar to Citra with notes of passionfruit and citrus. Great hop for finishing and bittering. Highly recommended for a single hop beer.  Possible Substitutions: Citra", alpha:"12-14%"},
+  { id: 38, url:"http://brooklyn-homebrew.com/amarillo-hop-pellet-1-oz/dp/2777", name:"Amarillo Hop Pellet", description:"Typical alpha: 6.0-9.0% A unique hop with tropical fruit and citrus aromas and flavors.  Typical Beer Styles - IPA, Imperial IPA, Pale Ale.  Possible Substitutions: Cascade, Centennial, Simcoe", alpha:"6.0-9.0%"},
+  { id: 39, url:"http://brooklyn-homebrew.com/azacca-hop-pellet-1-oz/dp/4381", name:"Azacca Hop Pellet", description:"Typical alpha: 14% - 15% Fresh citrus with piney notes and a full tropical fruit flavor. Typical Brewing Styles:  Pale Ales, IPA's.", alpha:"14% - 15%"},
+  { id: 40, url:"http://brooklyn-homebrew.com/buzz-bullets-hop-pellet-1-oz/dp/4382", name:"Buzz Bullets Hop Pellet", description:"Typical alpha: 12% - 18% Citrus and floral notes Typical Brewing Styles:  Pale Ales, IPA's.", alpha:"12% - 18%"},
+  { id: 41, url:"http://brooklyn-homebrew.com/belma%E2%84%A2-hop-pellet-1-oz/dp/3549", name:"Belma™ Hop Pellet", description:"Typical alpha: 12-13% Brand NEW hop variety!! Very clean hop with notes of tropical fruit, orange, strawberry and melon. Dual purpose. Typical Beer Styles - IPA, Imperial IPA, Pale Ale.", alpha:"12-13%"},
+  { id: 42, url:"http://brooklyn-homebrew.com/caliente-hop-pellet-1-oz/dp/4380", name:"Caliente Hop Pellet", description:"Typical alpha: 15% - 18% Fresh peach and plum notes with hints of cherries and lemon. Typical Brewing Styles:  Pale Ales, IPA's.", alpha:"15% - 18%"},
+  { id: 43, url:"http://brooklyn-homebrew.com/chinook-hop-pellet-1-oz/dp/2636", name:"Chinook Hop Pellet", description:"Typical alpha: 11.0-13.0% Mainly a bittering hop but can be very interesting in small quantities as an aroma or dry-hop addition. Medium intensity spicy, piney, and distinctive grapefruit aroma. Typical brewing use - US Style Pale Ale, IPA, Stout, Barley Wine, Lager  Possible Substitutions: Columbus, Northern Brewer, Nugget", alpha:"11.0-13.0%"},
+  { id: 44, url:"http://brooklyn-homebrew.com/columbus-hop-pellet-1-oz/dp/2778", name:"Columbus Hop Pellet", description:"Typical alpha: 14.0-16.0% Mainly a bittering hop. Intense &amp; pungent, citrusy punchy and bold. Dank. Typical brewing Styles - US IPA, US Pale Ale, Stout, Barley Wine, Lager (bittering)  Possible Substitutions: Chinook, Galena, Nugget", alpha:"14.0-16.0%"},
+  { id: 45, url:"http://brooklyn-homebrew.com/calypso-hop-pellet-1-oz/dp/3115", name:"Calypso Hop Pellet", description:"Alpha Acid 12.0 - 14.3% Dual purpose hop with a complex, fruity &amp; citrusy aroma.  Hints of pear and apple, lemon lime, and earthy tea notes. Typical Brewing Styles: Ales, Stouts and Barley Wines.", alpha:"0"},
+  { id: 46, url:"http://brooklyn-homebrew.com/cluster-hop-pellet-1-oz/dp/2590", name:"Cluster Hop Pellet", description:"Typical alpha: 5 - 8% Dual purpose hop used mostly for bittering with a floral and spicy aroma. Typical brewing use - Ale (aroma), Lager (bittering), Stout  Possible Substitutions: Galena", alpha:"5 - 8%"},
+  { id: 47, url:"http://brooklyn-homebrew.com/centennial-hop-pellet-1-oz/dp/2589", name:"Centennial Hop Pellet", description:"Typical alpha: 9.0-12.0% Classic American bittering and aroma hop with strong citrus and grapefruit flavors as well as piney resinous notes.  Possible Substitutions: Cascade, Chinook, Columbus, Centennial Type", alpha:"9.0-12.0%"},
+  { id: 48, url:"http://brooklyn-homebrew.com/cascade-hop-pellet-1-oz/dp/2550", name:"Cascade Hop Pellet", description:"Alpha Acid  5.5 - 7.2% The quintessential American hop variety with a smooth flowery and citrusy grapefruit aroma. Typical brewing styles - American-Style Ales, Pale Ale, IPA, Porter, &amp; Barley wines.  Possible Substitutions: Ahtanum, Amarillo, Centennial", alpha:"0"},
+  { id: 49, url:"http://brooklyn-homebrew.com/crystal-hop-pellet-1-oz/dp/2665", name:"Crystal Hop Pellet", description:"Typical alpha: 2.0-4.5% Aroma hop that is mild and pleasant, a delicate blend of spices and flowers. Typical brewing styles: Pilsner, Lager, Kölsch, ESB, Alt, Belgian-Style Ales   Possible Substitutions: Hallertau, Liberty, Mt. Hood, French Strisselspalt", alpha:"2.0-4.5%"},
+  { id: 50, url:"http://brooklyn-homebrew.com/french-strisselspalt-hop-pellet-1-oz/dp/2595", name:"French Strisselspalt Hop Pellet", description:"Typical alpha: 2.0-3.5% Classic mild noble aroma with a slight blackcurrant flavor.   Possible Substitutions: Crystal, Liberty, Mt. Hood", alpha:"2.0-3.5%"},
+  { id: 51, url:"http://brooklyn-homebrew.com/german-hallertau-blanc-hop-pellet-1-oz/dp/3979", name:"German Hallertau Blanc Hop Pellet", description:"Typical alpha: 9-12% Newly released by Hüll. Great for aroma and flavoring. A very exquisite and complex profile. Said to be very white wine like. Expect notes of cassis, elderflower, grapes, grapefruit, lemongrass, passionfruit, pineapple &amp; gooseberry.", alpha:"9-12%"},
+  { id: 52, url:"http://brooklyn-homebrew.com/german-mandarina-bavaria-hop-pellet-1-oz/dp/3977", name:"German Mandarina Bavaria Hop Pellet", description:"Typical alpha: 8.5-10.5% Newly released by Hüll. Great for aroma and flavoring. Expect citrusy flavors like tangerine.  Possible Substitutions: Columbus, Nugget, Cascade", alpha:"8.5-10.5%"},
+  { id: 53, url:"http://brooklyn-homebrew.com/galena-hop-pellet-1-oz/dp/2591", name:"Galena Hop Pellet", description:"Typical Alpha: 10-14% Dual purpose hop with a citrusy aroma. Typical brewing styles - English-style and American Ales  Possible Substitutions: Brewer's Gold, Columbus, Nugget", alpha:"10-14%"},
+  { id: 55, url:"http://brooklyn-homebrew.com/horizon-hop-pellet-1-oz/dp/3117", name:"Horizon Hop Pellet", description:"Typical alpha: 11-13% Clean bittering with a subtle flowery citrus aroma.  Typical Beer Styles - Ales and Lagers  Possible Substitutions: Magnum", alpha:"11-13%"},
+  { id: 56, url:"http://brooklyn-homebrew.com/bravo-hop-pellet-1-oz/dp/3167", name:"Bravo Hop Pellet", description:"Typical Alpha: 14-17% High alpha bittering hop with pleasant fruity and floral aroma characteristics.  Possible Substitutions: Columbus, Magnum, Nugget", alpha:"14-17%"},
+  { id: 57, url:"http://brooklyn-homebrew.com/german-hallertau-hop-pellet-1-oz/dp/2592", name:"German Hallertau Hop Pellet", description:"Typical alpha: 3.0-5.0% Classic noble hop with a floral, spicy and herbal aroma.  Perfect for many German ales and lagers.  Possible Substitutions: Liberty, Mt. Hood", alpha:"3.0-5.0%"},
+  { id: 58, url:"http://brooklyn-homebrew.com/1-oz-aged-debittered-kent-golding-hop-pellets/dp/4399", name:"Aged/Debittered Kent Golding Hop Pellets", description:"Typical alpha: NA Aged hops ideal for lambics. Does not add bitterness to a beer.", alpha:"0"},
+  { id: 60, url:"http://brooklyn-homebrew.com/lemon-drop-hop-pellet-1-oz/dp/4378", name:"Lemon Drop Hop Pellet", description:"Typical alpha: 5% - 7% Aroma hop with notes of lemon, grapefruit, citrus, blackberry, menthol, pine, licorice &amp; peppermint. Typical Brewing Styles:  Pale Ales, IPA's.  Possible Substitutions: Fuggle, Santiam", alpha:"5% - 7%"},
+  { id: 61, url:"http://brooklyn-homebrew.com/liberty-hop-pellet-1-oz/dp/2549", name:"Liberty Hop Pellet", description:"Typical alpha: 3.0-5.0% Considered one of the 'noble' US varieties.  Similar to Hallertau with mild sweet and spicy flavors. Typical Beer Styles - Lager, Pilsner, Bock, Wheat, Kölsch.  Possible Substitutions: Hallertau, Mt. Hood", alpha:"3.0-5.0%"},
+  { id: 62, url:"http://brooklyn-homebrew.com/nugget-hop-pellet-1-oz/dp/2593", name:"Nugget Hop Pellet", description:"Typical alpha: 9.0-11.0% Popular American bittering hop that is very versatile. Somewhat clean with a pleasant herbal flavor. Typical Beer Styles - IPA, Ale, Stout, Barley Wine.  Columbus, Galena, Magnum", alpha:"9.0-11.0%"},
+  { id: 63, url:"http://brooklyn-homebrew.com/new-zealand-pacific-gem-hop-pellet-1-oz/dp/3081", name:"New Zealand Pacific Gem Hop Pellet", description:"Typical Alpha: 13-15% High alpha hop with a fruity aroma of melon with bright floral notes.  Possible Substitutions: Galena", alpha:"13-15%"},
+  { id: 64, url:"http://brooklyn-homebrew.com/nz-waimea-hop-pellet-1-oz/dp/4386", name:"NZ Waimea Hop Pellet", description:"Typical alpha: 16% - 19% Intense tangelo and citrus fruits with subtle pine notes. Typical Brewing Styles:  Pale Ales, IPA's.", alpha:"16% - 19%"},
+  { id: 65, url:"http://brooklyn-homebrew.com/uk-fuggle-hop-pellet-1-oz/dp/2553", name:"UK Fuggle Hop Pellet", description:"Typical alpha acid: 3-5% Aroma hop with a mild, soft, pleasant, spicy, woody, mushroomy and earthy  aroma. Typical Beer Styles - All English-style Ales, ESB, Bitter, Lager, &amp; Lambic.  Possible Substitutions: Fuggle, Willamette, Styrian Golding", alpha:"3-5%"},
+  { id: 66, url:"http://brooklyn-homebrew.com/us-fuggle-hop-pellet-1-oz/dp/3410", name:"US Fuggle Hop Pellet", description:"Typical alpha: 3-5% Mild, woody, slight fruity pleasant aroma. Typical brewing use - Any English-style beer or American Ales, Lambic  Possible Substitutions: Willamette, Styrian Golding", alpha:"3-5%"},
+  { id: 67, url:"http://brooklyn-homebrew.com/new-zealand-pacifica-hop-pellet-1-oz/dp/4156", name:"New Zealand Pacifica Hop Pellet", description:"Typical Alpha: 4.8-5.2% Pacifica offers the classic citrus and floral aroma of its Hallertau parent, with hints of orange marmalade. The desirable oil profile promises good flavor integration with a variety of beer styles. Used as a bittering hop, Pacifica produces a soft yet solid finish, even in highly bittered beers. Great in German Lagers and American Pale Ales.", alpha:"4.8-5.2%"},
+  { id: 68, url:"http://brooklyn-homebrew.com/pine-fruit-%28experimental%29-hop-pellet-1-oz/dp/4379", name:"Pine Fruit (Experimental) Hop Pellet", description:"Typical alpha: 18% - 19% Strong herbal notes with currant and dark fruits. Typical Brewing Styles:  Pale Ales, IPA's.  Possible Substitutions: Fuggle, Santiam", alpha:"18% - 19%"},
+  { id: 69, url:"http://brooklyn-homebrew.com/palisade-hop-pellet-1-oz/dp/3116", name:"Palisade Hop Pellet", description:"Typical alpha: 5.5-9.5% Earthy, floral, fruity, and berry flavors and aromas. Typical Beer Styles - American and English ales.  Possible Substitutions: Willamette", alpha:"5.5-9.5%"},
+  { id: 70, url:"http://brooklyn-homebrew.com/us-perle-hop-pellet-1-oz/dp/2710", name:"US Perle Hop Pellet", description:"Typical alpha: 7-9.5% Spicy, herbal and floral with smooth bittering qualities.  Possible Substitutions: Northern Brewer", alpha:"7-9.5%"},
+  { id: 71, url:"http://brooklyn-homebrew.com/new-zealand-rakau-hop-pellet-1-oz/dp/4159", name:"New Zealand Rakau Hop Pellet", description:"Typical Alpha: 10-13% Rakau is truly a dual-purpose hop. Its high alpha acid content delivers a soft bitterness, while it also offers tropical aromas of passionfruit and peach. Rakau is versatile and performs well in a wide range of styles, but it's especially recommended for use in hop-forward beers like American Pale Ales and IPAs.", alpha:"10-13%"},
+  { id: 72, url:"http://brooklyn-homebrew.com/sorachi-ace-hop-pellet-1-oz/dp/2552", name:"Sorachi Ace Hop Pellet", description:"Typical alpha acid: 10-16% High alpha hop with interesting lemon, lemongrass, and dill flavors. Typical Beer Styles - IPA, Pale Ale, Belgian Wit, Belgian Saison.", alpha:"10-16%"},
+  { id: 73, url:"http://brooklyn-homebrew.com/saphir-hop-pellet-1-oz/dp/2597", name:"Saphir Hop Pellet", description:"Alpha Acid  2-4.5% Distinct aroma with a flower and fruit tones. Typical Beer Styles - German Lagers, Pilsners, Belgian Style Ales, Wheat Beers.  Possible Substitutions: Possible Substitutions:", alpha:"0"},
+  { id: 74, url:"http://brooklyn-homebrew.com/czech-saaz-hop-pellet-1-oz/dp/2605", name:"Czech Saaz Hop Pellet", description:"Typical alpha: 3.0-4.5% Classic spicy, herbal, and floral noble hop profile. Essential for Bohemian Pilsners.  Possible Substitutions: Sterling", alpha:"3.0-4.5%"},
+  { id: 75, url:"http://brooklyn-homebrew.com/uk-target-hop-pellet-1-oz/dp/3009", name:"UK Target Hop Pellet", description:"Typical alpha: 9.5-12.5% Grassy and herbal, pleasant English hop aroma, quite intense. Typical Beer Styles - All Ales and Lagers.  Possible Substitutions: Fuggle, Willamette", alpha:"9.5-12.5%"},
+  { id: 76, url:"http://brooklyn-homebrew.com/german-tettnanger-hop-pellet-1-oz/dp/2594", name:"German Tettnanger Hop Pellet", description:"Typical alpha: 3.5%-6% Classic noble hop variety with spicy mild floral aroma.  Typical Beer Styles - Lager, Ale, Pilsner, Weizen, Lambic, Alt, Kölsch, Munich Helles, Belgian Style Ales.  Possible Substitutions: Czech Saaz", alpha:"3.5%-6%"},
+  { id: 77, url:"http://brooklyn-homebrew.com/uk-boadicea-hop-pellet-1-oz/dp/4152", name:"UK Boadicea Hop Pellet", description:"Typical Alpha: 6 - 7% Spicy &amp; Floral dual purpose hop hailing from the UK.  Possible Substitutions: Green Bullet, Cascade, Columbus or Chinook", alpha:"6 - 7%"},
+  { id: 78, url:"http://brooklyn-homebrew.com/us-golding-hop-pellet-1-oz/dp/2547", name:"US Golding Hop Pellet", description:"Typical Alpha: 4-6% American grown version of the classic East kent Golding hop.  Mild and floral. Typical Beer Styles - English styles, Barley Wine, Pale Ale, Belgian style Ales.  Possible Substitutions: Fuggle, Willamette, UK Kent Golding, Styrian Golding", alpha:"4-6%"},
+  { id: 79, url:"http://brooklyn-homebrew.com/us-hallertau-hop-pellet-1-oz/dp/3406", name:"US Hallertau Hop Pellet", description:"Typical alpha: 3.0-5.0% Aroma hop with a mild, clean  spicy floral scent. Typical brewing styles - Lager, Pilsner, Bock, Kölsch, Munich Helles, Belgian-Style Ales  Possible Substitutions: Liberty, Mt. Hood, German Magnum", alpha:"3.0-5.0%"},
+  { id: 80, url:"http://brooklyn-homebrew.com/us-magnum-hop-pellet-1-oz/dp/3405", name:"US Magnum Hop Pellet", description:"Typical alpha: 13-15% US grown. Very clean bittering hop with almost no aroma.   Typical Beer Styles - Ales and Lagers.  Possible Substitutions: Columbus, Horizon, Nugget, German Magnum", alpha:"13-15%"},
+  { id: 82, url:"http://brooklyn-homebrew.com/new-zealand-wakatu-hop-pellet-1-oz/dp/4158", name:"New Zealand Wakatu Hop Pellet", description:"Typical Alpha: 5-8% Wakatu is a descendant of Hallertau Mittelfrüh with a unique, southern hemisphere flair of floral and lime notes. This dual-purpose hops lends itself to so use in many styles of beer whether lager or ale. Wakatu was formerly called 'Hallertau Aroma'.", alpha:"5-8%"},
+  { id: 83, url:"http://brooklyn-homebrew.com/willamette-hop-pellet-1-oz/dp/2548", name:"Willamette Hop Pellet", description:"Typical alpha: 4-6% Character is similar to Fuggle, but is more fruity and has some floral notes. Typical Beer Styles - English and American ales.   Possible Substitutions: Fuggle, Glacier, Tettnanger, Styrian Golding", alpha:"4-6%"},
+]
 
 #endregion
 
-_getGrain = (id) ->
-  for grain in grains
-    if grain.id == id
-      return grain
-  return null
+_getLookup = (items) ->
+  return (id) ->
+    for item in items
+      if item.id == id
+        return item
+    return null
+
+_grainLookup = _getLookup(grains)
+_hopLookup = _getLookup(hops)
 
 _sum = (numbers) ->
   sum = 0.0
@@ -242,13 +246,10 @@ _sum = (numbers) ->
 _avg = (numbers) ->
   return _sum(numbers) / numbers.length
 
-_srm2rgb = (srm) ->
-  return srmRgbLookup[Math.floor(srm)]
-
 class BrewCalc
   constructor: ->
     @grains = []
-    @gallons = 5
+    @volume = new Volume(5, 'gallon')
     @efficiency = 0.7
     @attenuation = 0.75
     @grainChart = new Chart(document.getElementById('pie').getContext('2d')).Pie()
@@ -265,16 +266,23 @@ class BrewCalc
     this.updateColor()
 
   updateColor: ->
-    $('#combined-color').css('background-color', _srm2rgb(BrewCalc.WeightedSRM(@gallons, @grains)))
+    $('#combined-color').css('background-color', BrewCalc.SRMtoRGB(BrewCalc.WeightedSRM(@volume.gallons, @grains)))
 
   updateGravity: ->
-    if @grains.length > 0
-      totalPPG = Math.round(_sum(((grain.ppg * grain.lbs * @efficiency) / @gallons for grain in this.grains when grain.ppg)))
-      @og = 1 + (totalPPG / 1000)
-      $('#original-gravity').html(@og)
+    # display truncated zeros
+    _gravitize = (g) ->
+      return "#{g}000".substring(0, 5)
 
+    if @grains.length > 0
+      totalPPG = Math.round(_sum(((grain.ppg * grain.weight.lbs * @efficiency) / @volume.gallons for grain in this.grains when grain.ppg)))
+      @og = 1 + (totalPPG / 1000)
       @fg = 1 + Math.round(totalPPG * (1 - @attenuation)) / 1000
-      $('#final-gravity').html(@fg)
+    else
+      @og = '1.0'
+      @fg = '1.0'
+
+    $('#original-gravity').html(_gravitize(@og))
+    $('#final-gravity').html(_gravitize(@fg))
 
   updateEfficiency: (efficiency) ->
     @efficiency = efficiency / 100
@@ -295,16 +303,13 @@ class BrewCalc
 
     @grainChart.update()
 
-  updateVolume: (volume, unit) ->
-    if unit == 'qt'
-      volume *= 4
-    else if unit == 'L'
-      volume *= 3.78541
+  updateVolume: (val, unit) ->
+    newVolume = new Volume(val, unit)
 
     # only redraw if volume changed
-    if @gallons != volume
-      @gallons = volume
-      grain.updateSRM(@gallons) for grain in @grains
+    if newVolume.gallons != @volume.gallons
+      @volume = newVolume
+      grain.updateSRM(@volume.gallons) for grain in @grains
       if !@_chartDefaults
         this.updateGrainChart()
 
@@ -312,15 +317,8 @@ class BrewCalc
       this.updateGravity()
 
   addGrain: (id, val, unit) ->
-    if unit == 'oz'
-      val /= 16
-    else if val == 'g'
-      val /= 453.592
-    else if val == 'kg'
-      val /= 0.453592
-
-    grain = new Grain(id, val)
-    grain.updateSRM(@gallons)
+    grain = new Grain(id, new Weight(val, unit))
+    grain.updateSRM(@volume.gallons)
 
     if @_chartDefaults
       @_chartDefaults = false
@@ -350,20 +348,20 @@ class BrewCalc
         this._applyDefaultChart()
 
   pieOptions: ->
-    totalLbs = _sum((g.lbs for g in @grains))
+    totalLbs = _sum((g.weight.lbs for g in @grains))
     return ({
       id: g.id,
       label: g.name,
-      value: Math.floor((g.lbs / totalLbs) * 100),
+      value: Math.round((g.weight.lbs / totalLbs) * 100),
       color: g.getColor()
     } for g in @grains)
 
   # http://beersmith.com/blog/2008/04/29/beer-color-understanding-srm-lovibond-and-ebc/
   @WeightedSRM: (gallons, grains) ->
-    return Math.min(Math.floor(1.4922 * _sum((g.lbs * (g.lov / gallons) for g in grains)) ** 0.6859), 40)
+    return Math.min(Math.round(1.4922 * _sum((g.weight.lbs * (g.lov / gallons) for g in grains)) ** 0.6859), 40)
 
   @SRMtoRGB: (srm) ->
-    return srmRgbLookup[Math.floor(srm)]
+    return srmRgbLookup[Math.round(srm)]
 
   @IngredientIcon: (category) ->
     flagSrc = {
@@ -383,15 +381,158 @@ class BrewCalc
       return "<img class='grain-option-icon' src='/static/images/#{flagSrc}' />"
     return ''
 
-class Grain
-  constructor: (@id, @lbs) ->
-    grain = _getGrain(id)
-    @lbs = parseFloat(@lbs)
-    @name = grain.name
-    @category = grain.category
+#region Measurements
+
+class Measurement
+  constructor: (@value, @unit) ->
+
+class Weight extends Measurement
+  constructor: (value, unit) ->
+    super(value, unit)
+
+    @oz = 0.0
+    @lbs = 0.0
+    switch @unit
+      when 'oz'
+        @oz = @value
+      when 'lbs'
+        @lbs = @value
+        @oz = @value * 16
+      when 'g'
+        @oz = @value / 28.3495
+      when 'kg'
+        @oz = @value / 0.0283495
+
+    if @lbs == 0
+      @lbs = @oz * 16
+
+class Volume extends Measurement
+  constructor: (value, unit) ->
+    super(value, unit)
+
+    @gallons = 0.0
+    @liters = 0.0
+    switch @unit
+      when 'gallon'
+        @gallons = @value
+      when 'qt'
+        @gallons = @value / 4
+      when 'oz'
+        @gallons = @value / 128
+      when 'L'
+        @liters = @value
+        @gallons = @value / 3.78541
+      when 'mL'
+        @gallons = @value / 0.00378541
+
+    if @liters == 0
+      @liters = @gallons * 3.78541
+
+#endregion
+
+class SelectTemplate
+  constructor: (@html, _callback) ->
+    @$element = $(@html)
+    _callback(@$element)
+
+class Ingredient
+  constructor: (@id, @weight, @_item, @optionTemplate, @selectTemplate) ->
+    @name = @_item.name
+    @category = @_item.category
+    @description = @_item.description
+
+  select: ($selected) ->
+    $selected.append(@selectTemplate.$element)
+    @selectTemplate.$element.find('.grain-weight').focus()
+    
+
+class Hop extends Ingredient
+  constructor: (id, weight) ->
+    hop = _hopLookup(id)
+    #region selectize templates
+    optionHtml = "
+      <div class='grain-option ingredient-option' data-id='#{hop.id}'>
+        #{hop.name} #{BrewCalc.IngredientIcon(hop.category)}
+        <br/>
+        <span class='grain-option-description ingredient-option-description'>#{hop.description}</span>
+      </div>
+    "
+
+    optionTemplate = new SelectTemplate(optionHtml, ($hop) ->)
+
+    selectHtml = "
+      <div class='row hop-row ingredient-row' data-hop-id='#{hop.id}'>
+        <div class='eight columns'>
+          #{hop.name}
+          <a gumby-tooltip-bottom=\"#{hop.description}\">
+            <i class='icon-help-circled'></i>
+          </a>
+        </div>
+        <div class='four columns'>
+          <i class='icon-cancel'></i>
+        </div>
+      </div>
+    "
+
+    selectTemplate = new SelectTemplate(selectHtml, , ($hop) ->)
+    #endregion
+    super(id, weight, hop, optionTemplate, selectTemplate)
+
+
+class Grain extends Ingredient
+  constructor: (id, weight) ->
+    grain = _grainLookup(id)
+    #region selectize templates
+    optionHtml = "
+      <div class='grain-option ingredient-option' data-id='#{grain.id}'>
+        #{grain.name} #{BrewCalc.IngredientIcon(grain.category)}
+        <br/>
+        <span class='grain-option-description ingredient-option-description'>#{grain.description}</span>
+      </div>
+    "
+
+    optionTemplate = new SelectTemplate(optionHtml, ($grain) ->)
+
+    selectHtml = "
+      <div class='row grain-row ingredient-row' data-grain-id='#{grain.id}'>
+        <div class='eight columns'>
+          #{BrewCalc.IngredientIcon(grain.category)} #{grain.name}
+          <a gumby-tooltip-bottom=\"#{grain.description}\">
+            <i class='icon-help-circled'></i>
+          </a>
+        </div>
+        <div class='four columns'>
+          <input class='grain-weight' type='text' />
+          <select class='grain-weight-unit'>
+            <option value='lbs'>lbs</option>
+            <option value='oz'>oz</option>
+            <option value='g'>g</option>
+            <option value='kg'>kg</option>
+          </select>
+          <i class='icon-cancel'></i>
+        </div>
+      </div>
+    "
+
+    _selectCallback = ($grain) ->
+      $grain.find('.icon-cancel').click ->
+        $grain.remove()
+        b.removeGrain(grain)
+
+      $grain.find('.grain-weight').blur ->
+        val = parseFloat($(this).val())
+        unit = $grain.find('.grain-weight-unit').val()
+        if !isNaN(val)
+          b.addGrain(grain.id, val, unit)
+
+    selectTemplate = new SelectTemplate(selectHtml, _selectCallback)
+    #endregion
+    super(id, weight, grain, optionTemplate, selectTemplate)
+
     @srm = 0
-    @lov = grain.lovibond
-    gravity = grain.gravity.split('-')
+    @lov = @_item.lovibond
+    gravity = @_item.gravity.split('-')
+    
     if gravity.length > 1
       lower = parseFloat(gravity[0])
       upper = parseFloat(gravity[1])
@@ -424,61 +565,14 @@ $(document).ready( ->
 
   $grainSelect = $('#grain-select')
 
-  createGrainEntry = (grain) ->
-    $grain = $("
-      <div class='row grain-row ingredient-row' data-grain-id='#{grain.id}'>
-        <div class='eight columns'>
-          #{BrewCalc.IngredientIcon(grain.category)} #{grain.name}
-          <a gumby-tooltip-bottom=\"#{grain.description}\">
-            <i class='icon-help-circled'></i>
-          </a>
-        </div>
-        <div class='four columns'>
-          <input class='grain-weight' type='text' />
-          <select class='grain-weight-unit'>
-            <option value='lbs'>lbs</option>
-            <option value='oz'>oz</option>
-            <option value='g'>g</option>
-            <option value='kg'>kg</option>
-          </select>
-          <i class='icon-cancel'></i>
-        </div>
-      </div>
-    ")
-
-    $grain.find('.icon-cancel').click ->
-      $grain.remove()
-      b.removeGrain(grain)
-
-    $grain.find('.grain-weight').blur ->
-      val = parseFloat($(this).val())
-      unit = $grain.find('.grain-weight-unit').val()
-      if !isNaN(val)
-        b.addGrain(grain.id, val, unit)
-
-    return $grain
-
-  createHopEntry = (hop) ->
-    $hop = $("
-      <div class='row hop-row ingredient-row' data-hop-id='#{hop.id}'>
-        <div class='eight columns'>
-          #{hop.name}
-          <a gumby-tooltip-bottom=\"#{hop.description}\">
-            <i class='icon-help-circled'></i>
-          </a>
-        </div>
-        <div class='four columns'>
-          <i class='icon-cancel'></i>
-        </div>
-      </div>
-    ")
-
-    return $hop
+  emptyWeight = new Weight(0, 'lbs')
+  grainList = []
+  for grain, i in grains
+    grainList.push(new Grain(grain.id, emptyWeight))
 
   hopList = []
   for i, hop of hops
-    hop.id = i
-    hopList.push(hop)
+    hopList.push(new Hop(hop.id, emptyWeight))
 
 
   initializeSelect = ($input, items, searchFields, $selected) ->
@@ -498,60 +592,17 @@ $(document).ready( ->
       ),
       render: {
         item: (item, escape) ->
-          createGrainEntry = (grain) ->
-            $grain = $("
-              <div class='row grain-row ingredient-row' data-grain-id='#{grain.id}'>
-                <div class='eight columns'>
-                  #{BrewCalc.IngredientIcon(grain.category)} #{grain.name}
-                  <a gumby-tooltip-bottom=\"#{grain.description}\">
-                    <i class='icon-help-circled'></i>
-                  </a>
-                </div>
-                <div class='four columns'>
-                  <input class='grain-weight' type='text' />
-                  <select class='grain-weight-unit'>
-                    <option value='lbs'>lbs</option>
-                    <option value='oz'>oz</option>
-                    <option value='g'>g</option>
-                    <option value='kg'>kg</option>
-                  </select>
-                  <i class='icon-cancel'></i>
-                </div>
-              </div>
-            ")
-
-            # wire up inputs on ingredient row
-            $grain.find('.icon-cancel').click ->
-              $grain.remove()
-              b.removeGrain(grain)
-
-            $grain.find('.grain-weight').blur ->
-              val = parseFloat($(this).val())
-              unit = $grain.find('.grain-weight-unit').val()
-              if !isNaN(val)
-                b.addGrain(grain.id, val, unit)
-
-            return $grain
-
-          $grain = createGrainEntry(item)
-          $selected.append($grain)
-          $grain.find('.grain-weight').focus()
+          item.select($selected)
           return ''
         ,
         option: (item, escape) ->
-          return "
-            <div class='grain-option ingredient-option' data-id='#{item.id}'>
-              #{item.name} #{BrewCalc.IngredientIcon(item.category)}
-              <br/>
-              <span class='grain-option-description ingredient-option-description'>#{item.description}</span>
-            </div>
-          "
+          return item.optionTemplate.html
       },
       create: (input) ->
         return false
     })
 
-  initializeSelect($grainSelect, grains, ['name', 'description', 'category'], $('#grain-list'))
+  initializeSelect($grainSelect, grainList, ['name', 'description', 'category'], $('#grain-list'))
   initializeSelect($('#hop-select'), hopList, ['name', 'description'], $('#hop-list'))
 
   _focusAndHighlight = ($input, value) ->
@@ -598,6 +649,7 @@ $(document).ready( ->
       $('#efficiency-value').show()
 
   #endregion
+
 
   x = 'spaghetti'
 

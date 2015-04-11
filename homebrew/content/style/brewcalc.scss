@@ -81,12 +81,16 @@
 
   }
 
-  #volume-input {
-    width: 42px;
-    height: 32px;
-    font-size: 24px;
-    color: #999;
-    text-align: right;
+  #volume-container {
+    padding-left: 4%;
+
+    #volume-input {
+      width: 62px;
+      height: 32px;
+      font-size: 24px;
+      color: #999;
+      text-align: right;
+    }
   }
 
   #efficiency-input {
@@ -114,6 +118,10 @@
     .drawer.active {
       border: 1px solid #999;
       background-color: #ccc;
+    }
+
+    #calculated-ibu-container {
+      padding-left: 15%;
     }
 
     #volume {

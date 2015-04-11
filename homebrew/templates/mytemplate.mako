@@ -29,11 +29,15 @@
             <div id="recipe-details" class="three columns">
                 <div class="row">
                     <div id="gravity-details" class="twelve columns">
-                        <h4 id="original-gravity">1.060</h4>
+                        <h4 id="original-gravity">1.000</h4>
                         <h4>&nbsp; &ndash; &nbsp;</h4>
-                        <h4 id="final-gravity">1.020</h4>
+                        <h4 id="final-gravity">1.000</h4>
                     </div>
-                    <div class="twelve columns">
+                    <div id="calculated-ibu-container" class="twelve columns">
+                        <h4 id="calculated-ibu">0</h4>
+                        <h4>&nbsp;IBU</h4>
+                    </div>
+                    <div id="volume-container" class="twelve columns">
                         <div class="row">
                             <h4 id="volume" class="editable volume-toggle">5</h4>
                             <input id="volume-input" type="text" class="hide volume-toggle" />
@@ -50,16 +54,6 @@
                         <div id="efficiency-slider-container" class="hide">
                             <input id="efficiency-slider" class="efficiency-toggle" type="range" value="70" min="0" max="100" step="1" />
                         </div>
-                    </div>
-                    <div class="twelve columns">
-                        <h4 id="calculated-ibu">40</h4>
-                        <h4>&nbsp;IBU</h4>
-                    </div>
-                    <div class="twelve columns">
-                        <h4 id="calculated-attenuation">
-                            70&ndash;75
-                        </h4>
-                        <h4 style="margin-left: -4px;">% Att.</h4>
                     </div>
                 </div>
             </div>
