@@ -1264,7 +1264,7 @@
     };
 
     BrewCalc.prototype.updateColor = function() {
-      return $('#combined-color').css('background-color', BrewCalc.SRMtoRGB(BrewCalc.WeightedSRM(this.volume.gallons, this.grains)));
+      return $('#combined-color').css('background-color', BrewCalc.SRMtoRGB(BrewCalc.WeightedSRM(this.volume, this.grains)));
     };
 
     BrewCalc.prototype.updateGravity = function() {
@@ -1333,7 +1333,7 @@
         _ref = this.grains;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           grain = _ref[_i];
-          grain.updateSRM(this.volume.gallons);
+          grain.updateSRM(this.volume);
         }
         if (!this._chartDefaults) {
           this.updateGrainChart();
@@ -1346,7 +1346,7 @@
     BrewCalc.prototype.addGrain = function(id, val, unit) {
       var grain, grainIdx, i, _i, _ref;
       grain = new Grain(id, new Weight(val, unit));
-      grain.updateSRM(this.volume.gallons);
+      grain.updateSRM(this.volume);
       if (this._chartDefaults) {
         this._chartDefaults = false;
         for (i = _i = 0, _ref = this.grainChart.segments.length - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
@@ -1408,14 +1408,14 @@
       }).call(this);
     };
 
-    BrewCalc.WeightedSRM = function(gallons, grains) {
+    BrewCalc.WeightedSRM = function(volume, grains) {
       var g;
       return Math.min(Math.round(1.4922 * Math.pow(_sum((function() {
         var _i, _len, _results;
         _results = [];
         for (_i = 0, _len = grains.length; _i < _len; _i++) {
           g = grains[_i];
-          _results.push(g.weight.lbs * (g.lov / gallons));
+          _results.push(g.weight.lbs * (g.lov / volume.gallons));
         }
         return _results;
       })()), 0.6859)), 40);
@@ -1558,13 +1558,12 @@
     __extends(Hop, _super);
 
     function Hop(id, weight) {
-      var hop, optionHtml, optionTemplate, selectHtml, selectTemplate, _selectCallback;
+      var hop, optionHtml, optionTemplate, selectHtml, selectTemplate;
       hop = _hopLookup(id);
       optionHtml = "<div class='grain-option ingredient-option' data-id='" + hop.id + "'> " + hop.name + " " + (BrewCalc.IngredientIcon(hop.category)) + " <br/> <span class='grain-option-description ingredient-option-description'>" + hop.description + "</span> </div>";
       optionTemplate = new SelectTemplate(optionHtml, function($hop) {});
       selectHtml = "<div class='row hop-row ingredient-row' data-hop-id='" + hop.id + "'> <div class='eight columns'> " + hop.name + " <a gumby-tooltip-bottom=\"" + hop.description + "\"> <i class='icon-help-circled'></i> </a> </div> <div class='four columns'> <i class='icon-cancel'></i> </div> </div>";
-      _selectCallback = function($grain) {};
-      selectTemplate = new SelectTemplate(selectHtml, _selectCallback);
+      selectTemplate = new SelectTemplate(selectHtml, function($hop) {});
       Hop.__super__.constructor.call(this, id, weight, hop, optionTemplate, selectTemplate);
     }
 
@@ -1576,7 +1575,7 @@
     __extends(Grain, _super);
 
     function Grain(id, weight) {
-      var grain, gravity, l, lower, optionHtml, optionTemplate, selectHtml, selectTemplate, upper, _selectCallback;
+      var grain, l, lower, optionHtml, optionTemplate, selectHtml, selectTemplate, upper, _selectCallback;
       grain = _grainLookup(id);
       optionHtml = "<div class='grain-option ingredient-option' data-id='" + grain.id + "'> " + grain.name + " " + (BrewCalc.IngredientIcon(grain.category)) + " <br/> <span class='grain-option-description ingredient-option-description'>" + grain.description + "</span> </div>";
       optionTemplate = new SelectTemplate(optionHtml, function($grain) {});
@@ -1599,19 +1598,19 @@
       Grain.__super__.constructor.call(this, id, weight, grain, optionTemplate, selectTemplate);
       this.srm = 0;
       this.lov = this._item.lovibond;
-      gravity = this._item.gravity.split('-');
-      if (gravity.length > 1) {
-        lower = parseFloat(gravity[0]);
-        upper = parseFloat(gravity[1]);
+      this.gravity = this._item.gravity.split('-');
+      if (this.gravity.length > 1) {
+        lower = parseFloat(this.gravity[0]);
+        upper = parseFloat(this.gravity[1]);
         if (upper > 2) {
           upper = 1 + (upper / 1000);
         }
-        gravity = _avg([lower, upper]);
+        this.gravity = _avg([lower, upper]);
       } else {
-        gravity = parseFloat(gravity[0]);
+        this.gravity = parseFloat(this.gravity[0]);
       }
-      if (!isNaN(gravity)) {
-        this.ppg = (gravity - 1) * 1000;
+      if (!isNaN(this.gravity)) {
+        this.ppg = (this.gravity - 1) * 1000;
       }
       if (this.lov.indexOf('-') >= 0) {
         this.lov = _avg((function() {
@@ -1634,8 +1633,8 @@
       return BrewCalc.SRMtoRGB(this.srm);
     };
 
-    Grain.prototype.updateSRM = function(gallons) {
-      return this.srm = BrewCalc.WeightedSRM(gallons, [this]);
+    Grain.prototype.updateSRM = function(volume) {
+      return this.srm = BrewCalc.WeightedSRM(volume, [this]);
     };
 
     return Grain;
@@ -1643,31 +1642,8 @@
   })(Ingredient);
 
   $(document).ready(function() {
-    var $grainSelect, b, createGrainEntry, createHopEntry, emptyWeight, grain, grainList, hop, hopList, i, initializeSelect, x, _focusAndHighlight, _i, _len;
+    var b, emptyWeight, grain, grainList, hop, hopList, i, initializeSelect, x, _focusAndHighlight, _i, _len;
     b = new BrewCalc();
-    $grainSelect = $('#grain-select');
-    createGrainEntry = function(grain) {
-      var $grain;
-      $grain = $("<div class='row grain-row ingredient-row' data-grain-id='" + grain.id + "'> <div class='eight columns'> " + (BrewCalc.IngredientIcon(grain.category)) + " " + grain.name + " <a gumby-tooltip-bottom=\"" + grain.description + "\"> <i class='icon-help-circled'></i> </a> </div> <div class='four columns'> <input class='grain-weight' type='text' /> <select class='grain-weight-unit'> <option value='lbs'>lbs</option> <option value='oz'>oz</option> <option value='g'>g</option> <option value='kg'>kg</option> </select> <i class='icon-cancel'></i> </div> </div>");
-      $grain.find('.icon-cancel').click(function() {
-        $grain.remove();
-        return b.removeGrain(grain);
-      });
-      $grain.find('.grain-weight').blur(function() {
-        var unit, val;
-        val = parseFloat($(this).val());
-        unit = $grain.find('.grain-weight-unit').val();
-        if (!isNaN(val)) {
-          return b.addGrain(grain.id, val, unit);
-        }
-      });
-      return $grain;
-    };
-    createHopEntry = function(hop) {
-      var $hop;
-      $hop = $("<div class='row hop-row ingredient-row' data-hop-id='" + hop.id + "'> <div class='eight columns'> " + hop.name + " <a gumby-tooltip-bottom=\"" + hop.description + "\"> <i class='icon-help-circled'></i> </a> </div> <div class='four columns'> <i class='icon-cancel'></i> </div> </div>");
-      return $hop;
-    };
     emptyWeight = new Weight(0, 'lbs');
     grainList = [];
     for (i = _i = 0, _len = grains.length; _i < _len; i = ++_i) {
@@ -1709,7 +1685,7 @@
         }
       });
     };
-    initializeSelect($grainSelect, grainList, ['name', 'description', 'category'], $('#grain-list'));
+    initializeSelect($('#grain-select'), grainList, ['name', 'description', 'category'], $('#grain-list'));
     initializeSelect($('#hop-select'), hopList, ['name', 'description'], $('#hop-list'));
     _focusAndHighlight = function($input, value) {
       return $input.show().html($.trim(value)).focus().select();

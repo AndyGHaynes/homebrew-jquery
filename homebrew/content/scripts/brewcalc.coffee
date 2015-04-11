@@ -266,7 +266,7 @@ class BrewCalc
     this.updateColor()
 
   updateColor: ->
-    $('#combined-color').css('background-color', BrewCalc.SRMtoRGB(BrewCalc.WeightedSRM(@volume.gallons, @grains)))
+    $('#combined-color').css('background-color', BrewCalc.SRMtoRGB(BrewCalc.WeightedSRM(@volume, @grains)))
 
   updateGravity: ->
     # display truncated zeros
@@ -309,7 +309,7 @@ class BrewCalc
     # only redraw if volume changed
     if newVolume.gallons != @volume.gallons
       @volume = newVolume
-      grain.updateSRM(@volume.gallons) for grain in @grains
+      grain.updateSRM(@volume) for grain in @grains
       if !@_chartDefaults
         this.updateGrainChart()
 
@@ -318,7 +318,7 @@ class BrewCalc
 
   addGrain: (id, val, unit) ->
     grain = new Grain(id, new Weight(val, unit))
-    grain.updateSRM(@volume.gallons)
+    grain.updateSRM(@volume)
 
     if @_chartDefaults
       @_chartDefaults = false
@@ -357,8 +357,8 @@ class BrewCalc
     } for g in @grains)
 
   # http://beersmith.com/blog/2008/04/29/beer-color-understanding-srm-lovibond-and-ebc/
-  @WeightedSRM: (gallons, grains) ->
-    return Math.min(Math.round(1.4922 * _sum((g.weight.lbs * (g.lov / gallons) for g in grains)) ** 0.6859), 40)
+  @WeightedSRM: (volume, grains) ->
+    return Math.min(Math.round(1.4922 * _sum((g.weight.lbs * (g.lov / volume.gallons) for g in grains)) ** 0.6859), 40)
 
   @SRMtoRGB: (srm) ->
     return srmRgbLookup[Math.round(srm)]
@@ -474,7 +474,7 @@ class Hop extends Ingredient
       </div>
     "
 
-    selectTemplate = new SelectTemplate(selectHtml, , ($hop) ->)
+    selectTemplate = new SelectTemplate(selectHtml, ($hop) ->)
     #endregion
     super(id, weight, hop, optionTemplate, selectTemplate)
 
@@ -531,21 +531,21 @@ class Grain extends Ingredient
 
     @srm = 0
     @lov = @_item.lovibond
-    gravity = @_item.gravity.split('-')
+    @gravity = @_item.gravity.split('-')
     
-    if gravity.length > 1
-      lower = parseFloat(gravity[0])
-      upper = parseFloat(gravity[1])
+    if @gravity.length > 1
+      lower = parseFloat(@gravity[0])
+      upper = parseFloat(@gravity[1])
 
       if upper > 2
         upper = 1 + (upper / 1000)
 
-      gravity = _avg([lower, upper])
+      @gravity = _avg([lower, upper])
     else
-      gravity = parseFloat(gravity[0])
+      @gravity = parseFloat(@gravity[0])
 
-    if !isNaN(gravity)
-      @ppg = (gravity - 1) * 1000
+    if !isNaN(@gravity)
+      @ppg = (@gravity - 1) * 1000
 
     if @lov.indexOf('-') >= 0
       @lov = _avg(parseFloat(l) for l in @lov.split('-'))
@@ -556,14 +556,12 @@ class Grain extends Ingredient
   getColor: ->
     return BrewCalc.SRMtoRGB(@srm)
 
-  updateSRM: (gallons) ->
-    @srm = BrewCalc.WeightedSRM(gallons, [this])
+  updateSRM: (volume) ->
+    @srm = BrewCalc.WeightedSRM(volume, [this])
 
 
 $(document).ready( ->
   b = new BrewCalc()
-
-  $grainSelect = $('#grain-select')
 
   emptyWeight = new Weight(0, 'lbs')
   grainList = []
@@ -573,7 +571,6 @@ $(document).ready( ->
   hopList = []
   for i, hop of hops
     hopList.push(new Hop(hop.id, emptyWeight))
-
 
   initializeSelect = ($input, items, searchFields, $selected) ->
     $input.selectize({
@@ -602,7 +599,7 @@ $(document).ready( ->
         return false
     })
 
-  initializeSelect($grainSelect, grainList, ['name', 'description', 'category'], $('#grain-list'))
+  initializeSelect($('#grain-select'), grainList, ['name', 'description', 'category'], $('#grain-list'))
   initializeSelect($('#hop-select'), hopList, ['name', 'description'], $('#hop-list'))
 
   _focusAndHighlight = ($input, value) ->
