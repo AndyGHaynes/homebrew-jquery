@@ -37,12 +37,12 @@
                         <h4 id="calculated-ibu">0</h4>
                         <h4>&nbsp;IBU</h4>
                     </div>
-                    <div id="volume-container" class="twelve columns">
+                    <div id="target-volume-container" class="twelve columns">
                         <div class="row">
-                            <h4 id="volume" class="editable volume-toggle">5</h4>
-                            <input id="volume-input" type="text" class="hide volume-toggle" />
+                            <h4 id="target-volume" class="editable volume-toggle">5</h4>
+                            <input id="target-volume-input" value="5" type="text" class="hide volume-toggle" />
                             &nbsp;&nbsp;
-                            <h4 id="volume-unit" class="editable" data-unit="gallon">Gallons</h4>
+                            <h4 id="target-volume-unit" class="editable" data-unit="gallon">gallons</h4>
                         </div>
                     </div>
                     <div id="efficiency" class="twelve columns">
@@ -63,6 +63,7 @@
                 <section class="tabs pill">
                     <ul class="tab-nav">
                         <li><a href="#">Grains</a></li>
+                        <li><a href="#">Mash</a></li>
                         <li><a href="#">Hops</a></li>
                         <li><a href="#">Yeast</a></li>
                     </ul>
@@ -87,6 +88,37 @@
                                     </span>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div id="mash" class="tab-content row">
+                        <div id="mash-inputs" class="six columns">
+                            <div class="mash-input-row row">
+                                <div class="mash-input-label four columns">
+                                    Boil Volume
+                                </div>
+                                <div class="mash-input two columns">
+                                    <span id="boil-volume" class="editable volume-toggle">6</span>
+                                    <input id="boil-volume-input" value="6" type="text" class="hide volume-toggle" />
+                                </div>
+                                <div class="mash-input-unit two columns">
+                                    <span id="boil-volume-unit" class="editable" data-unit="gallon">gallons</span>
+                                </div>
+                            </div>
+                            <div class="mash-input-row row">
+                                <div class="mash-input-label four columns">
+                                    Mash Thickness
+                                </div>
+                                <div class="mash-input two columns">
+                                    <span id="mash-thickness" class="editable volume-toggle">1.25</span>
+                                    <input id="mash-thickness-input" value="1.25" type="text" class="hide volume-toggle" />
+                                </div>
+                                <div class="mash-input-unit two columns">
+                                    <span id="boil-volume-unit" class="editable" data-unit="quart-pound">qt/lbs</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="mash-temperatures" class="six columns">
+
                         </div>
                     </div>
                     <div id="hops" class="tab-content row">

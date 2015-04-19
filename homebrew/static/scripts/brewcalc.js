@@ -1310,14 +1310,22 @@
     self = void 0;
 
     function BrewCalc() {
+      var _getVolume;
       self = this;
+      this.bg = 1.0;
+      this.fg = 1.0;
+      this.og = 1.0;
       this.grains = [];
       this.hops = [];
       this.ibu = 0;
-      this.volume = new Volume(5, 'gallon');
       this.efficiency = 0.7;
       this.attenuation = 0.75;
       this.grainChart = new Chart(document.getElementById('pie').getContext('2d')).Pie();
+      _getVolume = function(inputId, unitId) {
+        return new Volume(parseFloat($("#" + inputId).val(), 10), $("#" + unitId).data('unit'));
+      };
+      this.targetVolume = _getVolume('target-volume-input', 'target-volume-unit');
+      this.boilVolume = _getVolume('boil-volume-input', 'boil-volume-unit');
       this._applyDefaultChart();
     }
 
@@ -1344,7 +1352,7 @@
     };
 
     BrewCalc.prototype.updateColor = function() {
-      return $('#combined-color').css('background-color', BrewCalc.SRMtoRGB(BrewCalc.WeightedSRM(self.volume, self.grains)));
+      return $('#combined-color').css('background-color', BrewCalc.SRMtoRGB(BrewCalc.WeightedSRM(self.targetVolume, self.grains)));
     };
 
     BrewCalc.prototype.updateGravity = function() {
@@ -1360,7 +1368,7 @@
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             grain = _ref[_i];
             if (grain.ppg) {
-              _results.push((grain.ppg * grain.weight.lbs * self.efficiency) / self.volume.gallons);
+              _results.push((grain.ppg * grain.weight.lbs * self.efficiency) / self.targetVolume.gallons);
             }
           }
           return _results;
@@ -1371,6 +1379,7 @@
         self.og = '1.0';
         self.fg = '1.0';
       }
+      self.bg = 1 + ((self.og - 1) * 1000) * (self.targetVolume.gallons / self.boilVolume.gallons) / 1000;
       $('#original-gravity').html(_gravitize(this.og));
       return $('#final-gravity').html(_gravitize(this.fg));
     };
@@ -1396,12 +1405,12 @@
     BrewCalc.prototype.updateVolume = function(val, unit) {
       var grain, newVolume, _i, _len, _ref;
       newVolume = new Volume(val, unit);
-      if (newVolume.gallons !== self.volume.gallons) {
-        self.volume = newVolume;
+      if (newVolume.gallons !== self.targetVolume.gallons) {
+        self.targetVolume = newVolume;
         _ref = self.grains;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           grain = _ref[_i];
-          grain.updateSRM(self.volume);
+          grain.updateSRM(self.targetVolume);
         }
         if (!self._chartDefaults) {
           self.updateGrainChart();
@@ -1426,7 +1435,7 @@
     BrewCalc.prototype.addGrain = function(id, weight) {
       var grain, grainIdx, i, _i, _ref;
       grain = new Grain(id, weight);
-      grain.updateSRM(self.volume);
+      grain.updateSRM(self.targetVolume);
       if (self._chartDefaults) {
         self._chartDefaults = false;
         for (i = _i = 0, _ref = self.grainChart.segments.length - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
@@ -1461,17 +1470,17 @@
 
     BrewCalc.prototype.updateIBU = function() {
       var hop;
-      self.ibu = _sum((function() {
+      self.ibu = Math.round(_sum((function() {
         var _i, _len, _ref, _results;
         _ref = self.hops;
         _results = [];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           hop = _ref[_i];
-          _results.push(hop.getIBUs(self.volume, self.og));
+          _results.push(hop.getIBUs(self.boilVolume, self.og));
         }
         return _results;
-      })());
-      return $('#calculated-ibu').html(Math.round(self.ibu));
+      })()));
+      return $('#calculated-ibu').html(self.ibu);
     };
 
     BrewCalc.prototype.hopIndex = function(hop) {
@@ -1825,21 +1834,21 @@
     _focusAndHighlight = function($input, value) {
       return $input.show().html($.trim(value)).focus().select();
     };
-    $('#volume').click(function() {
+    $('#target-volume').click(function() {
       $(this).hide();
-      return _focusAndHighlight($('#volume-input'), $(this).html());
+      return _focusAndHighlight($('#target-volume-input'), $(this).html());
     });
-    $('#volume-input').blur(function() {
+    $('#target-volume-input').blur(function() {
       var $this, unit, volume;
       $this = $(this);
       volume = parseFloat($this.val());
-      unit = $('#volume-unit').data('unit');
+      unit = $('#target-volume-unit').data('unit');
       if (!isNaN(volume)) {
         b.updateVolume(volume, unit);
-        $('#volume').html(volume);
+        $('#target-volume').html(volume);
       }
       $this.hide();
-      return $('#volume').show();
+      return $('#target-volume').show();
     });
     $('input[type="range"]').rangeslider();
     $('.efficiency-toggle').change(function() {

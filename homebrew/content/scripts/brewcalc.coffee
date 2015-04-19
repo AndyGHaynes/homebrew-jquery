@@ -301,13 +301,22 @@ class BrewCalc
   constructor: ->
     self = this
 
+    @bg = 1.0
+    @fg = 1.0
+    @og = 1.0
+
     @grains = []
     @hops = []
     @ibu = 0
-    @volume = new Volume(5, 'gallon')
     @efficiency = 0.7
     @attenuation = 0.75
     @grainChart = new Chart(document.getElementById('pie').getContext('2d')).Pie()
+
+    _getVolume = (inputId, unitId) ->
+      return new Volume(parseFloat($("##{inputId}").val(), 10), $("##{unitId}").data('unit'))
+
+    @targetVolume = _getVolume('target-volume-input', 'target-volume-unit')
+    @boilVolume = _getVolume('boil-volume-input', 'boil-volume-unit')
 
     this._applyDefaultChart()
 
@@ -322,7 +331,7 @@ class BrewCalc
     this.updateColor()
 
   updateColor: ->
-    $('#combined-color').css('background-color', BrewCalc.SRMtoRGB(BrewCalc.WeightedSRM(self.volume, self.grains)))
+    $('#combined-color').css('background-color', BrewCalc.SRMtoRGB(BrewCalc.WeightedSRM(self.targetVolume, self.grains)))
 
   updateGravity: ->
     # display truncated zeros
@@ -330,12 +339,14 @@ class BrewCalc
       return "#{g}000".substring(0, 5)
 
     if self.grains.length > 0
-      totalPPG = Math.round(_sum(((grain.ppg * grain.weight.lbs * self.efficiency) / self.volume.gallons for grain in this.grains when grain.ppg)))
+      totalPPG = Math.round(_sum(((grain.ppg * grain.weight.lbs * self.efficiency) / self.targetVolume.gallons for grain in this.grains when grain.ppg)))
       self.og = 1 + (totalPPG / 1000)
       self.fg = 1 + Math.round(totalPPG * (1 - self.attenuation)) / 1000
     else
       self.og = '1.0'
       self.fg = '1.0'
+
+    self.bg = 1 + ((self.og - 1) * 1000) * (self.targetVolume.gallons / self.boilVolume.gallons) / 1000
 
     $('#original-gravity').html(_gravitize(@og))
     $('#final-gravity').html(_gravitize(@fg))
@@ -357,9 +368,9 @@ class BrewCalc
     newVolume = new Volume(val, unit)
 
     # only redraw if volume changed
-    if newVolume.gallons != self.volume.gallons
-      self.volume = newVolume
-      grain.updateSRM(self.volume) for grain in self.grains
+    if newVolume.gallons != self.targetVolume.gallons
+      self.targetVolume = newVolume
+      grain.updateSRM(self.targetVolume) for grain in self.grains
       if !self._chartDefaults
         self.updateGrainChart()
 
@@ -374,7 +385,7 @@ class BrewCalc
 
   addGrain: (id, weight) ->
     grain = new Grain(id, weight)
-    grain.updateSRM(self.volume)
+    grain.updateSRM(self.targetVolume)
 
     if self._chartDefaults
       self._chartDefaults = false
@@ -404,8 +415,8 @@ class BrewCalc
         self._applyDefaultChart()
 
   updateIBU: ->
-    self.ibu = _sum((hop.getIBUs(self.volume, self.og) for hop in self.hops))
-    $('#calculated-ibu').html(Math.round(self.ibu))
+    self.ibu = Math.round(_sum((hop.getIBUs(self.boilVolume, self.og) for hop in self.hops)))
+    $('#calculated-ibu').html(self.ibu)
 
   hopIndex: (hop) ->
     for h, i in self.hops
@@ -507,7 +518,6 @@ class Hop extends Ingredient
   class HopAddition
     constructor: (@minutes, @weight, @alpha) ->
       @aau = @weight.oz * @alpha
-#      console.log("oz x alpha = aau -> #{@weight.oz} x #{@aau} = #{@alpha}")
 
     getIBU: (volume, gravity) ->
       # Palmer|How To Brew|p.58
@@ -695,20 +705,20 @@ $(document).ready( ->
     $input.show().html($.trim(value)).focus().select()
 
   # region Volume
-  $('#volume').click ->
+  $('#target-volume').click ->
     $(this).hide()
-    _focusAndHighlight($('#volume-input'), $(this).html())
+    _focusAndHighlight($('#target-volume-input'), $(this).html())
 
-  $('#volume-input').blur ->
+  $('#target-volume-input').blur ->
     $this = $(this)
     volume = parseFloat($this.val())
-    unit = $('#volume-unit').data('unit')
+    unit = $('#target-volume-unit').data('unit')
     if !isNaN(volume)
       b.updateVolume(volume, unit)
-      $('#volume').html(volume)
+      $('#target-volume').html(volume)
 
     $this.hide()
-    $('#volume').show()
+    $('#target-volume').show()
 
   #endregion
 

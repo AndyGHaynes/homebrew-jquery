@@ -136,4 +136,17 @@
     }
   }
 
+  #mash {
+    #mash-inputs {
+      .mash-input-row {
+        .mash-input {
+          text-align: right;
+        }
+        .mash-input-unit {
+          text-align: left;
+        }
+      }
+    }
+  }
+
 }
