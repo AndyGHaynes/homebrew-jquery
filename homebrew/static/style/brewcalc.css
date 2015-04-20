@@ -49,9 +49,9 @@
     text-align: center;
     margin: 0 27%;
     padding: 4px 12px 18px 12px; }
-  #main #volume-container {
+  #main #target-volume-container {
     padding-left: 4%; }
-    #main #volume-container #volume-input {
+    #main #target-volume-container #target-volume-input {
       width: 62px;
       height: 32px;
       font-size: 24px;
