@@ -62,7 +62,7 @@
             <div class="twelve columns">
                 <section class="tabs pill">
                     <ul class="tab-nav">
-                        <li><a href="#">Grains</a></li>
+                        <li class="active"><a href="#">Grains</a></li>
                         <li><a href="#">Mash</a></li>
                         <li><a href="#">Hops</a></li>
                         <li><a href="#">Yeast</a></li>
