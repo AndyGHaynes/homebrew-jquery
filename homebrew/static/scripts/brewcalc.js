@@ -1673,6 +1673,10 @@
         this.minutes = minutes;
         this.weight = weight;
         this.alpha = alpha;
+        this.alpha = parseFloat(this.alpha);
+        if (isNaN(this.alpha)) {
+          this.alpha = 0;
+        }
         this.aau = this.weight.oz * this.alpha;
       }
 
@@ -1712,6 +1716,9 @@
       selectTemplate = new SelectTemplate(_selectHtml, _selectCallback);
       Hop.__super__.constructor.call(this, id, weight, _hopLookup, optionTemplate, selectTemplate);
       this.alpha = this._splitRange(this._item.alpha.substring(0, this._item.alpha.length - 1), null);
+      if (isNaN(this.alpha)) {
+        this.alpha = 0;
+      }
       this.additions = [new HopAddition(60, new Weight(1, 'oz'), this.alpha)];
     }
 

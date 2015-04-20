@@ -525,6 +525,9 @@ class Ingredient
 class Hop extends Ingredient
   class HopAddition
     constructor: (@minutes, @weight, @alpha) ->
+      @alpha = parseFloat(@alpha)
+      if isNaN(@alpha)
+        @alpha = 0
       @aau = @weight.oz * @alpha
 
     getIBU: (volume, gravity) ->
@@ -587,6 +590,8 @@ class Hop extends Ingredient
     super(id, weight, _hopLookup, optionTemplate, selectTemplate)
 
     @alpha = @_splitRange(@_item.alpha.substring(0, @_item.alpha.length - 1), null)
+    if isNaN(@alpha)
+      @alpha = 0
     @additions = [new HopAddition(60, new Weight(1, 'oz'), @alpha)]
 
   getIBUs: (volume, gravity) ->
