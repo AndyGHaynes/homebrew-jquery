@@ -1493,7 +1493,7 @@
         _results = [];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           hop = _ref[_i];
-          _results.push(hop.getIBUs(self.boilVolume, self.og));
+          _results.push(hop.getIBUs(self.boilVolume, self.bg.value));
         }
         return _results;
       })()));

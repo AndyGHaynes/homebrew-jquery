@@ -122,7 +122,7 @@
                         </div>
                     </div>
                     <div id="hops" class="tab-content row">
-                        <div id="hop-select-container" class="six columns">
+                        <div id="hop-select-container" class="eight columns">
                             <div class="row">
                                 <div id="hop-list" class="ingredient-list twelve columns"></div>
                                 <div id="hop-input" class="ingredient-input twelve columns">
@@ -130,7 +130,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="hop-timeline-container" class="six columns">
+                        <div id="hop-timeline-container" class="four columns">
                         </div>
                     </div>
                 </section>

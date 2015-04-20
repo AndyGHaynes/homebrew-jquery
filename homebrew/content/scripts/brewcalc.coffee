@@ -423,7 +423,7 @@ class BrewCalc
         self._applyDefaultChart()
 
   updateIBU: ->
-    self.ibu = Math.round(_sum((hop.getIBUs(self.boilVolume, self.og) for hop in self.hops)))
+    self.ibu = Math.round(_sum((hop.getIBUs(self.boilVolume, self.bg.value) for hop in self.hops)))
     $('#calculated-ibu').html(self.ibu)
 
   hopIndex: (hop) ->
