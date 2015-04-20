@@ -274,6 +274,18 @@ class Volume extends Measurement
     if @liters == 0
       @liters = @gallons * 3.78541
 
+class Gravity
+  constructor: (@points = 0) ->
+    @points = Math.round(@points)
+    @value = 1 + (@points / 1000)
+
+  toString: ->
+    return "#{@value}000".substring(0, 5)
+
+  reset: ->
+    @points = 0
+    @value = 1
+
 #endregion
 #region Helpers
 _getLookup = (items) ->
@@ -301,9 +313,9 @@ class BrewCalc
   constructor: ->
     self = this
 
-    @bg = 1.0
-    @fg = 1.0
-    @og = 1.0
+    @bg = new Gravity()
+    @fg = new Gravity()
+    @og = new Gravity()
 
     @grains = []
     @hops = []
@@ -334,25 +346,21 @@ class BrewCalc
     $('#combined-color').css('background-color', BrewCalc.SRMtoRGB(BrewCalc.WeightedSRM(self.targetVolume, self.grains)))
 
   updateGravity: ->
-    # display truncated zeros
-    _gravitize = (g) ->
-      return "#{g}000".substring(0, 5)
-
     if self.grains.length > 0
       totalPPG = Math.round(_sum(((grain.ppg * grain.weight.lbs * self.efficiency) / self.targetVolume.gallons for grain in this.grains when grain.ppg)))
-      self.og = 1 + (totalPPG / 1000)
-      self.fg = 1 + Math.round(totalPPG * (1 - self.attenuation)) / 1000
+      self.og = new Gravity(totalPPG)
+      self.fg = new Gravity(totalPPG * (1 - self.attenuation))
     else
-      self.og = '1.0'
-      self.fg = '1.0'
+      self.og.reset()
+      self.fg.reset()
 
-    self.bg = 1 + ((self.og - 1) * 1000) * (self.targetVolume.gallons / self.boilVolume.gallons) / 1000
+    self.bg = new Gravity(self.og.points * (self.targetVolume.gallons / self.boilVolume.gallons))
 
-    $('#original-gravity').html(_gravitize(@og))
-    $('#final-gravity').html(_gravitize(@fg))
+    $('#original-gravity').html(self.og.toString())
+    $('#final-gravity').html(self.fg.toString())
 
   updateEfficiency: (efficiency) ->
-    self.efficiency = efficiency / 100
+    self.efficiency = parseFloat(efficiency) / 100
     this.updateGravity()
 
   updateGrainChart: ->
