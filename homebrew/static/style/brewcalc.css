@@ -28,22 +28,24 @@
   #main .ingredient-option .ingredient-option-icon {
     float: right;
     margin-right: 8px; }
-  #main .ingredient-row {
-    /* hop specific */ }
-    #main .ingredient-row .ttip {
-      display: inline;
-      font-size: 12px; }
-    #main .ingredient-row i {
-      margin: 0;
-      display: inline;
-      cursor: pointer; }
-    #main .ingredient-row .ingredient-weight {
-      width: 32px;
-      height: 24px; }
-    #main .ingredient-row .ingredient-weight-unit {
-      height: 28px; }
-    #main .ingredient-row .hop-aau {
-      width: 32px; }
+  #main .ingredient-row .ttip {
+    display: inline;
+    font-size: 12px; }
+  #main .ingredient-row i {
+    margin: 0;
+    display: inline;
+    cursor: pointer; }
+  #main .ingredient-row .ingredient-weight {
+    width: 32px;
+    height: 24px; }
+  #main .ingredient-row .ingredient-weight-unit {
+    height: 28px; }
+  #main .hop-row {
+    font-size: 10px; }
+    #main .hop-row .hop-label {
+      font-size: 16px; }
+    #main .hop-row input[type=text] {
+      width: 30px; }
   #main #combined-color {
     color: white;
     text-align: center;
