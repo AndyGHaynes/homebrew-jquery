@@ -534,7 +534,7 @@ class Hop extends Ingredient
     getIBU: (volume, gravity) ->
       # Palmer|How To Brew|p.58
       @utilization = (1.65 * 0.000125 ** (gravity - 1)) * ((1 - Math.E ** (-0.04 * @minutes)) / 4.15)
-      return (@aau * utilization * 74.89) /  volume.gallons
+      return (@aau * @utilization * 74.89) /  volume.gallons
 
   constructor: (id, weight, _add, _remove) ->
     #region selectize templates

@@ -1683,7 +1683,7 @@
 
       HopAddition.prototype.getIBU = function(volume, gravity) {
         this.utilization = (1.65 * Math.pow(0.000125, gravity - 1)) * ((1 - Math.pow(Math.E, -0.04 * this.minutes)) / 4.15);
-        return (this.aau * utilization * 74.89) / volume.gallons;
+        return (this.aau * this.utilization * 74.89) / volume.gallons;
       };
 
       return HopAddition;
