@@ -124,13 +124,24 @@
                     <div id="hops" class="tab-content row">
                         <div id="hop-select-container" class="six columns">
                             <div class="row">
-                                <div id="hop-list" class="ingredient-list twelve columns"></div>
+                                <div id="hop-list" class="ingredient-list twelve columns">
+                                    <div id="hop-header" class="row">
+                                        <div class="five columns">Hop</div>
+                                        <div class="two columns">Util.</div>
+                                        <div class="two columns">% AAU</div>
+                                        <div class="three columns">Qty.</div>
+                                    </div>
+                                </div>
                                 <div id="hop-input" class="ingredient-input twelve columns">
                                     <select id="hop-select" style="display: none;"></select>
                                 </div>
                             </div>
                         </div>
                         <div id="hop-timeline-container" class="six columns">
+                            <div class="row">
+                                <div class="twelve columns" style="border: 1px solid black;">
+                                </div>
+                            </div>
                             <div id="hop-additions" class="row"></div>
                         </div>
                     </div>

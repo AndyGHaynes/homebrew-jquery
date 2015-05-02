@@ -563,11 +563,9 @@ class Hop extends Ingredient
           </div>
           <div class='two columns'>
             <input class='hop-utilization' type='text' value='#{hop.getUtilization()}' />
-            <span>Util.</span>
           </div>
           <div class='two columns'>
             <input class='hop-aau' type='text' value='#{hop.alpha}' />
-            <span>% AAU</span>
           </div>
           <div class='three columns'>
             <input class='hop-weight ingredient-weight' type='text' />

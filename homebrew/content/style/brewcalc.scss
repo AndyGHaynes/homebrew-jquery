@@ -19,7 +19,7 @@
     overflow-y: hidden;
     border: 1px solid #ccc;
     margin-bottom: 12px;
-    padding: 12px 8px;
+    padding: 8px;
   }
 
   .ingredient-input {
@@ -85,9 +85,13 @@
     }
   }
 
+  #hop-list {
+    margin-top: 0;
+  }
+
   #hop-additions {
     .hop-addition {
-      min-height: 60px;
+      min-height: 30px;
       margin-left: 0;
       position: relative;
 
