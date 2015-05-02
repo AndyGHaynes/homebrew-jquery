@@ -131,6 +131,7 @@
                             </div>
                         </div>
                         <div id="hop-timeline-container" class="six columns">
+                            <div id="hop-additions" class="row"></div>
                         </div>
                     </div>
                 </section>
@@ -144,6 +145,7 @@
     <script src="${request.static_url('homebrew:static/scripts/gumby.min.js')}"></script>
     <script src="${request.static_url('homebrew:static/scripts/rangeslider.min.js')}"></script>
     <script src="${request.static_url('homebrew:static/scripts/Chart.min.js')}"></script>
+    <script src="${request.static_url('homebrew:static/scripts/jquery-ui.min.js')}"></script>
     <script src="${request.static_url('homebrew:static/scripts/brewcalc.js')}"></script>
     <script type="text/javascript">
         $(document).ready(function () {

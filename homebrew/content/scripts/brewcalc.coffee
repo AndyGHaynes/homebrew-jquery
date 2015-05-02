@@ -495,6 +495,7 @@ class SelectTemplate
   getHtml: (item) ->
     return @_html(item)
 
+
 class Ingredient
   constructor: (@id, @weight, _itemCallback, @optionTemplate, @selectTemplate) ->
     @_item = _itemCallback(@id)
@@ -523,6 +524,8 @@ class Ingredient
     
 
 class Hop extends Ingredient
+
+  # represent hop addition as function of time and weight
   class HopAddition
     constructor: (@minutes, @weight, @alpha) ->
       @alpha = parseFloat(@alpha)
@@ -559,7 +562,7 @@ class Hop extends Ingredient
             </a>
           </div>
           <div class='two columns'>
-            <input class='hop-utilization' type='text' value='#{hop.utilization}' />
+            <input class='hop-utilization' type='text' value='#{hop.getUtilization()}' />
             <span>Util.</span>
           </div>
           <div class='two columns'>
@@ -580,6 +583,7 @@ class Hop extends Ingredient
       "
 
     _selectCallback = ($hop, hop) ->
+      # wire up interactive elements on hop row
       $hop.find('.icon-cancel').click ->
         $hop.remove()
         _remove(hop)
@@ -589,6 +593,38 @@ class Hop extends Ingredient
         unit = $hop.find('.ingredient-weight-unit').val()
         if !isNaN(val)
           _add(hop.id, new Weight(val, unit))
+
+      # draw hop timeline
+      _drawMarker = ->
+        $marker = $("<div class='time-marker'></div>")
+
+        # wire up click & drag
+        $marker.draggable({ axis: 'x', containment: 'parent' })
+
+        # double click to remove
+        $marker.dblclick ->
+          $marker.remove()
+
+        return $marker
+
+      $addition = $("
+        <div class='hop-addition twelve columns'>
+          <div class='addition-container'>
+            <div class='addition-slider'></div>
+          </div>
+        </div>
+      ")
+      $addition.find('.addition-container').append(_drawMarker())
+
+      $addition.find('.addition-slider').click (e) ->
+        $marker = _drawMarker()
+        $(this).parent().append($marker)
+        $marker.offset({ left: e.pageX, top: $marker.offset().top })
+
+      $('#hop-additions').append($addition)
+
+
+
 
     selectTemplate = new SelectTemplate(_selectHtml, _selectCallback)
     #endregion
@@ -601,6 +637,9 @@ class Hop extends Ingredient
 
   getIBUs: (volume, gravity) ->
     return _sum((a.getIBU(volume, gravity) for a in @additions))
+
+  getUtilization: () ->
+    return _sum((a.utilization for a in @additions))
 
 
 

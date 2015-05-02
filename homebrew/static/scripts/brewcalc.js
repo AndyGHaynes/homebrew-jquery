@@ -1697,14 +1697,15 @@
       };
       optionTemplate = new SelectTemplate(_optionHtml, function($hop) {});
       _selectHtml = function(hop) {
-        return "<div class='row hop-row ingredient-row' data-hop-id='" + hop.id + "'> <div class='five columns hop-label'> " + hop.name + " <a gumby-tooltip-bottom=\"" + hop.description + "\"> <i class='icon-help-circled'></i> </a> </div> <div class='two columns'> <input class='hop-utilization' type='text' value='" + hop.utilization + "' /> <span>Util.</span> </div> <div class='two columns'> <input class='hop-aau' type='text' value='" + hop.alpha + "' /> <span>% AAU</span> </div> <div class='three columns'> <input class='hop-weight ingredient-weight' type='text' /> <select class='hop-weight-unit ingredient-weight-unit'> <option value='oz'>oz</option> <option value='lbs'>lbs</option> <option value='g'>g</option> <option value='kg'>kg</option> </select> <i class='icon-cancel'></i> </div> </div>";
+        return "<div class='row hop-row ingredient-row' data-hop-id='" + hop.id + "'> <div class='five columns hop-label'> " + hop.name + " <a gumby-tooltip-bottom=\"" + hop.description + "\"> <i class='icon-help-circled'></i> </a> </div> <div class='two columns'> <input class='hop-utilization' type='text' value='" + (hop.getUtilization()) + "' /> <span>Util.</span> </div> <div class='two columns'> <input class='hop-aau' type='text' value='" + hop.alpha + "' /> <span>% AAU</span> </div> <div class='three columns'> <input class='hop-weight ingredient-weight' type='text' /> <select class='hop-weight-unit ingredient-weight-unit'> <option value='oz'>oz</option> <option value='lbs'>lbs</option> <option value='g'>g</option> <option value='kg'>kg</option> </select> <i class='icon-cancel'></i> </div> </div>";
       };
       _selectCallback = function($hop, hop) {
+        var $addition, _drawMarker;
         $hop.find('.icon-cancel').click(function() {
           $hop.remove();
           return _remove(hop);
         });
-        return $hop.find('.ingredient-weight').blur(function() {
+        $hop.find('.ingredient-weight').blur(function() {
           var unit, val;
           val = parseFloat($(this).val());
           unit = $hop.find('.ingredient-weight-unit').val();
@@ -1712,6 +1713,30 @@
             return _add(hop.id, new Weight(val, unit));
           }
         });
+        _drawMarker = function() {
+          var $marker;
+          $marker = $("<div class='time-marker'></div>");
+          $marker.draggable({
+            axis: 'x',
+            containment: 'parent'
+          });
+          $marker.dblclick(function() {
+            return $marker.remove();
+          });
+          return $marker;
+        };
+        $addition = $("<div class='hop-addition twelve columns'> <div class='addition-container'> <div class='addition-slider'></div> </div> </div>");
+        $addition.find('.addition-container').append(_drawMarker());
+        $addition.find('.addition-slider').click(function(e) {
+          var $marker;
+          $marker = _drawMarker();
+          $(this).parent().append($marker);
+          return $marker.offset({
+            left: e.pageX,
+            top: $marker.offset().top
+          });
+        });
+        return $('#hop-additions').append($addition);
       };
       selectTemplate = new SelectTemplate(_selectHtml, _selectCallback);
       Hop.__super__.constructor.call(this, id, weight, _hopLookup, optionTemplate, selectTemplate);
@@ -1731,6 +1756,20 @@
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           a = _ref[_i];
           _results.push(a.getIBU(volume, gravity));
+        }
+        return _results;
+      }).call(this));
+    };
+
+    Hop.prototype.getUtilization = function() {
+      var a;
+      return _sum((function() {
+        var _i, _len, _ref, _results;
+        _ref = this.additions;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          a = _ref[_i];
+          _results.push(a.utilization);
         }
         return _results;
       }).call(this));
