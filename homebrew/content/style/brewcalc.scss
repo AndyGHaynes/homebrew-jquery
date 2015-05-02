@@ -86,10 +86,10 @@
   }
 
   #hop-additions {
-    position: relative;
-
     .hop-addition {
       min-height: 60px;
+      margin-left: 0;
+      position: relative;
 
       .addition-container {
         width: 100%;
