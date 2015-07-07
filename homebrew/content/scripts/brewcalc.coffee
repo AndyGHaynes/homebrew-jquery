@@ -277,14 +277,14 @@ class Volume extends Measurement
 class Gravity
   constructor: (@points = 0) ->
     @points = Math.round(@points)
-    @value = 1 + (@points / 1000)
 
   toString: ->
-    return "#{@value}000".substring(0, 5)
+    # determine preceding zeros
+    zeros = Array(3 - Math.floor(Math.log10(@points))).join("0")
+    return "1.#{zeros}#{@points}000".substring(0, 5)
 
   reset: ->
     @points = 0
-    @value = 1
 
 #endregion
 #region Helpers
