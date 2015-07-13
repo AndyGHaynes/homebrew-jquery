@@ -610,7 +610,7 @@ class Hop extends Ingredient
           if sliderMax == 0 and offset == 0
             return 1
           else
-            return 1 - (offset / sliderMax)g
+            return 1 - (offset / sliderMax)
 
         _getAdjustedBoilTime = (sliderPercent) ->
           return Math.floor(sliderPercent * _getBoilTimeMinutes())
@@ -663,7 +663,11 @@ class Hop extends Ingredient
             $helper = ui.helper
             leftOffset = ui.position.left
             sliderPercentage = _getSliderPercentage(leftOffset)
-            boilTime = _getAdjustedBoilTime(sliderPercentage)
+
+            # TODO: fix boil times that are off by two points per marker past the first one
+            boilOffset = 2 * ($slider.siblings('.time-marker').length - 1)
+
+            boilTime = _getAdjustedBoilTime(sliderPercentage) - boilOffset
             $marker.data('boil-time', boilTime)
 
             $tooltip = _getTooltip()
