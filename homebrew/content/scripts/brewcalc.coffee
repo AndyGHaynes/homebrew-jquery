@@ -592,7 +592,7 @@ class Hop extends Ingredient
           _add(hop.id, new Weight(val, unit))
 
       # draw hop timeline
-      _drawMarker = ->
+      _drawMarker = ($slider, markerXOffset) ->
         tooltipId = Math.floor(Math.random() * 100000)
         $marker = $("<div class='time-marker'></div>")
 
@@ -605,9 +605,12 @@ class Hop extends Ingredient
           # TODO: read from input
           return 60
 
-        _getSliderPercentage = (offset, $slider) ->
+        _getSliderPercentage = (offset) ->
           sliderMax = _parseCSSLength($slider.css('width')) - _parseCSSLength($marker.css('width'))
-          return 1 - (offset / sliderMax)
+          if sliderMax == 0 and offset == 0
+            return 1
+          else
+            return 1 - (offset / sliderMax)g
 
         _getAdjustedBoilTime = (sliderPercent) ->
           return Math.floor(sliderPercent * _getBoilTimeMinutes())
@@ -659,7 +662,7 @@ class Hop extends Ingredient
           drag: (e, ui) ->
             $helper = ui.helper
             leftOffset = ui.position.left
-            sliderPercentage = _getSliderPercentage(leftOffset, $helper.siblings('.addition-slider'))
+            sliderPercentage = _getSliderPercentage(leftOffset)
             boilTime = _getAdjustedBoilTime(sliderPercentage)
             $marker.data('boil-time', boilTime)
 
@@ -674,7 +677,7 @@ class Hop extends Ingredient
         })
 
         # set marker data attributes
-        $marker.data('boil-time', _getBoilTimeMinutes())
+        $marker.data('boil-time', _getAdjustedBoilTime(_getSliderPercentage(markerXOffset)))
 
         return $marker
 
@@ -685,11 +688,15 @@ class Hop extends Ingredient
           </div>
         </div>
       ")
-      $addition.find('.addition-container').append(_drawMarker())
 
-      $addition.find('.addition-slider').click (e) ->
-        $marker = _drawMarker()
-        $(this).parent().append($marker)
+      $slider = $addition.find('.addition-slider')
+
+      $addition.find('.addition-container').append(_drawMarker($slider, 0))
+
+      $slider.click (e) ->
+        $this = $(this)
+        $marker = _drawMarker($slider, e.offsetX)
+        $this.parent().append($marker)
         $marker.offset({ left: e.pageX, top: $marker.offset().top })
 
       $('#hop-additions').append($addition)
