@@ -305,6 +305,9 @@ _sum = (numbers) ->
 
 _avg = (numbers) ->
   return _sum(numbers) / numbers.length
+
+_parseCSSLength = (value) ->
+  return parseInt(value[0..-3], 10)
 #endregion
 
 class BrewCalc
@@ -556,7 +559,7 @@ class Hop extends Ingredient
       return "
         <div class='row hop-row ingredient-row' data-hop-id='#{hop.id}'>
           <div class='five columns hop-label'>
-            #{hop.name}
+            #{hop.name[0..18]}
             <a gumby-tooltip-bottom=\"#{hop.description}\">
               <i class='icon-help-circled'></i>
             </a>
@@ -582,10 +585,6 @@ class Hop extends Ingredient
 
     _selectCallback = ($hop, hop) ->
       # wire up interactive elements on hop row
-      $hop.find('.icon-cancel').click ->
-        $hop.remove()
-        _remove(hop)
-
       $hop.find('.ingredient-weight').blur ->
         val = parseFloat($(this).val())
         unit = $hop.find('.ingredient-weight-unit').val()
@@ -594,14 +593,81 @@ class Hop extends Ingredient
 
       # draw hop timeline
       _drawMarker = ->
+        tooltipId = Math.floor(Math.random() * 100000)
         $marker = $("<div class='time-marker'></div>")
-
-        # wire up click & drag
-        $marker.draggable({ axis: 'x', containment: 'parent' })
 
         # double click to remove
         $marker.dblclick ->
           $marker.remove()
+
+        # timing functions
+        _getBoilTimeMinutes = () ->
+          # TODO: read from input
+          return 60
+
+        _getSliderPercentage = (offset, $slider) ->
+          sliderMax = _parseCSSLength($slider.css('width')) - _parseCSSLength($marker.css('width'))
+          return 1 - (offset / sliderMax)
+
+        _getAdjustedBoilTime = (sliderPercent) ->
+          return Math.floor(sliderPercent * _getBoilTimeMinutes())
+
+        # tooltip functions
+        _getTooltip = () ->
+          return $("##{tooltipId}")
+
+        _createTooltip = (x, y, minutes) ->
+          x -= 50
+          y -= 55
+          return $("
+            <div id='#{tooltipId}' class='hop-addition-tooltip' style='top: #{y}px; left: #{x}px;'>
+              <div class='row'>
+                <div class='six columns hop-addition-input'>
+                  <input class='hop-addition-time' type='text' value='#{minutes}' />
+                </div>
+                <div class='six columns hop-addition-input'>
+                  Min
+                </div>
+              </div>
+              <div class='row'>
+                <div class='six columns hop-addition-input'>
+                  <input class='hop-weight ingredient-weight' type='text' />
+                </div>
+                <div class='six columns hop-addition-input'>
+                  #{_getQuantitySelectText()}
+                </div>
+              </div>
+            </div>
+          ")
+
+        # set details on click
+        $marker.click (e) ->
+          # check for existing tooltip
+          $tooltip = _getTooltip()
+          if $tooltip.length > 0
+            $tooltip.remove()
+            return
+
+          markerOffset = _parseCSSLength($(this).css('left'))
+          $tooltip = _createTooltip(e.offsetX + markerOffset, e.offsetY, $marker.data('boil-time'))
+          $marker.before($tooltip)
+
+        # wire up click & drag
+        $marker.draggable({
+          axis: 'x',
+          containment: 'parent',
+          drag: (e, ui) ->
+            sliderPercentage = _getSliderPercentage(ui.position.left, ui.helper.siblings('.addition-slider'))
+            boilTime = _getAdjustedBoilTime(sliderPercentage)
+            $marker.data('boil-time', boilTime)
+
+            $tooltip = _getTooltip()
+            if $tooltip.length > 0
+              $tooltip.find('.hop-addition-time').val(boilTime)
+        })
+
+        # set marker data attributes
+        $marker.data('boil-time', _getBoilTimeMinutes())
 
         return $marker
 
@@ -620,6 +686,21 @@ class Hop extends Ingredient
         $marker.offset({ left: e.pageX, top: $marker.offset().top })
 
       $('#hop-additions').append($addition)
+
+      $hop.find('.icon-cancel').click ->
+        $addition.remove()
+        $hop.remove()
+        _remove(hop)
+
+    _getQuantitySelectText = () ->
+      return "
+        <select class='hop-weight-unit ingredient-weight-unit'>
+          <option value='oz'>oz</option>
+          <option value='lbs'>lbs</option>
+          <option value='g'>g</option>
+          <option value='kg'>kg</option>
+        </select>
+      "
 
 
 
@@ -801,6 +882,8 @@ $(document).ready( ->
 
   #endregion
 
+  $('#grain').removeClass('active')
+  $('#hops').addClass('active')
 
   x = 'spaghetti'
 

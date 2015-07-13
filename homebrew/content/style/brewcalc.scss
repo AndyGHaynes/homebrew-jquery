@@ -90,10 +90,35 @@
   }
 
   #hop-additions {
+    padding-top: 18px;
+
     .hop-addition {
       min-height: 30px;
       margin-left: 0;
       position: relative;
+
+      .hop-addition-tooltip {
+        background-color: gray;
+        z-index: 100;
+        width: 90px;
+        position: absolute;
+        font-size: 11px;
+        padding: 2px;
+        color: white;
+        text-align: center;
+        border-radius: 2px;
+
+        .hop-addition-input {
+          input {
+            width: 28px;
+            height: 18px;
+          }
+
+          select {
+            width: 42px;
+          }
+        }
+      }
 
       .addition-container {
         width: 100%;
