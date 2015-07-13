@@ -651,6 +651,9 @@ class Hop extends Ingredient
             $tooltip.remove()
             return
 
+          # hide other visible tooltips
+          $('.hop-addition-tooltip').remove()
+
           markerOffset = _parseCSSLength($(this).css('left'))
           $tooltip = _createTooltip(e.offsetX + markerOffset, e.offsetY, $marker.data('boil-time'))
           $marker.before($tooltip)
