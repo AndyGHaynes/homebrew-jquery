@@ -615,6 +615,10 @@ class Hop extends Ingredient
         _getAdjustedBoilTime = (sliderPercent) ->
           return Math.floor(sliderPercent * _getBoilTimeMinutes())
 
+        # TODO: lame fix to accommodate offset with multiple markers
+        _addMultipleMarkerOffset = (multiple) ->
+          return ($slider.siblings('.time-marker').length - 1) * multiple
+
         # tooltip functions
         _getTooltip = () ->
           return $("##{tooltipId}")
@@ -654,7 +658,7 @@ class Hop extends Ingredient
           # hide other visible tooltips
           $('.hop-addition-tooltip').remove()
 
-          markerOffset = _parseCSSLength($(this).css('left'))
+          markerOffset = _parseCSSLength($(this).css('left')) + _addMultipleMarkerOffset(16)
           $tooltip = _createTooltip(e.offsetX + markerOffset, e.offsetY, $marker.data('boil-time'))
           $marker.before($tooltip)
 
@@ -666,11 +670,7 @@ class Hop extends Ingredient
             $helper = ui.helper
             leftOffset = ui.position.left
             sliderPercentage = _getSliderPercentage(leftOffset)
-
-            # TODO: fix boil times that are off by two points per marker past the first one
-            boilOffset = 2 * ($slider.siblings('.time-marker').length - 1)
-
-            boilTime = _getAdjustedBoilTime(sliderPercentage) - boilOffset
+            boilTime = _getAdjustedBoilTime(sliderPercentage) - _addMultipleMarkerOffset(2)
             $marker.data('boil-time', boilTime)
 
             $tooltip = _getTooltip()
@@ -679,7 +679,7 @@ class Hop extends Ingredient
               tooltipWidth = _parseCSSLength($tooltip.css('width'))
               markerWidth = _parseCSSLength($helper.css('width'))
               markerLeft = _parseCSSLength($helper.css('left'))
-              tooltipLeft = markerLeft - (Math.round(tooltipWidth / 2) - Math.round(markerWidth / 2))
+              tooltipLeft = markerLeft - (Math.round(tooltipWidth / 2) - Math.round(markerWidth / 2)) + _addMultipleMarkerOffset(10)
               $tooltip.css('left', "#{tooltipLeft}px")
         })
 
