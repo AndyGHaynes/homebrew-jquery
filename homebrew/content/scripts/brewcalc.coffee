@@ -657,13 +657,20 @@ class Hop extends Ingredient
           axis: 'x',
           containment: 'parent',
           drag: (e, ui) ->
-            sliderPercentage = _getSliderPercentage(ui.position.left, ui.helper.siblings('.addition-slider'))
+            $helper = ui.helper
+            leftOffset = ui.position.left
+            sliderPercentage = _getSliderPercentage(leftOffset, $helper.siblings('.addition-slider'))
             boilTime = _getAdjustedBoilTime(sliderPercentage)
             $marker.data('boil-time', boilTime)
 
             $tooltip = _getTooltip()
             if $tooltip.length > 0
               $tooltip.find('.hop-addition-time').val(boilTime)
+              tooltipWidth = _parseCSSLength($tooltip.css('width'))
+              markerWidth = _parseCSSLength($helper.css('width'))
+              markerLeft = _parseCSSLength($helper.css('left'))
+              tooltipLeft = markerLeft - (Math.round(tooltipWidth / 2) - Math.round(markerWidth / 2))
+              $tooltip.css('left', "#{tooltipLeft}px")
         })
 
         # set marker data attributes
