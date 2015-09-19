@@ -535,14 +535,16 @@ class Hop extends Ingredient
       if isNaN(@alpha)
         @alpha = 0
       @aau = @weight.oz * @alpha
-      @utilization = 0
+
+    getUtilization: (gravity) ->
+      # Palmer|How To Brew|p.58
+      return (1.65 * 0.000125 ** (gravity.points / 1000)) * ((1 - Math.E ** (-0.04 * @minutes)) / 4.15)
+
 
     getIBU: (volume, gravity) ->
-      # Palmer|How To Brew|p.58
-      @utilization = (1.65 * 0.000125 ** (gravity - 1)) * ((1 - Math.E ** (-0.04 * @minutes)) / 4.15)
-      return (@aau * @utilization * 74.89) /  volume.gallons
+      return (@aau * this.getUtilization(gravity) * 74.89) /  volume.gallons
 
-  constructor: (id, weight, _add, _remove) ->
+  constructor: (@hopId, weight, _add, _remove) ->
     #region selectize templates
     _optionHtml = (hop) ->
       return "
@@ -584,21 +586,24 @@ class Hop extends Ingredient
       "
 
     _selectCallback = ($hop, hop) ->
+      $hopWeight = $hop.find('.ingredient-weight')
+      $hopUnit = $hop.find('.ingredient-weight-unit')
+
       # wire up interactive elements on hop row
-      $hop.find('.ingredient-weight').blur ->
+      $hopWeight.change ->
         val = parseFloat($(this).val())
-        unit = $hop.find('.ingredient-weight-unit').val()
+        unit = $hopUnit.val()
         if !isNaN(val)
           _add(hop.id, new Weight(val, unit))
 
       # draw hop timeline
-      _drawMarker = ($slider, markerXOffset) ->
-        tooltipId = Math.floor(Math.random() * 100000)
-        $marker = $("<div class='time-marker'></div>")
+      _drawMarker = ($slider, markerXOffset, additionId) ->
+        $marker = $("<div class='time-marker' data-addition-id='#{additionId}'></div>")
 
         # double click to remove
         $marker.dblclick ->
           $marker.remove()
+          hop.removeAddition(additionId)
 
         # timing functions
         _getBoilTimeMinutes = () ->
@@ -621,18 +626,15 @@ class Hop extends Ingredient
 
         # set marker data attributes
         $marker.data('minutes', _getAdjustedBoilTime(_getSliderPercentage(markerXOffset)))
-        $marker.data('weight', new Weight(0, 'oz'))
+        $marker.data('weight', new Weight(1, 'oz'))
 
         # tooltip functions
         _getTooltip = () ->
-          return $("##{tooltipId}")
-
-        _getMarkerOffset = ($element) ->
-          return _parseCSSLength($element.css('left')) + _addMultipleMarkerOffset(16)
+          return $("##{additionId}")
 
         _getTooltipHtml = (x, y, minutes) ->
           return "
-            <div id='#{tooltipId}' class='hop-addition-tooltip' style='top: #{y}px; left: #{x}px;'>
+            <div id='#{additionId}' class='hop-addition-tooltip' style='top: #{y}px; left: #{x}px;'>
               <div class='row'>
                 <div class='six columns hop-addition-input'>
                   <input class='hop-addition-time' type='text' value='#{minutes}' />
@@ -653,9 +655,12 @@ class Hop extends Ingredient
           "
 
         _setMarkerWeight = ($tooltip) ->
+          minutes = parseInt($tooltip.find('.hop-addition-time').val(), 10)
           value = parseInt($tooltip.find('.hop-weight').val(), 10)
           unit = $tooltip.find('.hop-weight-unit').val()
-          $marker.data('weight', new Weight(value, unit))
+          weight = new Weight(value, unit)
+          $marker.data('weight', weight)
+          hop.updateAddition(additionId, minutes, weight)
 
         _createTooltip = (x, y, minutes, weight) ->
           x -= 50
@@ -666,7 +671,9 @@ class Hop extends Ingredient
           $weightInput = $tooltip.find('.hop-weight')
           $unitInput = $tooltip.find('.hop-weight-unit')
 
-          $weightInput.val(weight.value)
+          # don't populate values of 0
+          if (weight.value > 0)
+            $weightInput.val(weight.value)
           $unitInput.val(weight.unit)
 
           $weightInput.change ->
@@ -702,6 +709,7 @@ class Hop extends Ingredient
             sliderPercentage = _getSliderPercentage(leftOffset)
             minutes = _getAdjustedBoilTime(sliderPercentage) - _addMultipleMarkerOffset(2)
             $marker.data('minutes', minutes)
+            hop.updateAddition(additionId, minutes, $marker.data('weight'))
 
             $tooltip = _getTooltip()
             if $tooltip.length > 0
@@ -725,13 +733,22 @@ class Hop extends Ingredient
 
       $slider = $addition.find('.addition-slider')
 
-      $addition.find('.addition-container').append(_drawMarker($slider, 0))
+      _generateAdditionId = () ->
+        return Math.floor(Math.random() * 100000)
+
+#      # add initial hop addition marker
+#      initialId = _generateAdditionId()
+#      $initialMarker = _drawMarker($slider, 0, initialId)
+#      $addition.find('.addition-container').append($initialMarker)
+#      hop.addAddition(initialId, $initialMarker.data('minutes'), $initialMarker.data('weight'))
 
       $slider.click (e) ->
         $this = $(this)
-        $marker = _drawMarker($slider, e.offsetX)
+        additionId = _generateAdditionId()
+        $marker = _drawMarker($slider, e.offsetX, additionId)
         $this.parent().append($marker)
         $marker.offset({ left: e.pageX, top: $marker.offset().top })
+        hop.addAddition(additionId, $marker.data('minutes'), $marker.data('weight'))
 
       $('#hop-additions').append($addition)
 
@@ -750,23 +767,51 @@ class Hop extends Ingredient
         </select>
       "
 
-
-
-
     selectTemplate = new SelectTemplate(_selectHtml, _selectCallback)
     #endregion
-    super(id, weight, _hopLookup, optionTemplate, selectTemplate)
+
+    super(@hopId, weight, _hopLookup, optionTemplate, selectTemplate)
 
     @alpha = @_splitRange(@_item.alpha.substring(0, @_item.alpha.length - 1), null)
     if isNaN(@alpha)
       @alpha = 0
-    @additions = [new HopAddition(60, new Weight(1, 'oz'), @alpha)]
+
+    @additions = {}
+
+
+  setHopRowValues: (gravity) ->
+    $row = $(".hop-row[data-hop-id='#{@hopId}']")
+    $row.find('.hop-utilization').val(this.getUtilization(gravity))
+    $value = $row.find('.hop-weight')
+    $unit = $row.find('.hop-weight-unit')
+    weight = this.getWeight()
+    $value.val(weight.value)
+    $unit.val(weight.unit)
+
+  addAddition: (id, minutes, weight) ->
+    @additions[id] = new HopAddition(minutes, weight, @alpha)
+    this.setHopRowValues(new Gravity())
+
+  updateAddition: (id, minutes, weight) ->
+    @additions[id].minutes = minutes
+    @additions[id].weight = weight
+    this.setHopRowValues(new Gravity())
+
+  removeAddition: (id) ->
+    delete @additions[id]
+    this.setHopRowValues(new Gravity())
+
+  getWeight: () ->
+    # TODO: normalize weight units for total sum
+    return new Weight(_sum((addition.weight.value for id, addition of @additions)), 'oz')
 
   getIBUs: (volume, gravity) ->
-    return _sum((a.getIBU(volume, gravity) for a in @additions))
+    return _sum((addition.getIBU(volume, gravity) for id, addition of @additions))
 
-  getUtilization: () ->
-    return _sum((a.utilization for a in @additions))
+  getUtilization: (gravity) ->
+    return _sum((addition.getUtilization(gravity) for id, addition of @additions))
+
+
 
 
 
