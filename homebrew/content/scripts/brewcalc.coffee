@@ -679,6 +679,7 @@ class Hop extends Ingredient
 
         # set details on click
         $marker.click (e) ->
+          # this all just works better if the tooltip is recreated every time...
           $tooltip = _getTooltip()
           if $tooltip.length
             $tooltip.remove()
