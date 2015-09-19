@@ -619,14 +619,19 @@ class Hop extends Ingredient
         _addMultipleMarkerOffset = (multiple) ->
           return ($slider.siblings('.time-marker').length - 1) * multiple
 
+        # set marker data attributes
+        $marker.data('minutes', _getAdjustedBoilTime(_getSliderPercentage(markerXOffset)))
+        $marker.data('weight', new Weight(0, 'oz'))
+
         # tooltip functions
         _getTooltip = () ->
           return $("##{tooltipId}")
 
-        _createTooltip = (x, y, minutes) ->
-          x -= 50
-          y -= 55
-          return $("
+        _getMarkerOffset = ($element) ->
+          return _parseCSSLength($element.css('left')) + _addMultipleMarkerOffset(16)
+
+        _getTooltipHtml = (x, y, minutes) ->
+          return "
             <div id='#{tooltipId}' class='hop-addition-tooltip' style='top: #{y}px; left: #{x}px;'>
               <div class='row'>
                 <div class='six columns hop-addition-input'>
@@ -645,13 +650,37 @@ class Hop extends Ingredient
                 </div>
               </div>
             </div>
-          ")
+          "
+
+        _setMarkerWeight = ($tooltip) ->
+          value = parseInt($tooltip.find('.hop-weight').val(), 10)
+          unit = $tooltip.find('.hop-weight-unit').val()
+          $marker.data('weight', new Weight(value, unit))
+
+        _createTooltip = (x, y, minutes, weight) ->
+          x -= 50
+          y -= 55
+
+          $tooltip = $(_getTooltipHtml(x, y, minutes))
+
+          $weightInput = $tooltip.find('.hop-weight')
+          $unitInput = $tooltip.find('.hop-weight-unit')
+
+          $weightInput.val(weight.value)
+          $unitInput.val(weight.unit)
+
+          $weightInput.change ->
+            _setMarkerWeight($tooltip)
+
+          $unitInput.change ->
+            _setMarkerWeight($tooltip)
+
+          return $tooltip
 
         # set details on click
         $marker.click (e) ->
-          # check for existing tooltip
           $tooltip = _getTooltip()
-          if $tooltip.length > 0
+          if $tooltip.length
             $tooltip.remove()
             return
 
@@ -659,7 +688,7 @@ class Hop extends Ingredient
           $('.hop-addition-tooltip').remove()
 
           markerOffset = _parseCSSLength($(this).css('left')) + _addMultipleMarkerOffset(16)
-          $tooltip = _createTooltip(e.offsetX + markerOffset, e.offsetY, $marker.data('boil-time'))
+          $tooltip = _createTooltip(e.offsetX + markerOffset, e.offsetY, $marker.data('minutes'), $marker.data('weight'))
           $marker.before($tooltip)
 
         # wire up click & drag
@@ -670,21 +699,18 @@ class Hop extends Ingredient
             $helper = ui.helper
             leftOffset = ui.position.left
             sliderPercentage = _getSliderPercentage(leftOffset)
-            boilTime = _getAdjustedBoilTime(sliderPercentage) - _addMultipleMarkerOffset(2)
-            $marker.data('boil-time', boilTime)
+            minutes = _getAdjustedBoilTime(sliderPercentage) - _addMultipleMarkerOffset(2)
+            $marker.data('minutes', minutes)
 
             $tooltip = _getTooltip()
             if $tooltip.length > 0
-              $tooltip.find('.hop-addition-time').val(boilTime)
+              $tooltip.find('.hop-addition-time').val(minutes)
               tooltipWidth = _parseCSSLength($tooltip.css('width'))
               markerWidth = _parseCSSLength($helper.css('width'))
               markerLeft = _parseCSSLength($helper.css('left'))
               tooltipLeft = markerLeft - (Math.round(tooltipWidth / 2) - Math.round(markerWidth / 2)) + _addMultipleMarkerOffset(10)
               $tooltip.css('left', "#{tooltipLeft}px")
         })
-
-        # set marker data attributes
-        $marker.data('boil-time', _getAdjustedBoilTime(_getSliderPercentage(markerXOffset)))
 
         return $marker
 
