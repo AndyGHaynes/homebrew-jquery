@@ -426,7 +426,7 @@ class BrewCalc
         self._applyDefaultChart()
 
   updateIBU: ->
-    self.ibu = Math.round(_sum((hop.getIBUs(self.boilVolume, self.bg.value) for hop in self.hops)))
+    self.ibu = Math.round(_sum((hop.getIBUs(self.boilVolume, self.bg) for hop in self.hops)))
     $('#calculated-ibu').html(self.ibu)
 
   hopIndex: (hop) ->
@@ -435,8 +435,11 @@ class BrewCalc
         return i
     return -1
 
+  getBoilGravity: () ->
+    return self.bg
+
   addHop: (id, weight) ->
-    hop = new Hop(id, weight)
+    hop = new Hop(id, weight, null, null, self.getBoilGravity, self.updateIBU)
 
     # check if grain is already in chart
     hopIdx = self.hopIndex(hop)
@@ -542,9 +545,10 @@ class Hop extends Ingredient
 
 
     getIBU: (volume, gravity) ->
+      #console.log(@aau, gravity.points, volume.gallons)
       return (@aau * this.getUtilization(gravity) * 74.89) /  volume.gallons
 
-  constructor: (@hopId, weight, _add, _remove) ->
+  constructor: (@hopId, weight, _add, _remove, @_gravity, @_updateIBU) ->
     #region selectize templates
     _optionHtml = (hop) ->
       return "
@@ -589,12 +593,15 @@ class Hop extends Ingredient
       $hopWeight = $hop.find('.ingredient-weight')
       $hopUnit = $hop.find('.ingredient-weight-unit')
 
+      _add(hop.id, new Weight(0, 'oz'))
+
       # wire up interactive elements on hop row
-      $hopWeight.change ->
-        val = parseFloat($(this).val())
-        unit = $hopUnit.val()
-        if !isNaN(val)
-          _add(hop.id, new Weight(val, unit))
+#      $hopWeight.change ->
+#        val = parseFloat($(this).val())
+#        unit = $hopUnit.val()
+#        console.log(val, unit)
+#        if !isNaN(val)
+#          _add(hop.id, new Weight(val, unit))
 
       # draw hop timeline
       _drawMarker = ($slider, markerXOffset, additionId) ->
@@ -771,7 +778,7 @@ class Hop extends Ingredient
     #endregion
 
     super(@hopId, weight, _hopLookup, optionTemplate, selectTemplate)
-
+    self = this
     @alpha = @_splitRange(@_item.alpha.substring(0, @_item.alpha.length - 1), null)
     if isNaN(@alpha)
       @alpha = 0
@@ -779,33 +786,37 @@ class Hop extends Ingredient
     @additions = {}
 
 
-  setHopRowValues: (gravity) ->
+  setHopRowValues: () ->
     $row = $(".hop-row[data-hop-id='#{@hopId}']")
-    $row.find('.hop-utilization').val(this.getUtilization(gravity))
+    $row.find('.hop-utilization').val(this.getUtilization(@_gravity()))
     $value = $row.find('.hop-weight')
     $unit = $row.find('.hop-weight-unit')
     weight = this.getWeight()
     $value.val(weight.value)
     $unit.val(weight.unit)
+    @_updateIBU()
 
   addAddition: (id, minutes, weight) ->
     @additions[id] = new HopAddition(minutes, weight, @alpha)
-    this.setHopRowValues(new Gravity())
+    #console.log(@additions)
+    this.setHopRowValues()
 
   updateAddition: (id, minutes, weight) ->
     @additions[id].minutes = minutes
     @additions[id].weight = weight
-    this.setHopRowValues(new Gravity())
+    this.setHopRowValues()
 
   removeAddition: (id) ->
+    #console.log('deleting')
     delete @additions[id]
-    this.setHopRowValues(new Gravity())
+    this.setHopRowValues()
 
   getWeight: () ->
     # TODO: normalize weight units for total sum
     return new Weight(_sum((addition.weight.value for id, addition of @additions)), 'oz')
 
   getIBUs: (volume, gravity) ->
+    #console.log(@additions)
     return _sum((addition.getIBU(volume, gravity) for id, addition of @additions))
 
   getUtilization: (gravity) ->
@@ -857,7 +868,7 @@ class Grain extends Ingredient
         $grain.remove()
         _remove(grain)
 
-      $grain.find('.grain-weight').blur ->
+      $grain.find('.grain-weight').change ->
         val = parseFloat($(this).val())
         unit = $grain.find('.grain-weight-unit').val()
         if !isNaN(val)
@@ -898,7 +909,7 @@ $(document).ready( ->
 
   hopList = []
   for hop, i in hops
-    hopList.push(new Hop(hop.id, emptyWeight, b.addHop, b.removeHop))
+    hopList.push(new Hop(hop.id, emptyWeight, b.addHop, b.removeHop, b.getBoilGravity, b.updateIBU))
 
   initializeSelect = ($input, items, searchFields, $selected) ->
     $input.selectize({
