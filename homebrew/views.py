@@ -11,16 +11,11 @@ from .models import (
 
 @view_config(route_name='home', renderer='templates/mytemplate.mako')
 def my_view(request):
-    print('hello')
     try:
         one = 1#DBSession.query(MyModel).filter(MyModel.name == 'one').first()
     except DBAPIError:
         return Response(conn_err_msg, content_type='text/plain', status_int=500)
     return {'one': one, 'project': 'homebrew'}
-
-@view_config(route_name='dostuff', renderer='json')
-def dostuff(request):
-    return {'one': 1}
 
 conn_err_msg = """\
 Pyramid is having a problem using your SQL database.  The problem
