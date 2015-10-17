@@ -986,9 +986,4 @@ $(document).ready( ->
 
   #endregion
 
-  $('#grain').removeClass('active')
-  $('#hops').addClass('active')
-
-  x = 'spaghetti'
-
 )
